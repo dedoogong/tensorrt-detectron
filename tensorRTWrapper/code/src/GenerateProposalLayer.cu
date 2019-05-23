@@ -2,32 +2,48 @@
 #include "GenerateProposalLayer.h"
 
 using namespace GenerateProposal;
+/*
 
-namespace nvinfer1
-{
-    GenerateProposalLayerPlugin::GenerateProposalLayerPlugin(const int cudaThread /*= 512*/):mThreadCount(cudaThread)
-    {
-        mClassCount = CLASS_NUM;
+static Logger gLogger;
+using namespace nvinfer1;
+using namespace nvcaffeparser1;
+using namespace plugin;
+
+// stuff we know about the network and the caffe input/output blobs
+static const int INPUT_C = 3;
+static const int INPUT_H = 375;
+static const int INPUT_W = 500;
+static const int IM_INFO_SIZE = 3;
+static const int OUTPUT_CLS_SIZE = 21;
+static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
+static int gUseDLACore{-1};
+
+const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"};
+
+const char* INPUT_BLOB_NAME0 = "data";
+const char* INPUT_BLOB_NAME1 = "im_info";
+const char* OUTPUT_BLOB_NAME0 = "bbox_pred";
+const char* OUTPUT_BLOB_NAME1 = "cls_prob";
+const char* OUTPUT_BLOB_NAME2 = "rois";
+*/
+namespace nvinfer1{
+    GenerateProposalLayerPlugin::GenerateProposalLayerPlugin(const int cudaThread /*= 512*/):mThreadCount(cudaThread){
+        /*mClassCount = CLASS_NUM;
         mGenerateProposalKernel.clear();
         mGenerateProposalKernel.push_back(yolo1);
         mGenerateProposalKernel.push_back(yolo2);
         mGenerateProposalKernel.push_back(yolo3);
 
-        mKernelCount = mGenerateProposalKernel.size();
+        mKernelCount = mGenerateProposalKernel.size();*/
     }
-    
-    GenerateProposalLayerPlugin::~GenerateProposalLayerPlugin()
-    {
+    GenerateProposalLayerPlugin::~GenerateProposalLayerPlugin(){
         if(mInputBuffer)
             CUDA_CHECK(cudaFreeHost(mInputBuffer));
-
         if(mOutputBuffer)
             CUDA_CHECK(cudaFreeHost(mOutputBuffer));
     }
-    
     // create the plugin at runtime from a byte stream
-    GenerateProposalLayerPlugin::GenerateProposalLayerPlugin(const void* data, size_t length)
-    {
+    GenerateProposalLayerPlugin::GenerateProposalLayerPlugin(const void* data, size_t length){
         using namespace Tn;
         const char *d = reinterpret_cast<const char *>(data), *a = d;
         read(d, mClassCount);
@@ -61,7 +77,8 @@ namespace nvinfer1
     }
 
     int GenerateProposalLayerPlugin::initialize()
-    { 
+    {
+            /*
             int totalCount = 0;
             for(const auto& yolo : mGenerateProposalKernel)
                 totalCount += (LOCATIONS + 1 + mClassCount) * yolo.width*yolo.height * CHECK_COUNT;
@@ -71,6 +88,53 @@ namespace nvinfer1
             for(const auto& yolo : mGenerateProposalKernel)
                 totalCount += yolo.width*yolo.height * CHECK_COUNT;
             CUDA_CHECK(cudaHostAlloc(&mOutputBuffer, sizeof(float) + totalCount * sizeof(Detection), cudaHostAllocDefault));
+            */
+            /*
+            void doInference(IExecutionContext& context, float* inputData, float* inputImInfo, float* outputBboxPred, float* outputClsProb, float* outputRois, int batchSize)
+            {
+                const ICudaEngine& engine = context.getEngine();
+                // input and output buffer pointers that we pass to the engine - the engine requires exactly IEngine::getNbBindings(),
+                // of these, but in this case we know that there is exactly 2 inputs and 3 outputs.
+                assert(engine.getNbBindings() == 5);
+                /////////////////////// moved below //////////////////
+                context.enqueue(batchSize, buffers, stream, nullptr);
+                CHECK(cudaMemcpyAsync(outputBboxPred, buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
+                CHECK(cudaMemcpyAsync(outputClsProb, buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
+                CHECK(cudaMemcpyAsync(outputRois, buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float), cudaMemcpyDeviceToHost, stream));
+                cudaStreamSynchronize(stream);
+
+                // release the stream and the buffers
+                cudaStreamDestroy(stream);
+                CHECK(cudaFree(buffers[inputIndex0]));
+                CHECK(cudaFree(buffers[inputIndex1]));
+                CHECK(cudaFree(buffers[outputIndex0]));
+                CHECK(cudaFree(buffers[outputIndex1]));
+                CHECK(cudaFree(buffers[outputIndex2]));
+            }
+            */
+            void* buffers[5];
+
+            // In order to bind the buffers, we need to know the names of the input and output tensors.
+            // note that indices are guaranteed to be less than IEngine::getNbBindings()
+            int inputIndex0 = engine.getBindingIndex(INPUT_BLOB_NAME0),
+                inputIndex1 = engine.getBindingIndex(INPUT_BLOB_NAME1),
+                outputIndex0 = engine.getBindingIndex(OUTPUT_BLOB_NAME0),
+                outputIndex1 = engine.getBindingIndex(OUTPUT_BLOB_NAME1),
+                outputIndex2 = engine.getBindingIndex(OUTPUT_BLOB_NAME2);
+
+            // create GPU buffers and a stream
+            CHECK(cudaMalloc(&buffers[inputIndex0], batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float)));   // data
+            CHECK(cudaMalloc(&buffers[inputIndex1], batchSize * IM_INFO_SIZE * sizeof(float)));                  // im_info
+            CHECK(cudaMalloc(&buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float))); // bbox_pred
+            CHECK(cudaMalloc(&buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float)));  // cls_prob
+            CHECK(cudaMalloc(&buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float)));                // rois
+
+            cudaStream_t stream;
+            CHECK(cudaStreamCreate(&stream));
+
+            // DMA the input to the GPU,  execute the batch asynchronously, and DMA it back:
+            CHECK(cudaMemcpyAsync(buffers[inputIndex0], inputData, batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float), cudaMemcpyHostToDevice, stream));
+            CHECK(cudaMemcpyAsync(buffers[inputIndex1], inputImInfo, batchSize * IM_INFO_SIZE * sizeof(float), cudaMemcpyHostToDevice, stream));
             return 0;
     }
     
