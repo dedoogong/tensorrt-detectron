@@ -149,6 +149,10 @@ namespace Tn
         }
 
         CUDA_CHECK(cudaStreamCreate(&mTrtCudaStream));
+
+
+
+
     }
 
 
@@ -226,6 +230,34 @@ namespace Tn
         int inputIndex = 0;
         CUDA_CHECK(cudaMemcpyAsync(mTrtCudaBuffer[inputIndex], inputData, mTrtBindBufferSize[inputIndex],
                                                                           cudaMemcpyHostToDevice, mTrtCudaStream));
+
+        //////////////////////////////////////// MEM INIT FOR GEN PROPOSAL 1 LAYER /////////////////////////////////////
+        void* buffers[5];
+
+        // In order to bind the buffers, we need to know the names of the input and output tensors.
+        // note that indices are guaranteed to be less than IEngine::getNbBindings()
+        int inputIndex0 = engine.getBindingIndex(INPUT_BLOB_NAME0),
+                inputIndex1 = engine.getBindingIndex(INPUT_BLOB_NAME1),
+                outputIndex0 = engine.getBindingIndex(OUTPUT_BLOB_NAME0),
+                outputIndex1 = engine.getBindingIndex(OUTPUT_BLOB_NAME1),
+                outputIndex2 = engine.getBindingIndex(OUTPUT_BLOB_NAME2);
+
+        // create GPU buffers and a stream
+        CHECK(cudaMalloc(&buffers[inputIndex0], batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float)));   // data
+        CHECK(cudaMalloc(&buffers[inputIndex1], batchSize * IM_INFO_SIZE * sizeof(float)));                  // im_info
+        CHECK(cudaMalloc(&buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float))); // bbox_pred
+        CHECK(cudaMalloc(&buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float)));  // cls_prob
+        CHECK(cudaMalloc(&buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float)));                // rois
+
+        cudaStream_t stream;
+        CHECK(cudaStreamCreate(&stream));
+
+        // DMA the input to the GPU,  execute the batch asynchronously, and DMA it back:
+        CHECK(cudaMemcpyAsync(buffers[inputIndex0], inputData, batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float), cudaMemcpyHostToDevice, stream));
+        CHECK(cudaMemcpyAsync(buffers[inputIndex1], inputImInfo, batchSize * IM_INFO_SIZE * sizeof(float), cudaMemcpyHostToDevice, stream));
+
+        ///////////////////////////////////////////////////////////////////////
+
         auto t_start = std::chrono::high_resolution_clock::now();
         mTrtContext->execute(batchSize, &mTrtCudaBuffer[inputIndex]);
         auto t_end = std::chrono::high_resolution_clock::now();
@@ -239,6 +271,14 @@ namespace Tn
             CUDA_CHECK(cudaMemcpyAsync(outputData, mTrtCudaBuffer[bindingIdx], size, cudaMemcpyDeviceToHost, mTrtCudaStream));
             outputData = (char *)outputData + size;
         }
+
+        ////////////////////////////////////////////////////////////////////////////
+
+
+        CHECK(cudaMemcpyAsync(outputBboxPred, buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
+        CHECK(cudaMemcpyAsync(outputClsProb, buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
+        CHECK(cudaMemcpyAsync(outputRois, buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float), cudaMemcpyDeviceToHost, stream));
+        cudaStreamSynchronize(stream);
 
         mTrtIterationTime ++ ;
     }

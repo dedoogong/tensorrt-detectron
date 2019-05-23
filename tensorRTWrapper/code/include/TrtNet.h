@@ -46,6 +46,17 @@ namespace Tn
                     mTrtContext->destroy();
                 if(!mTrtEngine)
                     mTrtEngine->destroy();
+
+                ///////////////// free part for generate proposal plugin ///////////////
+                // release the stream and the buffers
+                cudaStreamDestroy(stream);
+                CHECK(cudaFree(buffers[inputIndex0]));
+                CHECK(cudaFree(buffers[inputIndex1]));
+                CHECK(cudaFree(buffers[outputIndex0]));
+                CHECK(cudaFree(buffers[outputIndex1]));
+                CHECK(cudaFree(buffers[outputIndex2]));
+
+
             };
 
             void saveEngine(std::string fileName)

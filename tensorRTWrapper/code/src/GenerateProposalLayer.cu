@@ -89,52 +89,7 @@ namespace nvinfer1{
                 totalCount += yolo.width*yolo.height * CHECK_COUNT;
             CUDA_CHECK(cudaHostAlloc(&mOutputBuffer, sizeof(float) + totalCount * sizeof(Detection), cudaHostAllocDefault));
             */
-            /*
-            void doInference(IExecutionContext& context, float* inputData, float* inputImInfo, float* outputBboxPred, float* outputClsProb, float* outputRois, int batchSize)
-            {
-                const ICudaEngine& engine = context.getEngine();
-                // input and output buffer pointers that we pass to the engine - the engine requires exactly IEngine::getNbBindings(),
-                // of these, but in this case we know that there is exactly 2 inputs and 3 outputs.
-                assert(engine.getNbBindings() == 5);
-                /////////////////////// moved below //////////////////
-                context.enqueue(batchSize, buffers, stream, nullptr);
-                CHECK(cudaMemcpyAsync(outputBboxPred, buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
-                CHECK(cudaMemcpyAsync(outputClsProb, buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float), cudaMemcpyDeviceToHost, stream));
-                CHECK(cudaMemcpyAsync(outputRois, buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float), cudaMemcpyDeviceToHost, stream));
-                cudaStreamSynchronize(stream);
 
-                // release the stream and the buffers
-                cudaStreamDestroy(stream);
-                CHECK(cudaFree(buffers[inputIndex0]));
-                CHECK(cudaFree(buffers[inputIndex1]));
-                CHECK(cudaFree(buffers[outputIndex0]));
-                CHECK(cudaFree(buffers[outputIndex1]));
-                CHECK(cudaFree(buffers[outputIndex2]));
-            }
-            */
-            void* buffers[5];
-
-            // In order to bind the buffers, we need to know the names of the input and output tensors.
-            // note that indices are guaranteed to be less than IEngine::getNbBindings()
-            int inputIndex0 = engine.getBindingIndex(INPUT_BLOB_NAME0),
-                inputIndex1 = engine.getBindingIndex(INPUT_BLOB_NAME1),
-                outputIndex0 = engine.getBindingIndex(OUTPUT_BLOB_NAME0),
-                outputIndex1 = engine.getBindingIndex(OUTPUT_BLOB_NAME1),
-                outputIndex2 = engine.getBindingIndex(OUTPUT_BLOB_NAME2);
-
-            // create GPU buffers and a stream
-            CHECK(cudaMalloc(&buffers[inputIndex0], batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float)));   // data
-            CHECK(cudaMalloc(&buffers[inputIndex1], batchSize * IM_INFO_SIZE * sizeof(float)));                  // im_info
-            CHECK(cudaMalloc(&buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float))); // bbox_pred
-            CHECK(cudaMalloc(&buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float)));  // cls_prob
-            CHECK(cudaMalloc(&buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float)));                // rois
-
-            cudaStream_t stream;
-            CHECK(cudaStreamCreate(&stream));
-
-            // DMA the input to the GPU,  execute the batch asynchronously, and DMA it back:
-            CHECK(cudaMemcpyAsync(buffers[inputIndex0], inputData, batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float), cudaMemcpyHostToDevice, stream));
-            CHECK(cudaMemcpyAsync(buffers[inputIndex1], inputImInfo, batchSize * IM_INFO_SIZE * sizeof(float), cudaMemcpyHostToDevice, stream));
             return 0;
     }
     

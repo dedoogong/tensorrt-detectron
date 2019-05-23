@@ -268,6 +268,15 @@ int main( int argc, char* argv[] )
         fileNames.push_back(inputFileName);
     }  
     int classNum = parser::getIntValue("class");
+
+    // host memory for outputs
+    float* rois = new float[N * nmsMaxOut * 4];
+    float* bboxPreds = new float[N * nmsMaxOut * OUTPUT_BBOX_SIZE];
+    float* clsProbs = new float[N * nmsMaxOut * OUTPUT_CLS_SIZE];
+
+    // predicted bounding boxes
+    float* predBBoxes = new float[N * nmsMaxOut * OUTPUT_BBOX_SIZE];
+
 	cv::VideoCapture cap("/home/lee/workspace/TensorRT-Yolov3/test.ts");  
 	// Check if camera opened successfully
 	if(!cap.isOpened()){
