@@ -1,0 +1,179 @@
+1
+layer29-conv: 3cf58cda
+(Unnamed ITensor* 7): 3d87c6e4
+layer81-conv: 3d2132da
+(Unnamed ITensor* 254): 3d7cbcc2
+layer80-conv: 3cabde8e
+(Unnamed ITensor* 274): 3d59556a
+layer45-conv: 3cb6f920
+data: 3bff0e1c
+(Unnamed ITensor* 250): 3d2122ff
+layer54-conv: 3cbfb0e3
+(Unnamed ITensor* 234): 3d68301b
+(Unnamed ITensor* 302): 3d4aa95c
+layer28-shortcut: 3d81ddb1
+(Unnamed ITensor* 91): 3d7dcd0d
+layer15-conv: 3ca3e6d1
+(Unnamed ITensor* 260): 3d7f008e
+layer8-conv: 3c8cf9a6
+(Unnamed ITensor* 310): 3d52907c
+layer66-shortcut: 3cde668f
+(Unnamed ITensor* 86): 3d5a3cdd
+layer13-conv: 3d111e20
+(Unnamed ITensor* 113): 3db94149
+layer103-conv: 3cfca63d
+(Unnamed ITensor* 318): 3d98c135
+(Unnamed ITensor* 82): 3d8544e7
+layer5-shortcut: 3d77d400
+(Unnamed ITensor* 135): 3d2fb158
+layer40-conv: 3c359448
+layer71-conv: 3c87e7e7
+(Unnamed ITensor* 306): 3d6152d5
+(Unnamed ITensor* 292): 3da897fd
+(Unnamed ITensor* 118): 3d842f00
+layer43-conv: 3c92a982
+layer90-conv: 3ca3fb0c
+(Unnamed ITensor* 50): 3d20a97f
+layer48-conv: 3cbc1fa2
+layer23-conv: 3d06bb86
+(Unnamed ITensor* 28): 3d3d00d8
+layer49-conv: 3caedab8
+layer34-shortcut: 3dbf81af
+layer42-conv: 3d1bd4b3
+(Unnamed ITensor* 207): 3d9dc5f8
+layer30-conv: 3ce43e73
+layer19-shortcut: 3d3e2bb9
+(Unnamed ITensor* 24): 3d248864
+(Unnamed ITensor* 3): 3d867a2c
+(Unnamed ITensor* 270): 3d555c82
+(Unnamed ITensor* 122): 3d85832f
+layer4-conv: 3d3329d5
+(Unnamed ITensor* 15): 3db1f5ce
+layer38-conv: 3d076df4
+(Unnamed ITensor* 104): 3d9efe67
+(Unnamed ITensor* 189): 3db20047
+layer11-conv: 3d1762e6
+layer24-conv: 3c9c2ee9
+layer100-conv: 3cf68e80
+layer58-conv: 3cfc8b74
+layer85-conv: 3d1e6cac
+(Unnamed ITensor* 100): 3d883a1d
+(Unnamed ITensor* 33): 3d902b23
+layer14-conv: 3cd41c23
+layer86-upsample copy: 3d1e6cac
+layer80-conv copy: 3cabde8e
+layer3-conv: 3c90b509
+layer98-upsample: 3d4f542c
+(Unnamed ITensor* 266): 3d6fecae
+layer1-conv: 3d6982b3
+(Unnamed ITensor* 42): 3d58ec8e
+(Unnamed ITensor* 64): 3d521e6e
+layer92-conv copy: 3cb3d19c
+(Unnamed ITensor* 298): 3d5f39bf
+layer101-conv: 3cde1d1f
+(Unnamed ITensor* 46): 3d552811
+(Unnamed ITensor* 59): 3d208efa
+layer50-shortcut: 3d2fb02e
+(Unnamed ITensor* 167): 3d6c78de
+layer35-conv: 3cfaec34
+layer89-conv: 3cdc7d6f
+(Unnamed ITensor* 171): 3da13dfa
+layer92-conv: 3cb3d19c
+layer60-conv: 3c990151
+layer41-shortcut: 3ce08be9
+layer17-conv: 3d0b4e38
+layer56-shortcut: 3d7bd81b
+(Unnamed ITensor* 278): 3d33d726
+(Unnamed ITensor* 242): 3d2bef75
+(Unnamed ITensor* 314): 3d74ddad
+layer47-shortcut: 3d320f30
+(Unnamed ITensor* 37): 3daf4f2b
+layer6-conv: 3d4e92ee
+(Unnamed ITensor* 95): 3dcd74ab
+layer27-conv: 3ce3dee4
+(Unnamed ITensor* 211): 3d80d115
+layer39-conv: 3d122381
+layer26-conv: 3d1514ac
+(Unnamed ITensor* 77): 3d2815b0
+(Unnamed ITensor* 202): 3d38f8a8
+layer77-conv: 3cf177f7
+layer44-shortcut: 3d0e28f6
+yolo-det: 3faf9091
+layer21-conv: 3c996e2f
+layer31-shortcut: 3da4840e
+(Unnamed ITensor* 126): 3d178b66
+layer37-shortcut: 3dab3aec
+layer33-conv: 3cf1073c
+layer10-conv: 3d03cf88
+(Unnamed ITensor* 109): 3d87f13d
+layer55-conv: 3ce0a6f9
+layer22-shortcut: 3d36c871
+layer36-conv: 3d227453
+layer12-shortcut: 3d208393
+layer64-conv: 3d0d35e8
+(Unnamed ITensor* 11): 3daa08ab
+(Unnamed ITensor* 238): 3d6b1275
+layer88-conv: 3d17a8c4
+(Unnamed ITensor* 20): 3d6dd864
+layer93-conv: 3d387f30
+layer16-shortcut: 3d26e854
+(Unnamed ITensor* 55): 3d752d95
+layer18-conv: 3cbee5af
+layer20-conv: 3cf300a6
+layer32-conv: 3ce51d53
+(Unnamed ITensor* 144): 3d1a710d
+(Unnamed ITensor* 282): 3d46161e
+layer46-conv: 3cc9e92d
+(Unnamed ITensor* 68): 3d35b42a
+(Unnamed ITensor* 149): 3d7a4ae0
+(Unnamed ITensor* 153): 3d34ba64
+(Unnamed ITensor* 225): 3da66321
+(Unnamed ITensor* 158): 3d7c5e23
+layer86-upsample: 3d1e6cac
+layer51-conv: 3cc4c06a
+(Unnamed ITensor* 162): 3d66aa96
+layer61-conv: 3cf231e4
+layer52-conv: 3cb4060b
+(Unnamed ITensor* 73): 3d5cea08
+layer53-shortcut: 3d2cc6b3
+layer75-shortcut: 3d3c99c3
+layer82-conv: 3e4f6de6
+layer102-conv: 3d1165ca
+layer94-conv: 3e3ed6a4
+(Unnamed ITensor* 176): 3d66f5ae
+(Unnamed ITensor* 216): 3d8a2683
+layer57-conv: 3cc92bd7
+layer2-conv: 3d479f68
+(Unnamed ITensor* 194): 3d9da436
+(Unnamed ITensor* 180): 3d7c76bf
+layer59-shortcut: 3d84f51d
+layer74-conv: 3d1965bd
+(Unnamed ITensor* 198): 3da08e50
+layer25-shortcut: 3d3e5bd4
+(Unnamed ITensor* 185): 3d731529
+layer105-conv: 3d598ab0
+layer62-shortcut: 3d9b5006
+layer97-conv: 3d4f542c
+layer65-conv: 3c84cfbe
+layer68-conv: 3c92512a
+(Unnamed ITensor* 246): 3d419fa5
+layer7-conv: 3cc3b0ad
+layer69-shortcut: 3cec8246
+layer104-conv: 3d1402cc
+layer70-conv: 3cacb470
+(Unnamed ITensor* 220): 3d5e73a7
+layer72-shortcut: 3d13cbe8
+layer9-shortcut: 3d23991b
+(Unnamed ITensor* 131): 3d7b91f2
+layer63-conv: 3cdef3e1
+layer73-conv: 3c88df46
+(Unnamed ITensor* 229): 3de632cc
+(Unnamed ITensor* 140): 3d81be51
+layer76-conv: 3d08f37a
+layer78-conv: 3ccdd09d
+(Unnamed ITensor* 286): 3d8a53e0
+layer106-conv: 3e63ef42
+layer98-upsample copy: 3d4f542c
+layer79-conv: 3cddf2e3
+layer91-conv: 3cb1f50c
+layer67-conv: 3cb8815d
