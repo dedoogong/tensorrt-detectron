@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8a45f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8a45f.dir/build.make CMakeFiles/cmTC_8a45f.dir/build
+make[1]: 디렉터리 '/home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp' 들어감
+Building C object CMakeFiles/cmTC_8a45f.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_8a45f.dir/CheckSymbolExists.c.o   -c /home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_8a45f
+/usr/local/lib/python2.7/dist-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8a45f.dir/link.txt --verbose=1
+/usr/bin/cc -fPIC     -rdynamic CMakeFiles/cmTC_8a45f.dir/CheckSymbolExists.c.o  -o cmTC_8a45f 
+CMakeFiles/cmTC_8a45f.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_8a45f.dir/build.make:86: recipe for target 'cmTC_8a45f' failed
+make[1]: *** [cmTC_8a45f] Error 1
+make[1]: 디렉터리 '/home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp' 나감
+Makefile:121: recipe for target 'cmTC_8a45f/fast' failed
+make: *** [cmTC_8a45f/fast] Error 2
+
+File /home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f622e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f622e.dir/build.make CMakeFiles/cmTC_f622e.dir/build
+make[1]: 디렉터리 '/home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp' 들어감
+Building C object CMakeFiles/cmTC_f622e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_f622e.dir/CheckFunctionExists.c.o   -c /usr/local/lib/python2.7/dist-packages/cmake/data/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f622e
+/usr/local/lib/python2.7/dist-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f622e.dir/link.txt --verbose=1
+/usr/bin/cc -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_f622e.dir/CheckFunctionExists.c.o  -o cmTC_f622e -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_f622e.dir/build.make:86: recipe for target 'cmTC_f622e' failed
+make[1]: *** [cmTC_f622e] Error 1
+make[1]: 디렉터리 '/home/ktai01/tensorrt-detectron/build/CMakeFiles/CMakeTmp' 나감
+Makefile:121: recipe for target 'cmTC_f622e/fast' failed
+make: *** [cmTC_f622e/fast] Error 2
+
+

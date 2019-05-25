@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="demo"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\usr\;CMake Files\..\..\..\usr\share\;CMake Files\..\..\..\usr\share\OpenCV\;CMake Files\tensorRTWrapper\;CMake Files\tensorRTWrapper\code\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="runYolov3">
+				<Option output="/home/ktai01/tensorrt-detectron/cmake-build-debug/runYolov3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include"/>
+					<Add directory="/home/ktai01/tensorrt-detectron/include"/>
+					<Add directory="/usr/local/cuda-10.0/include"/>
+					<Add directory="/usr/include/opencv"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 runYolov3"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="runYolov3/fast">
+				<Option output="/home/ktai01/tensorrt-detectron/cmake-build-debug/runYolov3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include"/>
+					<Add directory="/home/ktai01/tensorrt-detectron/include"/>
+					<Add directory="/usr/local/cuda-10.0/include"/>
+					<Add directory="/usr/include/opencv"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 runYolov3/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TrtNet">
+				<Option output="/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/libTrtNet.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include"/>
+					<Add directory="/usr/local/cuda-10.0/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 TrtNet"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TrtNet/fast">
+				<Option output="/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/libTrtNet.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include"/>
+					<Add directory="/usr/local/cuda-10.0/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 TrtNet/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/dataReader.cpp">
+			<Option target="runYolov3"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/eval.cpp">
+			<Option target="runYolov3"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/include/common_gpu.h">
+			<Option target="runYolov3"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/main.cpp">
+			<Option target="runYolov3"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include/GenerateProposalLayer.h">
+			<Option target="runYolov3"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/src/EntroyCalibrator.cpp">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/src/TrtNet.cpp">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/src/UpsampleLayer.cpp">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/src/UpsampleLayer.cu">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/src/YoloLayer.cu">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/../../../usr/share/OpenCV/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/../../../usr/share/OpenCV/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/../../../usr/share/OpenCV/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/../../../usr/share/OpenCV/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tensorRTWrapper\code\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

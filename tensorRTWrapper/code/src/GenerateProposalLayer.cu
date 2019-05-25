@@ -3,7 +3,6 @@
 
 using namespace GenerateProposal;
 /*
-
 static Logger gLogger;
 using namespace nvinfer1;
 using namespace nvcaffeparser1;
@@ -20,12 +19,16 @@ static int gUseDLACore{-1};
 
 const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"};
 
-const char* INPUT_BLOB_NAME0 = "data";
-const char* INPUT_BLOB_NAME1 = "im_info";
-const char* OUTPUT_BLOB_NAME0 = "bbox_pred";
-const char* OUTPUT_BLOB_NAME1 = "cls_prob";
-const char* OUTPUT_BLOB_NAME2 = "rois";
+
 */
+static const int INPUT_C = 3;
+static const int INPUT_H = 375;
+static const int INPUT_W = 500;
+static const int IM_INFO_SIZE = 3;
+static const int OUTPUT_CLS_SIZE = 21;
+static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
+const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "pitcher", "hitter", "catcher", "simpan", "person"};
+
 namespace nvinfer1{
     GenerateProposalLayerPlugin::GenerateProposalLayerPlugin(const int cudaThread /*= 512*/):mThreadCount(cudaThread){
         /*mClassCount = CLASS_NUM;
@@ -78,19 +81,19 @@ namespace nvinfer1{
 
     int GenerateProposalLayerPlugin::initialize()
     {
-            /*
-            int totalCount = 0;
-            for(const auto& yolo : mGenerateProposalKernel)
-                totalCount += (LOCATIONS + 1 + mClassCount) * yolo.width*yolo.height * CHECK_COUNT;
-            CUDA_CHECK(cudaHostAlloc(&mInputBuffer, totalCount * sizeof(float), cudaHostAllocDefault));
+        /*
+        int totalCount = 0;
+        for(const auto& yolo : mGenerateProposalKernel)
+            totalCount += (LOCATIONS + 1 + mClassCount) * yolo.width*yolo.height * CHECK_COUNT;
+        CUDA_CHECK(cudaHostAlloc(&mInputBuffer, totalCount * sizeof(float), cudaHostAllocDefault));
 
-            totalCount = 0;//detection count
-            for(const auto& yolo : mGenerateProposalKernel)
-                totalCount += yolo.width*yolo.height * CHECK_COUNT;
-            CUDA_CHECK(cudaHostAlloc(&mOutputBuffer, sizeof(float) + totalCount * sizeof(Detection), cudaHostAllocDefault));
-            */
+        totalCount = 0;//detection count
+        for(const auto& yolo : mGenerateProposalKernel)
+            totalCount += yolo.width*yolo.height * CHECK_COUNT;
+        CUDA_CHECK(cudaHostAlloc(&mOutputBuffer, sizeof(float) + totalCount * sizeof(Detection), cudaHostAllocDefault));
+        */
 
-            return 0;
+        return 0;
     }
     
     Dims GenerateProposalLayerPlugin::getOutputDimensions(int index, const Dims* inputs, int nbInputDims)

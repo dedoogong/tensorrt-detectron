@@ -16,6 +16,18 @@ using namespace plugin;
 
 static Tn::Logger gLogger;
 
+#define CHECK(status)                             \
+    do                                            \
+    {                                             \
+        auto ret = (status);                      \
+        if (ret != 0)                             \
+        {                                         \
+            std::cout << "Cuda failure: " << ret; \
+            abort();                              \
+        }                                         \
+    } while (0)
+
+
 #define RETURN_AND_LOG(ret, severity, message)                                 \
     do                                                                         \
     {                                                                          \
@@ -221,8 +233,35 @@ namespace Tn
         return engine;
     }
 
-    void trtNet::doInference(const void* inputData, void* outputData)
+    #define NUM_GENERATE_PROPOSAL_LAYER 5
+    const char* INPUT_BLOB_NAME0 = "data";
+    const char* INPUT_BLOB_NAME1 = "im_info";
+    const char* OUTPUT_BLOB_NAME0 = "bbox_pred";
+    const char* OUTPUT_BLOB_NAME1 = "cls_prob";
+    const char* OUTPUT_BLOB_NAME2 = "rois";
+    static const int INPUT_C = 3;
+    static const int INPUT_H = 375;
+    static const int INPUT_W = 500;
+    static const int IM_INFO_SIZE = 3;
+    static const int OUTPUT_CLS_SIZE = 21;
+    static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
+    /*
+    spatial_scale: 0.25 0.125 0.125 0.125 0.125
+    nms_thresh: 0.699999988079071
+    pre_nms_topn: 1000
+    min_size: 16.0
+    post_nms_topn: 1000
+    correct_transform_coords: 1
+    */
+
+    void trtNet::doInference(IExecutionContext& context, const void* inputData, void* outputData)
     {
+
+        const ICudaEngine& engine = context.getEngine();
+        // input and output buffer pointers that we pass to the engine - the engine requires exactly IEngine::getNbBindings(),
+        // of these, but in this case we know that there is exactly 2 inputs and 3 outputs.
+        assert(engine.getNbBindings() == 5);
+
         static const int batchSize = 1;
         assert(mTrtInputCount == 1);
 
@@ -232,22 +271,22 @@ namespace Tn
                                                                           cudaMemcpyHostToDevice, mTrtCudaStream));
 
         //////////////////////////////////////// MEM INIT FOR GEN PROPOSAL 1 LAYER /////////////////////////////////////
-        void* buffers[5];
+        void* buffers[5];// network's In/Output
 
         // In order to bind the buffers, we need to know the names of the input and output tensors.
         // note that indices are guaranteed to be less than IEngine::getNbBindings()
-        int inputIndex0 = engine.getBindingIndex(INPUT_BLOB_NAME0),
-                inputIndex1 = engine.getBindingIndex(INPUT_BLOB_NAME1),
-                outputIndex0 = engine.getBindingIndex(OUTPUT_BLOB_NAME0),
-                outputIndex1 = engine.getBindingIndex(OUTPUT_BLOB_NAME1),
-                outputIndex2 = engine.getBindingIndex(OUTPUT_BLOB_NAME2);
+        int inputIndex0  = engine.getBindingIndex(INPUT_BLOB_NAME0),
+            inputIndex1  = engine.getBindingIndex(INPUT_BLOB_NAME1),
+            outputIndex0 = engine.getBindingIndex(OUTPUT_BLOB_NAME0),
+            outputIndex1 = engine.getBindingIndex(OUTPUT_BLOB_NAME1),
+            outputIndex2 = engine.getBindingIndex(OUTPUT_BLOB_NAME2);
 
         // create GPU buffers and a stream
-        CHECK(cudaMalloc(&buffers[inputIndex0], batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float)));   // data
-        CHECK(cudaMalloc(&buffers[inputIndex1], batchSize * IM_INFO_SIZE * sizeof(float)));                  // im_info
-        CHECK(cudaMalloc(&buffers[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float))); // bbox_pred
-        CHECK(cudaMalloc(&buffers[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float)));  // cls_prob
-        CHECK(cudaMalloc(&buffers[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float)));                // rois
+        CHECK(cudaMalloc(&mTrtCudaBuffer[inputIndex0],  batchSize * INPUT_C * INPUT_H * INPUT_W * sizeof(float)));  // data
+        CHECK(cudaMalloc(&mTrtCudaBuffer[inputIndex1],  batchSize * IM_INFO_SIZE * sizeof(float)));                 // im_info
+        CHECK(cudaMalloc(&mTrtCudaBuffer[outputIndex0], batchSize * nmsMaxOut * OUTPUT_BBOX_SIZE * sizeof(float))); // bbox_pred
+        CHECK(cudaMalloc(&mTrtCudaBuffer[outputIndex1], batchSize * nmsMaxOut * OUTPUT_CLS_SIZE * sizeof(float)));  // cls_prob
+        CHECK(cudaMalloc(&mTrtCudaBuffer[outputIndex2], batchSize * nmsMaxOut * 4 * sizeof(float)));                // rois
 
         cudaStream_t stream;
         CHECK(cudaStreamCreate(&stream));

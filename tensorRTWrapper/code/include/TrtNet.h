@@ -10,6 +10,10 @@
 #include "NvCaffeParser.h"
 #include "PluginFactory.h"
 #include "Utils.h"
+using namespace nvinfer1;
+using namespace nvcaffeparser1;
+using namespace plugin;
+
 
 namespace Tn
 {
@@ -49,12 +53,12 @@ namespace Tn
 
                 ///////////////// free part for generate proposal plugin ///////////////
                 // release the stream and the buffers
-                cudaStreamDestroy(stream);
-                CHECK(cudaFree(buffers[inputIndex0]));
-                CHECK(cudaFree(buffers[inputIndex1]));
-                CHECK(cudaFree(buffers[outputIndex0]));
-                CHECK(cudaFree(buffers[outputIndex1]));
-                CHECK(cudaFree(buffers[outputIndex2]));
+                //cudaStreamDestroy(stream);
+                //CHECK(cudaFree(buffers[inputIndex0]));
+                //CHECK(cudaFree(buffers[inputIndex1]));
+                //CHECK(cudaFree(buffers[outputIndex0]));
+                //CHECK(cudaFree(buffers[outputIndex1]));
+                //CHECK(cudaFree(buffers[outputIndex2]));
 
 
             };
@@ -77,8 +81,8 @@ namespace Tn
                 }
             };
 
-            void doInference(const void* inputData, void* outputData);
-            
+            void doInference(IExecutionContext& context, const void* inputData, float* inputImInfo, float* outputBboxPred, float* outputClsProb, float* outputRois, int batchSize);
+
             inline size_t getInputSize() {
                 return std::accumulate(mTrtBindBufferSize.begin(), mTrtBindBufferSize.begin() + mTrtInputCount,0);
             };
@@ -99,6 +103,19 @@ namespace Tn
 
                 void InitEngine();
 
+                const int poolingH = 7;
+                const int poolingW = 7;
+                const int featureStride = 16;
+                const int preNmsTop = 6000;
+                const int nmsMaxOut = 300;
+                const int anchorsRatioCount = 3;
+                const int anchorsScaleCount = 3;
+                const float iouThreshold = 0.7f;
+                const float minBoxSize = 16;
+                const float spatialScale = 0.0625f;
+                const float anchorsRatios[3] = {0.5f, 1.0f, 2.0f};
+                const float anchorsScales[3] = {8.0f, 16.0f, 32.0f};
+                void* buffers[5];
                 nvinfer1::IExecutionContext* mTrtContext;
                 nvinfer1::ICudaEngine* mTrtEngine;
                 nvinfer1::IRuntime* mTrtRunTime;
@@ -111,6 +128,15 @@ namespace Tn
                 std::vector<int64_t> mTrtBindBufferSize;
                 int mTrtInputCount;
                 int mTrtIterationTime;
+                static const int INPUT_C = 3;
+                static const int INPUT_H = 375;//?? 1080
+                static const int INPUT_W = 500;// 1920??
+                static const int IM_INFO_SIZE = 3;
+                static const int OUTPUT_CLS_SIZE = 21;
+                static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
+                const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "person", "catcher", "pitcher", "simpan", "hitter" };
+
+
     };
 }
 

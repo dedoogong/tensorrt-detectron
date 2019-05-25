@@ -13,6 +13,7 @@ set(PLUGIN_SOURCES
   src/UpsampleLayer.cu
   src/YoloLayer.cu
   src/TrtNet.cpp
+        src/GenerateProposalLayer.cu
 )
 
 #

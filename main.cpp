@@ -113,7 +113,6 @@ void DoNms(vector<Detection>& detections,int classes ,float nmsThresh)
     cout << "Time taken for nms is " << total << " ms." << endl;
 }
 
-
 vector<Bbox> postProcessImg(cv::Mat& img,vector<Detection>& detections,int classes)
 {
     using namespace cv;
@@ -173,8 +172,7 @@ vector<string> split(const string& str, char delim)
     return container;
 }
 
-int main( int argc, char* argv[] )
-{
+int main( int argc, char* argv[] ){
     parser::ADD_ARG_STRING("prototxt",Desc("input yolov3 deploy"),DefaultValue(INPUT_PROTOTXT),ValueDesc("file"));
     parser::ADD_ARG_STRING("caffemodel",Desc("input yolov3 caffemodel"),DefaultValue(INPUT_CAFFEMODEL),ValueDesc("file"));
     parser::ADD_ARG_INT("C",Desc("channel"),DefaultValue(to_string(INPUT_CHANNEL)));
