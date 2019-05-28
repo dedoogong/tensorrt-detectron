@@ -3,7 +3,6 @@
 #ifndef GENERATEPROPOSALLAYER_H
 #define GENERATEPROPOSALLAYER_H
 
-
 #include <assert.h>
 #include <cmath>
 #include <string.h>
@@ -38,10 +37,7 @@ namespace nvinfer1
 
         ~GenerateProposalLayerPlugin();
 
-        int getNbOutputs() const override
-        {
-            return 1;
-        }
+        int getNbOutputs() const override{ return 2; }
 
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
@@ -49,7 +45,11 @@ namespace nvinfer1
             return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
         }
 
-        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
+        void configureWithFormat(const Dims* inputDims, int nbInputs,
+                                 const Dims* outputDims,
+                                 int nbOutputs,
+                                 DataType type, PluginFormat format,
+                                 int maxBatchSize) override {};
 
         int initialize() override;
 
@@ -57,22 +57,33 @@ namespace nvinfer1
 
         virtual size_t getWorkspaceSize(int maxBatchSize) const override { return 0;}
 
-        virtual int enqueue(int batchSize, const void*const * inputs, void** outputs, void* workspace, cudaStream_t stream) override;
+        virtual int enqueue(int batchSize,
+                            const void*const * inputs,
+                            void** outputs, void* workspace,
+                            cudaStream_t stream) override;
 
         virtual size_t getSerializationSize() override;
 
         virtual void serialize(void* buffer) override;
 
-        void forwardGpu(const float *const * inputs,float * output, cudaStream_t stream);
-
-        void forwardCpu(const float *const * inputs,float * output, cudaStream_t stream);
+        template <typename Dtype>
+        void forwardGpu(const Dtype* input,Dtype * outputint);
+                       //(const float *const * inputs,
+                       //float * output, cudaStream_t stream);
 
     private:
-        int mClassCount;
-        int mKernelCount;
         std::vector<GenerateProposal::GenerateProposalKernel> mGenerateProposalKernel;
         int mThreadCount;
 
+        int mScoreC{0};
+        int mScoreH{0};
+        int mScoreW{0};
+
+        int mBoxDeltaC{0};
+        int mBoxDeltaH{0};
+        int mBoxDeltaW{0};
+
+        DataType mDataType{DataType::kFLOAT};
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};

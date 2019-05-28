@@ -29,12 +29,16 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override { 
-            //std::cout << "supportsFormat=== type:"  << int(type) << "format" << int(format) << std::endl;
-            return (type == DataType::kFLOAT || type == DataType::kHALF || type == DataType::kINT8 ) 
-            && format == PluginFormat::kNCHW; 
+            //std::cout << "supportsFormat=== type:"  << int(type) <<
+            // "format" << int(format) << std::endl;
+            return (type == DataType::kFLOAT || type == DataType::kHALF ||
+                    type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
-        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override;
+        void configureWithFormat(const Dims* inputDims, int nbInputs,
+                                 const Dims* outputDims, int nbOutputs,
+                                 DataType type, PluginFormat format,
+                                 int maxBatchSize) override;
 
         int initialize() override;
 
@@ -43,7 +47,8 @@ namespace nvinfer1
 
         virtual size_t getWorkspaceSize(int maxBatchSize) const override { return 0;}
 
-        virtual int enqueue(int batchSize, const void*const * inputs, void** outputs, void* workspace, cudaStream_t stream) override;
+        virtual int enqueue(int batchSize, const void*const * inputs, void** outputs,
+                            void* workspace, cudaStream_t stream) override;
 
         virtual size_t getSerializationSize() override
         {

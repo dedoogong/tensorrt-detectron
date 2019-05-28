@@ -2,7 +2,8 @@
 
 namespace nvinfer1
 {
-  __device__ int translate_idx(int ii, int d1, int d2, int d3, int scale_factor) {
+  __device__ int translate_idx(int ii, int d1, int d2, int d3,
+                               int scale_factor) {
     int x, y, z, w;
     w = ii % d3;
     ii = ii/d3;
@@ -32,7 +33,9 @@ namespace nvinfer1
       int N,int C,int H ,int W) {
 
     int numElem = N*C*H*W;
-    upscale<<<(numElem + mThreadCount - 1) / mThreadCount, mThreadCount>>>(input,output, numElem, mScale, C, H, W);
+    upscale<<<(numElem+mThreadCount-1)/mThreadCount, mThreadCount>>>
+                                                  (input,output, numElem, mScale,
+                                                   C, H, W);
   }
   
   size_t type2size(DataType dataType) { 
@@ -47,7 +50,9 @@ namespace nvinfer1
     return _size;
   }
 
-  int UpsampleLayerPlugin::enqueue(int batchSize, const void*const * inputs, void** outputs, void* workspace, cudaStream_t stream)
+  int UpsampleLayerPlugin::enqueue(int batchSize,
+                                   const void*const * inputs, void** outputs,
+                                   void* workspace, cudaStream_t stream)
   {
       assert(batchSize == 1);
       const int channels = mCHW.d[0];
@@ -59,7 +64,9 @@ namespace nvinfer1
       
       // Handle no-op resizes efficiently.
       if (out_height == in_height && out_width == in_width) {
-          CUDA_CHECK(cudaMemcpyAsync(outputs[0], inputs[0], totalElems * type2size(mDataType), cudaMemcpyDeviceToDevice, stream));
+          CUDA_CHECK(cudaMemcpyAsync(outputs[0], inputs[0],
+                                     totalElems * type2size(mDataType),
+                                     cudaMemcpyDeviceToDevice, stream));
           CUDA_CHECK(cudaStreamSynchronize(stream));
           return 0;
       }
@@ -68,13 +75,20 @@ namespace nvinfer1
        switch (mDataType)
        {
            case DataType::kFLOAT :
-              forwardGpu<float>((const float *)inputs[0],(float *)outputs[0],batchSize,mCHW.d[0],mOutputHeight,mOutputWidth);
+              forwardGpu<float>((const float *)inputs[0],(float *)outputs[0],
+                                    batchSize,mCHW.d[0],
+                                    mOutputHeight,mOutputWidth);
                break;
            case DataType::kHALF:
-               forwardGpu<__half>((const __half *)inputs[0],(__half *)outputs[0],batchSize,mCHW.d[0],mOutputHeight,mOutputWidth);
+               forwardGpu<__half>((const __half *)inputs[0],(__half *)outputs[0],
+                                    batchSize,mCHW.d[0],
+                                    mOutputHeight,mOutputWidth);
                break;
            case DataType::kINT8:
-               forwardGpu<u_int8_t>((const u_int8_t *)inputs[0],(u_int8_t *)outputs[0],batchSize,mCHW.d[0],mOutputHeight,mOutputWidth);
+               forwardGpu<u_int8_t>((const u_int8_t *)inputs[0],
+                                    (u_int8_t *)outputs[0],
+                                    batchSize,mCHW.d[0],
+                                    mOutputHeight,mOutputWidth);
               break;
            default:
                std::cerr << "error data type" << std::endl;

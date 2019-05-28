@@ -12,50 +12,6 @@
 #include <algorithm>
 
 // CUDA: various checks for different function calls.
-#define CUDA_ENFORCE(condition, ...) cudaError_t error = condition;
-#define CUBLAS_ENFORCE(condition) cudaError_t error = condition;
-#define CURAND_ENFORCE(condition) cudaError_t error = condition;
-
-#define CUDA_CHECK(condition)                                 \
-  {                                                        \
-    cudaError_t error = condition;                            \
-    CHECK(error == cudaSuccess) << cudaGetErrorString(error); \
-  }
-
-#define CUDA_DRIVERAPI_ENFORCE(condition)                            \
-  {                                                               \
-    CUresult result = condition;                                     \
-    if (result != CUDA_SUCCESS) {                                    \
-      const char* msg;                                               \
-      cuGetErrorName(result, &msg);                                  \
-      CAFFE_THROW("Error at: ", __FILE__, ":", __LINE__, ": ", msg); \
-    }                                                                \
-  }
-
-#define CUDA_DRIVERAPI_CHECK(condition)                                 \
-  {                                                                  \
-    CUresult result = condition;                                        \
-    if (result != CUDA_SUCCESS) {                                       \
-      const char* msg;                                                  \
-      cuGetErrorName(result, &msg);                                     \
-      LOG(FATAL) << "Error at: " << __FILE__ << ":" << __LINE__ << ": " \
-                 << msg;                                                \
-    }                                                                   \
-  }
-
-#define CUBLAS_CHECK(condition)                    \
-  {                                             \
-    cublasStatus_t status = condition;             \
-    CHECK(status == CUBLAS_STATUS_SUCCESS)         \
-        << ::caffe2::cublasGetErrorString(status); \
-  }
-
-#define CURAND_CHECK(condition)                    \
-  {                                             \
-    curandStatus_t status = condition;             \
-    CHECK(status == CURAND_STATUS_SUCCESS)         \
-        << ::caffe2::curandGetErrorString(status); \
-  }
 
 #define CUDA_1D_KERNEL_LOOP(i, n)                                 \
   for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); \
@@ -67,6 +23,11 @@
     for (size_t j = blockIdx.y * blockDim.y + threadIdx.y; j < (m); \
          j += blockDim.y * gridDim.y)
 
+#define CUDA_CHECK(condition)                                 \
+{                                                             \
+    cudaError_t error = condition;                            \
+    CHECK(error == cudaSuccess) << cudaGetErrorString(error); \
+}
 // 1D grid
 const int CAFFE_CUDA_NUM_THREADS = 128;
 // 2D grid
@@ -87,7 +48,6 @@ const int CAFFE_MAXIMUM_NUM_BLOCKS_2D_DIMY = 128;
 const int kCUDAGridDimMaxX = 2147483647;
 const int kCUDAGridDimMaxY = 65535;
 const int kCUDAGridDimMaxZ = 65535;
-
 
 /**
  * @brief Compute the number of blocks needed to run N threads.

@@ -88,7 +88,8 @@ namespace Tn
         }
 
         PluginFactory pluginFactorySerialize;
-        ICudaEngine* tmpEngine = loadModelAndCreateEngine(prototxt.c_str(),caffemodel.c_str(), maxBatchSize, parser, &pluginFactorySerialize, calibrator, trtModelStream,outputNodesName);
+        ICudaEngine* tmpEngine = loadModelAndCreateEngine(prototxt.c_str(),caffemodel.c_str(), maxBatchSize, parser,
+                                                   &pluginFactorySerialize, calibrator, trtModelStream,outputNodesName);
         assert(tmpEngine != nullptr);
         assert(trtModelStream != nullptr);
         if(calibrator){
@@ -109,7 +110,8 @@ namespace Tn
     }
 
     trtNet::trtNet(const std::string& engineFile)
-    :mTrtContext(nullptr),mTrtEngine(nullptr),mTrtRunTime(nullptr),mTrtRunMode(RUN_MODE::FLOAT32),mTrtInputCount(0),mTrtIterationTime(0)
+    :mTrtContext(nullptr),mTrtEngine(nullptr),mTrtRunTime(nullptr),mTrtRunMode(RUN_MODE::FLOAT32),
+                                                                   mTrtInputCount(0),mTrtIterationTime(0)
     {
         using namespace std;
         fstream file;
@@ -159,18 +161,16 @@ namespace Tn
             if(mTrtEngine->bindingIsInput(i))
                 mTrtInputCount++;
         }
-
         CUDA_CHECK(cudaStreamCreate(&mTrtCudaStream));
-
-
-
-
     }
 
 
-    nvinfer1::ICudaEngine* trtNet::loadModelAndCreateEngine(const char* deployFile, const char* modelFile,int maxBatchSize,
-                                        ICaffeParser* parser, nvcaffeparser1::IPluginFactory* pluginFactory,
-                                        IInt8Calibrator* calibrator, IHostMemory*& trtModelStream,const std::vector<std::string>& outputNodesName)
+    nvinfer1::ICudaEngine* trtNet::loadModelAndCreateEngine(const char* deployFile,
+                                                            const char* modelFile,int maxBatchSize,
+                                                            ICaffeParser* parser,
+                                                            nvcaffeparser1::IPluginFactory* pluginFactory,
+                                                            IInt8Calibrator* calibrator, IHostMemory*& trtModelStream,
+                                                            const std::vector<std::string>& outputNodesName)
     {
         // Create the builder
         IBuilder* builder = createInferBuilder(gLogger);
@@ -180,7 +180,8 @@ namespace Tn
         parser->setPluginFactory(pluginFactory);
 
         std::cout << "Begin parsing model..." << std::endl;
-        const IBlobNameToTensor* blobNameToTensor = parser->parse(deployFile,modelFile, *network, nvinfer1::DataType::kFLOAT);
+        const IBlobNameToTensor* blobNameToTensor = parser->parse(deployFile, modelFile,
+                                                                    *network, nvinfer1::DataType::kFLOAT);
         if (!blobNameToTensor)
             RETURN_AND_LOG(nullptr, ERROR, "Fail to parse");
         std::cout << "End parsing model..." << std::endl;
@@ -233,18 +234,18 @@ namespace Tn
         return engine;
     }
 
-    #define NUM_GENERATE_PROPOSAL_LAYER 5
     const char* INPUT_BLOB_NAME0 = "data";
     const char* INPUT_BLOB_NAME1 = "im_info";
     const char* OUTPUT_BLOB_NAME0 = "bbox_pred";
     const char* OUTPUT_BLOB_NAME1 = "cls_prob";
     const char* OUTPUT_BLOB_NAME2 = "rois";
     static const int INPUT_C = 3;
-    static const int INPUT_H = 375;
-    static const int INPUT_W = 500;
+    static const int INPUT_H = 1080;//?? 1080
+    static const int INPUT_W = 1920;// 1920??
     static const int IM_INFO_SIZE = 3;
-    static const int OUTPUT_CLS_SIZE = 21;
+    static const int OUTPUT_CLS_SIZE = 5+1;
     static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
+    const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "person", "catcher", "pitcher", "simpan", "hitter" };
     /*
     spatial_scale: 0.25 0.125 0.125 0.125 0.125
     nms_thresh: 0.699999988079071

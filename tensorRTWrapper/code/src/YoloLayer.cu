@@ -5,7 +5,8 @@ using namespace Yolo;
 
 namespace nvinfer1
 {
-    YoloLayerPlugin::YoloLayerPlugin(const int cudaThread /*= 512*/):mThreadCount(cudaThread)
+    YoloLayerPlugin::YoloLayerPlugin(const int cudaThread /*= 512*/):
+                                            mThreadCount(cudaThread)
     {
         mClassCount = CLASS_NUM;
         mYoloKernel.clear();
@@ -57,34 +58,46 @@ namespace nvinfer1
     
     size_t YoloLayerPlugin::getSerializationSize()
     {  
-        return sizeof(mClassCount) + sizeof(mThreadCount) + sizeof(mKernelCount) + sizeof(Yolo::YoloKernel) * mYoloKernel.size();
+        return sizeof(mClassCount) + sizeof(mThreadCount) +
+        sizeof(mKernelCount) +
+        sizeof(Yolo::YoloKernel) * mYoloKernel.size();
     }
 
     int YoloLayerPlugin::initialize()
     { 
             int totalCount = 0;
             for(const auto& yolo : mYoloKernel)
-                totalCount += (LOCATIONS + 1 + mClassCount) * yolo.width*yolo.height * CHECK_COUNT;
-            CUDA_CHECK(cudaHostAlloc(&mInputBuffer, totalCount * sizeof(float), cudaHostAllocDefault));
+                totalCount += (LOCATIONS + 1 + mClassCount) *
+                                yolo.width*yolo.height * CHECK_COUNT;
+            CUDA_CHECK(cudaHostAlloc(&mInputBuffer,
+                                     totalCount * sizeof(float),
+                                     cudaHostAllocDefault));
 
             totalCount = 0;//detection count
             for(const auto& yolo : mYoloKernel)
                 totalCount += yolo.width*yolo.height * CHECK_COUNT;
-            CUDA_CHECK(cudaHostAlloc(&mOutputBuffer, sizeof(float) + totalCount * sizeof(Detection), cudaHostAllocDefault));
+            CUDA_CHECK(cudaHostAlloc(&mOutputBuffer,
+                                     sizeof(float) +
+                                     totalCount * sizeof(Detection),
+                                     cudaHostAllocDefault));
             return 0;
     }
     
-    Dims YoloLayerPlugin::getOutputDimensions(int index, const Dims* inputs, int nbInputDims)
+    Dims YoloLayerPlugin::getOutputDimensions(int index,
+                                              const Dims* inputs, int nbInputDims)
     {
-            //output the result to channel
-            int totalCount = 0;
-            for(const auto& yolo : mYoloKernel)
-                totalCount += yolo.width*yolo.height * CHECK_COUNT * sizeof(Detection) / sizeof(float);
+        //output the result to channel
+        int totalCount = 0;
+        for(const auto& yolo : mYoloKernel)
+            totalCount += yolo.width*yolo.height*
+                                     CHECK_COUNT*
+                                     sizeof(Detection)/sizeof(float);
 
-            return Dims3(totalCount + 1, 1, 1);
+        return Dims3(totalCount + 1, 1, 1);
     }
 
-    void YoloLayerPlugin::forwardCpu(const float*const * inputs, float* outputs, cudaStream_t stream)
+    void YoloLayerPlugin::forwardCpu(const float*const * inputs, float* outputs,
+                                     cudaStream_t stream)
     {
             auto Logist = [=](float data){
                 return 1./(1. + exp(-data));
@@ -95,8 +108,11 @@ namespace nvinfer1
             float* inputData = (float *)mInputBuffer; 
             for(const auto& yolo : mYoloKernel)
             {
-                int size = (LOCATIONS + 1 + mClassCount) * yolo.width*yolo.height * CHECK_COUNT;
-                CUDA_CHECK(cudaMemcpyAsync(inputData, inputs[i], size * sizeof(float), cudaMemcpyDeviceToHost, stream));
+                int size = (LOCATIONS + 1 + mClassCount)*
+                            yolo.width*yolo.height * CHECK_COUNT;
+                CUDA_CHECK(cudaMemcpyAsync(inputData,
+                                           inputs[i], size*sizeof(float),
+                                           cudaMemcpyDeviceToHost, stream));
                 inputData += size;
                 ++ i;
             }
@@ -135,10 +151,14 @@ namespace nvinfer1
                             int cols = j % yolo.width;
     
                             //Location
-                            det.bbox[0] = (cols + Logist(inputData[beginIdx]))/ yolo.width;
-                            det.bbox[1] = (row + Logist(inputData[beginIdx+stride]))/ yolo.height;
-                            det.bbox[2] = exp(inputData[beginIdx+2*stride]) * yolo.anchors[2*k];
-                            det.bbox[3] = exp(inputData[beginIdx+3*stride]) * yolo.anchors[2*k + 1];
+                            det.bbox[0] = (cols + Logist(inputData[beginIdx]))/
+                                                                yolo.width;
+                            det.bbox[1] = (row + Logist(inputData[beginIdx+stride]))/
+                                                                yolo.height;
+                            det.bbox[2] = exp(inputData[beginIdx+2*stride]) *
+                                                                yolo.anchors[2*k];
+                            det.bbox[3] = exp(inputData[beginIdx+3*stride]) *
+                                                                yolo.anchors[2*k + 1];
                             det.classId = classId;
                             det.prob = maxProb;
                             //det.objectness = objProb;
@@ -162,13 +182,18 @@ namespace nvinfer1
             memcpy(data,result.data(),result.size()*sizeof(Detection));
 
             //(count + det result)
-            CUDA_CHECK(cudaMemcpyAsync(outputs, mOutputBuffer, sizeof(float) + result.size()*sizeof(Detection), cudaMemcpyHostToDevice, stream));
+            CUDA_CHECK(cudaMemcpyAsync(outputs, mOutputBuffer,
+                                     sizeof(float) + result.size()*sizeof(Detection),
+                                     cudaMemcpyHostToDevice, stream));
     };
 
     __device__ float Logist(float data){ return 1./(1. + exp(-data)); };
 
-    __global__ void CalDetection(const float *input, float *output,int noElements, 
-            int yoloWidth,int yoloHeight,const float anchors[CHECK_COUNT*2],int classes) {
+    __global__ void CalDetection(const float *input, float *output,
+                                 int noElements,
+                                 int yoloWidth,int yoloHeight,
+                                 const float anchors[CHECK_COUNT*2],
+                                 int classes) {
  
         int idx = threadIdx.x + blockDim.x * blockIdx.x;
         if (idx >= noElements) return;
@@ -215,7 +240,8 @@ namespace nvinfer1
         }
     }
    
-    void YoloLayerPlugin::forwardGpu(const float *const * inputs,float * output,cudaStream_t stream) {
+    void YoloLayerPlugin::forwardGpu(const float *const * inputs,
+                                     float * output,cudaStream_t stream) {
         int numElem;
         void* devAnchor;
         size_t AnchorLen = sizeof(float)* CHECK_COUNT*2;
@@ -229,16 +255,22 @@ namespace nvinfer1
             numElem = yolo.width*yolo.height;
 
             //copy anchor to device
-	        CUDA_CHECK(cudaMemcpy(devAnchor,yolo.anchors,AnchorLen,cudaMemcpyHostToDevice));
+	        CUDA_CHECK(cudaMemcpy(devAnchor,yolo.anchors,AnchorLen,
+	                                                     cudaMemcpyHostToDevice));
 
-            CalDetection<<< (yolo.width*yolo.height + mThreadCount - 1) / mThreadCount, mThreadCount>>>
-                    (inputs[i],output, numElem, yolo.width, yolo.height, (float *)devAnchor, mClassCount);
+            CalDetection<<< (yolo.width*yolo.height + mThreadCount - 1) /
+                             mThreadCount, mThreadCount>>>
+                            (inputs[i], output, numElem, yolo.width, yolo.height,
+                            (float *)devAnchor, mClassCount);
         }
         CUDA_CHECK(cudaFree(devAnchor));
     }
 
 
-    int YoloLayerPlugin::enqueue(int batchSize, const void*const * inputs, void** outputs, void* workspace, cudaStream_t stream)
+    int YoloLayerPlugin::enqueue(int batchSize,
+                                 const void*const * inputs,
+                                 void** outputs,
+                                 void* workspace, cudaStream_t stream)
     {
         assert(batchSize == 1);
         

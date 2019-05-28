@@ -129,10 +129,10 @@ namespace Tn
                 int mTrtInputCount;
                 int mTrtIterationTime;
                 static const int INPUT_C = 3;
-                static const int INPUT_H = 375;//?? 1080
-                static const int INPUT_W = 500;// 1920??
+                static const int INPUT_H = 1080;//?? 1080
+                static const int INPUT_W = 1920;// 1920??
                 static const int IM_INFO_SIZE = 3;
-                static const int OUTPUT_CLS_SIZE = 21;
+                static const int OUTPUT_CLS_SIZE = 5;
                 static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
                 const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "person", "catcher", "pitcher", "simpan", "hitter" };
 
