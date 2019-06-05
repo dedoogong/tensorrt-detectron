@@ -4,9 +4,11 @@
 #include <vector>
 
 #include "caffe2/core/context_gpu.h"
+#include <math.h>
 
-namespace caffe2 {
 namespace utils {
+
+    BBOX_XFORM_CLIP_DEFAULT= log(1000.0 / 16.0);
 
 // Computes Non-Maximum Suppression on the GPU
 // Reject a bounding box if its region has an intersection-overunion (IoU)
@@ -23,7 +25,7 @@ namespace utils {
 // by NMS
 //    Those tensors will be resized to the necessary size
 // context : current CUDA context
-CAFFE2_API void nms_gpu_upright(
+void nms_gpu_upright(
     const float* d_desc_sorted_boxes,
     const int N,
     const float thresh,
@@ -41,7 +43,7 @@ struct RotatedBox {
 // d_desc_sorted_boxes : pixel coordinates of proposed bounding boxes
 //    size: (N,5), format: [x_ct; y_ctr; width; height; angle]
 //    the boxes are sorted by scores in descending order
-CAFFE2_API void nms_gpu_rotated(
+/*void nms_gpu_rotated(
     const float* d_desc_sorted_boxes,
     const int N,
     const float thresh,
@@ -50,19 +52,18 @@ CAFFE2_API void nms_gpu_rotated(
     TensorCUDA& dev_delete_mask,
     TensorCPU& host_delete_mask,
     CUDAContext* context);
-
-CAFFE2_API void nms_gpu(
+*/
+void nms_gpu(
     const float* d_desc_sorted_boxes,
     const int N,
     const float thresh,
     int* d_keep_sorted_list,
     int* h_nkeep,
-    TensorCUDA& dev_delete_mask,
-    TensorCPU& host_delete_mask,
+    const float* dev_delete_mask,
+    const float& host_delete_mask,
     CUDAContext* context,
     const int box_dim);
 
 } // namespace utils
-} // namespace caffe2
 
 #endif // CAFFE2_OPERATORS_UTILS_NMS_GPU_H_

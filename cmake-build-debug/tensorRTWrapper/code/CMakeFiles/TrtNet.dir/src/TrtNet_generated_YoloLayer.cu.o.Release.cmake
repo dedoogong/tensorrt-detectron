@@ -57,19 +57,19 @@ if(NOT generated_file)
 endif()
 
 # Set these up as variables to make reading the generated file easier
-set(CMAKE_COMMAND "/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake") # path
-set(source_file "/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/src/YoloLayer.cu") # path
-set(NVCC_generated_dependency_file "/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.NVCC-depend") # path
-set(cmake_dependency_file "/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.depend") # path
-set(CUDA_make2cmake "/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/share/cmake-3.14/Modules/FindCUDA/make2cmake.cmake") # path
-set(CUDA_parse_cubin "/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/share/cmake-3.14/Modules/FindCUDA/parse_cubin.cmake") # path
+set(CMAKE_COMMAND "/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake") # path
+set(source_file "/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/YoloLayer.cu") # path
+set(NVCC_generated_dependency_file "/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.NVCC-depend") # path
+set(cmake_dependency_file "/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.depend") # path
+set(CUDA_make2cmake "/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/share/cmake-3.14/Modules/FindCUDA/make2cmake.cmake") # path
+set(CUDA_parse_cubin "/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/share/cmake-3.14/Modules/FindCUDA/parse_cubin.cmake") # path
 set(build_cubin OFF) # bool
 set(CUDA_HOST_COMPILER "/usr/bin/c++") # path
 # We won't actually use these variables for now, but we need to set this, in
 # order to force this file to be run again if it changes.
-set(generated_file_path "/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/.") # path
-set(generated_file_internal "/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/./TrtNet_generated_YoloLayer.cu.o") # path
-set(generated_cubin_file_internal "/home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/./TrtNet_generated_YoloLayer.cu.o.cubin.txt") # path
+set(generated_file_path "/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/.") # path
+set(generated_file_internal "/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/./TrtNet_generated_YoloLayer.cu.o") # path
+set(generated_cubin_file_internal "/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/./TrtNet_generated_YoloLayer.cu.o.cubin.txt") # path
 
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda-10.0/bin/nvcc") # path
 set(CUDA_NVCC_FLAGS -D_FORCE_INLINES -Xcompiler -fPIC ;; ) # list
@@ -79,7 +79,7 @@ set(CUDA_NVCC_FLAGS_DEBUG  ; )
 set(CUDA_NVCC_FLAGS_MINSIZEREL  ; )
 set(CUDA_NVCC_FLAGS_RELWITHDEBINFO  ; )
 set(nvcc_flags -m64;--std;c++11) # list
-set(CUDA_NVCC_INCLUDE_DIRS "/usr/include/x86_64-linux-gnu;/usr/local/cuda-10.0/include;/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include;/usr/local/cuda-10.0/include;/usr/local/cuda-10.0/include;/usr/include/x86_64-linux-gnu") # list (needs to be in quotes to handle spaces properly).
+set(CUDA_NVCC_INCLUDE_DIRS "/usr/include/x86_64-linux-gnu;/usr/local/cuda-10.0/include;/home/lee/tensorrt-detectron/tensorRTWrapper/code/include;/usr/local/cuda-10.0/include;/usr/local/cuda-10.0/include;/usr/include/x86_64-linux-gnu") # list (needs to be in quotes to handle spaces properly).
 set(CUDA_NVCC_COMPILE_DEFINITIONS [==[]==]) # list (needs to be in lua quotes see #16510 ).
 set(format_flag "-c") # string
 set(cuda_language_flag ) # list

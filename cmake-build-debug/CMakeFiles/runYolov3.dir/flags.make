@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=c++11 -Wall -Ofast -Wfatal-errors -O3 -DNDEBUG
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/ktai01/tensorrt-detectron/tensorRTWrapper/code/include -I/home/ktai01/tensorrt-detectron/include -I/usr/local/cuda-10.0/include -isystem /usr/include/opencv 
+CXX_INCLUDES = -I/home/lee/tensorrt-detectron/tensorRTWrapper/code/include -I/home/lee/tensorrt-detectron/include -I/usr/local/cuda-10.0/include -isystem /usr/include/opencv 
 

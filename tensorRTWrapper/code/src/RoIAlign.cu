@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "caffe/layers/roi_pooling_layer.hpp"
-
+#include "common_gpu.h"
 
 using std::max;
 using std::min;
@@ -85,21 +85,14 @@ namespace nvinfer1 {
 	Dims RoIAlignLayerPlugin::getOutputDimensions(int index, const Dims * inputs, int nbInputDims)
 	{
 		assert(nbInputDims == 4);
-		/*
-		  bottom: "rpn_cls_probs_fpn2"
-		  bottom: "rpn_bbox_pred_fpn2"
-		  bottom: "im_info"
-		  bottom: "anchor2"
-		  top: "rpn_rois_fpn2"
-		  top: "rpn_roi_probs_fpn2
-		*/
-		mScoreC = inputs[0].d[0];
-		mScoreH = inputs[0].d[1];
-		mScoreW = inputs[0].d[2];
 
+        num_rois = inputs[0].d[0];
+        channels = inputs[1].d[0];
+        height   = inputs[1].d[1];
+        width    = inputs[1].d[2];
 		return index == 0 ? DimsCHW(300, 5) : DimsCHW(300, 1);
 	}
-
+    /*
 	template <typename Dtype>
 	__global__ void ROIPoolForward(const int nthreads, const Dtype* bottom_data,
 		const Dtype spatial_scale, const int channels, const int height,
@@ -162,7 +155,7 @@ namespace nvinfer1 {
 		}
 	}
  
-
+    */
 //==============================================================================================
 
 	template <typename T>
@@ -281,46 +274,42 @@ namespace nvinfer1 {
 		const float spatial_scale,
 		const int pooled_height,
 		const int pooled_width,
-		const int sampling_ratio) {
-		//AT_ASSERTM(input.type().is_cuda(), "input must be a CUDA tensor");
-		//AT_ASSERTM(rois.type().is_cuda(), "rois must be a CUDA tensor");
-
-		auto num_rois = rois.size(0);
-		auto channels = input.size(1);
-		auto height = input.size(2);
-		auto width = input.size(3);
-
-		auto output = at::empty({ num_rois, channels, pooled_height, pooled_width }, input.options());
+		const int sampling_ratio,
+		cudaStream_t stream,
+		const int num_rois,
+        const int channels,
+        const int height,
+        const int width ) {
+		float* output=rois; //= at::empty({ num_rois, channels, pooled_height, pooled_width }, input.options());
 		auto output_size = num_rois * pooled_height * pooled_width * channels;
-		cudaStream_t stream = at::cuda::getCurrentCUDAStream();
 
-		//TODO
-		//dim3 grid(std::min(THCCeilDiv((long)output_size, 512L), 4096L));
-		dim3 block(512);
+		//cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+
+		dim3 grid(GET_BLOCKS_COUNT_IN_GRID(output_size));//std::min(THCCeilDiv((long)output_size, 512L), 4096L));
+		dim3 block(CUDA_NUM_THREADS);
 
 		if (output.numel() == 0) {
-			//TODO
-			//CudaCheck(cudaGetLastError());
+		    cudaGetLastError();
 			return output;
 		}
 
-			RoIAlignForward<scalar_t> << <grid, block, 0, stream >> > (
-				output_size,
-				input.contiguous().data<scalar_t>(),
-				spatial_scale,
-				channels,
-				height,
-				width,
-				pooled_height,
-				pooled_width,
-				sampling_ratio,
-				rois.contiguous().data<scalar_t>(),
-				output.data<scalar_t>());
-			});
-		CUDA_CHECK(cudaGetLastError());
+        RoIAlignForward<scalar_t> << <grid, block, 0, stream >> > (
+            output_size,
+            input.contiguous().data<scalar_t>(),
+            spatial_scale,
+            channels,
+            height,
+            width,
+            pooled_height,
+            pooled_width,
+            sampling_ratio,
+            rois.contiguous().data<scalar_t>(),
+            output);//     .data<scalar_t>());
+        });
+		cudaGetLastError();
 		return output;
 	}
-
+    /*
     // original roi pooling
 	template <typename Dtype>
 	void RoIAlignLayerPlugin::forwardGpuv1(const vector<Dtype>& bottom,
@@ -331,15 +320,17 @@ namespace nvinfer1 {
 		int* argmax_data = max_idx_.mutable_gpu_data();
 		int count = top[0]->count();
 		// NOLINT_NEXT_LINE(whitespace/operators)
-		ROIPoolForward<Dtype> << <CAFFE_GET_BLOCKS(count), CAFFE_CUDA_NUM_THREADS >> > (
+		ROIPoolForward<Dtype> << <GET_BLOCKS_COUNT_IN_GRID(count), CAFFE_CUDA_NUM_THREADS >> > (
 			count, bottom_data, spatial_scale_, channels_, height_, width_,
 			pooled_height_, pooled_width_, bottom_rois, top_data, argmax_data);
 		CUDA_POST_KERNEL_CHECK;
-	}
+	}*/
 //==============================================================================================
 
-int RoIAlignLayerPlugin::enqueue(int batchSize){
-//////,??///
+int RoIAlignLayerPlugin::enqueue(int batchSize,
+                                 const void*const * inputs,
+                                 void** outputs,
+                                 void* workspace, cudaStream_t stream){
 	assert(batchSize == 1);
 	/*
 	const int channels = mCHW.d[0];
@@ -362,31 +353,42 @@ int RoIAlignLayerPlugin::enqueue(int batchSize){
 	{
 	case DataType::kFLOAT:
 		forwardGpu<float>((const float*)inputs[0],
-			(const float*)inputs[1],
-			(const float*)inputs[2],
-			(const float*)inputs[3],
-			(float*)outputs[0],
-			(float*)outputs[1],
-			stream);
-		//forwardGpu((const float *const *)inputs,(float *)outputs[0],stream);
+                            spatial_scale,
+                            pooled_height,
+                            pooled_width,
+                            sampling_ratio,
+                            (float*)outputs[0],
+                            stream,
+                            num_rois, //  rois.size(0);
+                            channels, //input.size(1);
+                            height,  //input.size(2);
+                            width);  //input.size(3);
 		break;
 	case DataType::kHALF:
 		forwardGpu<__half>((const __half*)inputs[0],
-			(const __half*)inputs[1],
-			(const __half*)inputs[2],
-			(const __half*)inputs[3],
-			(__half*)outputs[0],
-			(__half*)outputs[1],
-			stream);
+                           spatial_scale,
+                           pooled_height,
+                           pooled_width,
+                           sampling_ratio,
+                           (__half*)outputs[0],
+                           stream,
+                           num_rois, //  rois.size(0);
+                           channels, //input.size(1);
+                           height,  //input.size(2);
+                           width);  //input.size(3);
 		break;
 	case DataType::kINT8:
 		forwardGpu<u_int8_t>((const u_int8_t*)inputs[0],
-			(const u_int8_t*)inputs[1],
-			(const u_int8_t*)inputs[2],
-			(const u_int8_t*)inputs[3],
-			(u_int8_t*)outputs[0],
-			(u_int8_t*)outputs[1],
-			stream);
+                             spatial_scale,
+                             pooled_height,
+                             pooled_width,
+                             sampling_ratio,
+                             (u_int8_t*)outputs[0],
+                             stream,
+                             num_rois, //  rois.size(0);
+                             channels, //input.size(1);
+                             height,  //input.size(2);
+                             width);  //input.size(3);
 		break;
 	default:
 		std::cerr << "error data type" << std::endl;

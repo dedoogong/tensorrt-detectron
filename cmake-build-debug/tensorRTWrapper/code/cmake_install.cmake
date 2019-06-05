@@ -1,4 +1,4 @@
-# Install script for directory: /home/ktai01/tensorrt-detectron/tensorRTWrapper/code
+# Install script for directory: /home/lee/tensorrt-detectron/tensorRTWrapper/code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

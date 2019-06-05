@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ktai01/tensorrt-detectron
+CMAKE_SOURCE_DIR = /home/lee/tensorrt-detectron
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ktai01/tensorrt-detectron/cmake-build-debug
+CMAKE_BINARY_DIR = /home/lee/tensorrt-detectron/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,19 +59,19 @@ CMAKE_BINARY_DIR = /home/ktai01/tensorrt-detectron/cmake-build-debug
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
 install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -82,7 +82,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -103,37 +103,37 @@ list_install_components/fast: list_install_components
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
 install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -P cmake_install.cmake
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/ktai01/Downloads/clion-2019.1.3/bin/cmake/linux/bin/cmake -P cmake_install.cmake
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_progress_start /home/ktai01/tensorrt-detectron/cmake-build-debug/CMakeFiles /home/ktai01/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/progress.marks
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ktai01/tensorrt-detectron/cmake-build-debug/CMakeFiles 0
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_progress_start /home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles /home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/progress.marks
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/clean
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/preinstall
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/preinstall
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 tensorRTWrapper/code/CMakeFiles/TrtNet.dir/rule:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/CMakeFiles/TrtNet.dir/rule
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 tensorRTWrapper/code/CMakeFiles/TrtNet.dir/rule
 .PHONY : tensorRTWrapper/code/CMakeFiles/TrtNet.dir/rule
 
 # Convenience name for target.
@@ -168,7 +168,7 @@ TrtNet: tensorRTWrapper/code/CMakeFiles/TrtNet.dir/rule
 
 # fast build rule for target.
 TrtNet/fast:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build
 .PHONY : TrtNet/fast
 
 src/EntroyCalibrator.o: src/EntroyCalibrator.cpp.o
@@ -177,7 +177,7 @@ src/EntroyCalibrator.o: src/EntroyCalibrator.cpp.o
 
 # target to build an object file
 src/EntroyCalibrator.cpp.o:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/EntroyCalibrator.cpp.o
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/EntroyCalibrator.cpp.o
 .PHONY : src/EntroyCalibrator.cpp.o
 
 src/EntroyCalibrator.i: src/EntroyCalibrator.cpp.i
@@ -186,7 +186,7 @@ src/EntroyCalibrator.i: src/EntroyCalibrator.cpp.i
 
 # target to preprocess a source file
 src/EntroyCalibrator.cpp.i:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/EntroyCalibrator.cpp.i
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/EntroyCalibrator.cpp.i
 .PHONY : src/EntroyCalibrator.cpp.i
 
 src/EntroyCalibrator.s: src/EntroyCalibrator.cpp.s
@@ -195,7 +195,7 @@ src/EntroyCalibrator.s: src/EntroyCalibrator.cpp.s
 
 # target to generate assembly for a file
 src/EntroyCalibrator.cpp.s:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/EntroyCalibrator.cpp.s
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/EntroyCalibrator.cpp.s
 .PHONY : src/EntroyCalibrator.cpp.s
 
 src/TrtNet.o: src/TrtNet.cpp.o
@@ -204,7 +204,7 @@ src/TrtNet.o: src/TrtNet.cpp.o
 
 # target to build an object file
 src/TrtNet.cpp.o:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet.cpp.o
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet.cpp.o
 .PHONY : src/TrtNet.cpp.o
 
 src/TrtNet.i: src/TrtNet.cpp.i
@@ -213,7 +213,7 @@ src/TrtNet.i: src/TrtNet.cpp.i
 
 # target to preprocess a source file
 src/TrtNet.cpp.i:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet.cpp.i
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet.cpp.i
 .PHONY : src/TrtNet.cpp.i
 
 src/TrtNet.s: src/TrtNet.cpp.s
@@ -222,7 +222,7 @@ src/TrtNet.s: src/TrtNet.cpp.s
 
 # target to generate assembly for a file
 src/TrtNet.cpp.s:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet.cpp.s
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet.cpp.s
 .PHONY : src/TrtNet.cpp.s
 
 src/UpsampleLayer.o: src/UpsampleLayer.cpp.o
@@ -231,7 +231,7 @@ src/UpsampleLayer.o: src/UpsampleLayer.cpp.o
 
 # target to build an object file
 src/UpsampleLayer.cpp.o:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/UpsampleLayer.cpp.o
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/UpsampleLayer.cpp.o
 .PHONY : src/UpsampleLayer.cpp.o
 
 src/UpsampleLayer.i: src/UpsampleLayer.cpp.i
@@ -240,7 +240,7 @@ src/UpsampleLayer.i: src/UpsampleLayer.cpp.i
 
 # target to preprocess a source file
 src/UpsampleLayer.cpp.i:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/UpsampleLayer.cpp.i
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/UpsampleLayer.cpp.i
 .PHONY : src/UpsampleLayer.cpp.i
 
 src/UpsampleLayer.s: src/UpsampleLayer.cpp.s
@@ -249,7 +249,7 @@ src/UpsampleLayer.s: src/UpsampleLayer.cpp.s
 
 # target to generate assembly for a file
 src/UpsampleLayer.cpp.s:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/UpsampleLayer.cpp.s
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/UpsampleLayer.cpp.s
 .PHONY : src/UpsampleLayer.cpp.s
 
 # Help Target
@@ -285,6 +285,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ktai01/tensorrt-detectron/cmake-build-debug && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

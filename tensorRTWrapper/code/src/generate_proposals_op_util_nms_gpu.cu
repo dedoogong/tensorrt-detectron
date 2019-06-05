@@ -1,8 +1,7 @@
 #include "caffe2/utils/generate_proposals_op_util_nms_gpu.h"
 
-#include "caffe2/core/context_gpu.h"
-
-namespace caffe2 {
+#include "caffe2/core/stream_gpu.h"
+ 
 namespace utils {
 namespace {
 // Helper data structure used locally
@@ -113,9 +112,9 @@ void nms_gpu_upright(
     const bool legacy_plus_one,
     int* d_keep_sorted_list,
     int* h_nkeep,
-    TensorCUDA& dev_delete_mask,
-    TensorCPU& host_delete_mask,
-    CUDAContext* context) {
+    int* dev_delete_mask,
+    int* host_delete_mask,
+    cudaStream_t* stream) {
   // Making sure we respect the __align(16)__ we promised to the compiler
   auto iptr = reinterpret_cast<std::uintptr_t>(d_desc_sorted_boxes_float_ptr);
   CAFFE_ENFORCE_EQ(iptr % 16, 0);
@@ -133,7 +132,7 @@ void nms_gpu_upright(
       CAFFE_GET_BLOCKS_2D(N, mask_ld),
       CAFFE_CUDA_NUM_THREADS_2D,
       0,
-      context->cuda_stream()>>>(
+      stream>>>(
       d_desc_sorted_boxes, N, thresh, legacy_plus_one, mask_ld, d_delete_mask);
 
   host_delete_mask.Resize(N * mask_ld);
@@ -145,12 +144,12 @@ void nms_gpu_upright(
   cudaEventCreate(&copy_done);
   int nto_copy = std::min(CHUNK_SIZE, N);
   CUDA_CHECK(cudaMemcpyAsync(
-      &h_delete_mask[0],
-      &d_delete_mask[0],
+      h_delete_mask[0],
+      d_delete_mask[0],
       nto_copy * mask_ld * sizeof(int),
       cudaMemcpyDeviceToHost,
-      context->cuda_stream()));
-  CUDA_CHECK(cudaEventRecord(copy_done, context->cuda_stream()));
+      stream));
+  CUDA_CHECK(cudaEventRecord(copy_done, stream));
   int offset = 0;
   std::vector<int> h_keep_sorted_list;
   std::vector<int> rmv(mask_ld, 0);
@@ -160,16 +159,16 @@ void nms_gpu_upright(
     nto_copy = std::min(CHUNK_SIZE, N - next_offset);
     if (nto_copy > 0) {
       CUDA_CHECK(cudaMemcpyAsync(
-          &h_delete_mask[next_offset * mask_ld],
-          &d_delete_mask[next_offset * mask_ld],
+          h_delete_mask[next_offset * mask_ld],
+          d_delete_mask[next_offset * mask_ld],
           nto_copy * mask_ld * sizeof(int),
           cudaMemcpyDeviceToHost,
-          context->cuda_stream()));
+          stream));
     }
     // Waiting for previous copy
     CUDA_CHECK(cudaEventSynchronize(copy_done));
     if (nto_copy > 0)
-      cudaEventRecord(copy_done, context->cuda_stream());
+      cudaEventRecord(copy_done, stream);
     for (int i = offset; i < next_offset; ++i) {
       int iblock = i / BOXES_PER_THREAD;
       int inblock = i % BOXES_PER_THREAD;
@@ -191,7 +190,7 @@ void nms_gpu_upright(
       &h_keep_sorted_list[0],
       nkeep * sizeof(int),
       cudaMemcpyHostToDevice,
-      context->cuda_stream());
+      stream);
 
   *h_nkeep = nkeep;
 }
@@ -470,9 +469,9 @@ void nms_gpu_rotated(
     const float thresh,
     int* d_keep_sorted_list,
     int* h_nkeep,
-    TensorCUDA& dev_delete_mask,
-    TensorCPU& host_delete_mask,
-    CUDAContext* context) {
+    int* dev_delete_mask,
+    int* host_delete_mask,
+    cudaStream_t* stream) {
   // The next kernel expects squares
   CAFFE_ENFORCE_EQ(
       CAFFE_CUDA_NUM_THREADS_2D_DIMX, CAFFE_CUDA_NUM_THREADS_2D_DIMY);
@@ -486,7 +485,7 @@ void nms_gpu_rotated(
       CAFFE_GET_BLOCKS_2D(N, mask_ld),
       CAFFE_CUDA_NUM_THREADS_2D,
       0,
-      context->cuda_stream()>>>(
+      stream>>>(
       d_desc_sorted_boxes, N, thresh, mask_ld, d_delete_mask);
 
   host_delete_mask.Resize(N * mask_ld);
@@ -502,8 +501,8 @@ void nms_gpu_rotated(
       &d_delete_mask[0],
       nto_copy * mask_ld * sizeof(int),
       cudaMemcpyDeviceToHost,
-      context->cuda_stream()));
-  CUDA_CHECK(cudaEventRecord(copy_done, context->cuda_stream()));
+      stream));
+  CUDA_CHECK(cudaEventRecord(copy_done, stream));
   int offset = 0;
   std::vector<int> h_keep_sorted_list;
   std::vector<int> rmv(mask_ld, 0);
@@ -517,12 +516,12 @@ void nms_gpu_rotated(
           &d_delete_mask[next_offset * mask_ld],
           nto_copy * mask_ld * sizeof(int),
           cudaMemcpyDeviceToHost,
-          context->cuda_stream()));
+          stream));
     }
     // Waiting for previous copy
     CUDA_CHECK(cudaEventSynchronize(copy_done));
     if (nto_copy > 0)
-      cudaEventRecord(copy_done, context->cuda_stream());
+      cudaEventRecord(copy_done, stream);
     for (int i = offset; i < next_offset; ++i) {
       int iblock = i / BOXES_PER_THREAD;
       int inblock = i % BOXES_PER_THREAD;
@@ -544,7 +543,7 @@ void nms_gpu_rotated(
       &h_keep_sorted_list[0],
       nkeep * sizeof(int),
       cudaMemcpyHostToDevice,
-      context->cuda_stream());
+      stream);
 
   *h_nkeep = nkeep;
 }
@@ -556,11 +555,12 @@ void nms_gpu(
     const bool legacy_plus_one,
     int* d_keep_sorted_list,
     int* h_nkeep,
-    TensorCUDA& dev_delete_mask,
-    TensorCPU& host_delete_mask,
-    CUDAContext* context,
+    int* dev_delete_mask,
+    int* host_delete_mask,
+    cudaStream_t* stream,
     const int box_dim) {
-  CAFFE_ENFORCE(box_dim == 4 || box_dim == 5);
+
+  //CAFFE_ENFORCE(box_dim == 4 || box_dim == 5);
   if (box_dim == 4) {
     nms_gpu_upright(
         d_desc_sorted_boxes,
@@ -571,7 +571,7 @@ void nms_gpu(
         h_nkeep,
         dev_delete_mask,
         host_delete_mask,
-        context);
+        stream);
   } else {
     nms_gpu_rotated(
         d_desc_sorted_boxes,
@@ -581,8 +581,7 @@ void nms_gpu(
         h_nkeep,
         dev_delete_mask,
         host_delete_mask,
-        context);
+        stream);
   }
 }
-} // namespace utils
-} // namespace caffe2
+} // namespace utils 

@@ -548,7 +548,7 @@ namespace nvinfer1{
                                                  const Dtype * anchors,
                                                  Dtype* out_rois,
                                                  Dtype* out_rois_probs,
-                                                 cudaStream_t stream){
+                                                 cudaStream_t stream) {
         /*
         int numElem;
         void* devAnchor;
@@ -608,9 +608,11 @@ namespace nvinfer1{
 
         //CAFFE_ENFORCE(box_dim == 4 || box_dim == 5);
 
-        int A=mScoreC;
-        int H=mScoreH;
-        int W=mScoreW;
+        int A = mScoreC;
+        int H = mScoreH;
+        int W = mScoreW;
+        int num_images = 1;
+        int box_dim = 4;
         const int K = H * W;
         const int conv_layer_nboxes = K * A;
         // Getting data members ready
@@ -621,19 +623,19 @@ namespace nvinfer1{
         // from the conv layer
         // each row of d_conv_layer_indexes is at first initialized to 1..A*K
         dev_conv_layer_indexes_.Resize(num_images, conv_layer_nboxes);
-        int* d_conv_layer_indexes = dev_conv_layer_indexes_.template mutable_data<int>();
+        int *d_conv_layer_indexes = dev_conv_layer_indexes_.template mutable_data<int>();
 
         // d_image_offset[i] = i*K*A for i from 1 to num_images+1
         // Used by the segmented sort to only sort scores within one image
         dev_image_offset_.Resize(num_images + 1);
-        int* d_image_offset = dev_image_offset_.template mutable_data<int>();
+        int *d_image_offset = dev_image_offset_.template mutable_data<int>();
 
         // The following calls to CUB primitives do nothing
         // (because the first arg is nullptr)
         // except setting cub_*_temp_storage_bytes
         size_t cub_sort_temp_storage_bytes = 0;
-        float* flt_ptr = nullptr;
-        int* int_ptr = nullptr;
+        float *flt_ptr = nullptr;
+        int *int_ptr = nullptr;
         cub::DeviceSegmentedRadixSort::SortPairsDescending(
                 nullptr,
                 cub_sort_temp_storage_bytes,
@@ -651,11 +653,11 @@ namespace nvinfer1{
 
         // Allocate temporary storage for CUB
         dev_cub_sort_buffer_.Resize(cub_sort_temp_storage_bytes);
-        void* d_cub_sort_temp_storage =
+        void *d_cub_sort_temp_storage =
                 dev_cub_sort_buffer_.template mutable_data<char>();
 
         size_t cub_select_temp_storage_bytes = 0;
-        char* char_ptr = nullptr;
+        char *char_ptr = nullptr;
         cub::DeviceSelect::Flagged(
                 nullptr,
                 cub_select_temp_storage_bytes,
@@ -668,7 +670,7 @@ namespace nvinfer1{
 
         // Allocate temporary storage for CUB
         dev_cub_select_buffer_.Resize(cub_select_temp_storage_bytes);
-        void* d_cub_select_temp_storage =
+        void *d_cub_select_temp_storage =
                 dev_cub_select_buffer_.template mutable_data<char>();
 
         // Initialize :
@@ -676,22 +678,21 @@ namespace nvinfer1{
         // - each d_nboxes to 0
         // - d_image_offset[i] = K*A*i for i 1..num_images+1
         // 2D grid
-        InitializeDataKernel<<<(CAFFE_GET_BLOCKS(A * K), num_images),
-                                CAFFE_CUDA_NUM_THREADS, // blockDim.y == 1
-                                0,
-                                stream>>>(num_images, 
-                                          conv_layer_nboxes, 
-                                          d_image_offset, 
-                                          d_conv_layer_indexes);
+        InitializeDataKernel << < (CAFFE_GET_BLOCKS(A * K), num_images),
+                CAFFE_CUDA_NUM_THREADS, // blockDim.y == 1
+                0,
+                stream >> > (num_images,
+                        conv_layer_nboxes,
+                        d_image_offset,
+                        d_conv_layer_indexes);
 
         // Sorting input scores
-        dev_sorted_conv_layer_indexes_.Resize(num_images, conv_layer_nboxes);
-        dev_sorted_scores_.Resize(num_images, conv_layer_nboxes);
-        const float* d_in_scores = scores.data<float>();
-        int* d_sorted_conv_layer_indexes =
-                dev_sorted_conv_layer_indexes_.template mutable_data<int>();
-        float* d_sorted_scores = dev_sorted_scores_.template mutable_data<float>();
-        ;
+        // dev_sorted_conv_layer_indexes_.Resize(num_images, conv_layer_nboxes);
+        // dev_sorted_scores_.Resize(num_images, conv_layer_nboxes);
+
+        const float *d_in_scores = scores;
+        int *d_sorted_conv_layer_indexes = dev_sorted_conv_layer_indexes_;
+        float *d_sorted_scores = dev_sorted_scores_;;
         cub::DeviceSegmentedRadixSort::SortPairsDescending(
                 d_cub_sort_temp_storage,
                 cub_sort_temp_storage_bytes,
@@ -711,73 +712,71 @@ namespace nvinfer1{
         const int nboxes_to_generate = std::min(conv_layer_nboxes, rpn_pre_nms_topN_);
 
         // Generating the boxes associated to the topN pre_nms scores
-        dev_boxes_.Resize(num_images, box_dim * nboxes_to_generate);
-        dev_boxes_keep_flags_.Resize(num_images, nboxes_to_generate);
-        const float* d_bbox_deltas = bbox_deltas.data<float>();
-        const float* d_anchors = anchors.data<float>();
-        const float* d_im_info_vec = im_info_tensor.data<float>();
-        float* d_boxes = dev_boxes_.template mutable_data<float>();
-        ;
-        char* d_boxes_keep_flags =
-                dev_boxes_keep_flags_.template mutable_data<char>();
+        //dev_boxes_.Resize(num_images, box_dim * nboxes_to_generate);
+        //dev_boxes_keep_flags_.Resize(num_images, nboxes_to_generate);
 
-        GeneratePreNMSUprightBoxesKernel<<< (CAFFE_GET_BLOCKS(nboxes_to_generate), num_images),
+        const Dtype *d_bbox_deltas = bbox_deltas;//float
+        const Dtype *d_anchors = anchors;//float
+        const Dtype *d_im_info_vec = im_info_tensor;//float
+        float *d_boxes = dev_boxes_;//float
+
+        char *d_boxes_keep_flags = dev_boxes_keep_flags_;//char
+
+        GeneratePreNMSUprightBoxesKernel << < (CAFFE_GET_BLOCKS(nboxes_to_generate), num_images),
                 CAFFE_CUDA_NUM_THREADS, // blockDim.y == 1
                 0,
-                stream>>>(  d_sorted_conv_layer_indexes,
-                            nboxes_to_generate,
-                            d_bbox_deltas,
-                            reinterpret_cast<const float4*>(d_anchors),
-                            H,
-                            W,
-                            A,
-                            feat_stride_,
-                            rpn_min_size_,
-                            d_im_info_vec,
-                            num_images,
-                            utils::BBOX_XFORM_CLIP_DEFAULT,
-                            reinterpret_cast<float4*>(d_boxes),
-                            nboxes_to_generate,
-                            d_sorted_scores,
-                            d_boxes_keep_flags);
+                stream >> > (d_sorted_conv_layer_indexes,
+                        nboxes_to_generate,
+                        d_bbox_deltas,
+                        reinterpret_cast<const float4 *>(d_anchors),
+                        H,
+                        W,
+                        A,
+                        feat_stride_,
+                        rpn_min_size_,
+                        d_im_info_vec,
+                        num_images,
+                        utils::BBOX_XFORM_CLIP_DEFAULT,
+                        reinterpret_cast<float4 *>(d_boxes),
+                        nboxes_to_generate,
+                        d_sorted_scores,
+                        d_boxes_keep_flags);
 
         const int nboxes_generated = nboxes_to_generate;
 
-        float* d_image_prenms_boxes  = dev_image_prenms_boxes_.template mutable_data<float>();
-        float* d_image_prenms_scores = dev_image_prenms_scores_.template mutable_data<float>();
-        int* d_image_boxes_keep_list = dev_image_boxes_keep_list_.template mutable_data<int>();
+        Dtype *d_image_prenms_boxes = dev_image_prenms_boxes_.template mutable_data<float>();
+        Dtype *d_image_prenms_scores = dev_image_prenms_scores_.template mutable_data<float>();
+        int *d_image_boxes_keep_list = dev_image_boxes_keep_list_.template mutable_data<int>();
 
-        dev_image_prenms_boxes_.Resize(box_dim * nboxes_generated);
-        dev_image_prenms_scores_.Resize(nboxes_generated);
-        dev_image_boxes_keep_list_.Resize(nboxes_generated);
+        //dev_image_prenms_boxes_.Resize(box_dim * nboxes_generated);
+        //dev_image_prenms_scores_.Resize(nboxes_generated);
+        //dev_image_boxes_keep_list_.Resize(nboxes_generated);
 
         const int roi_cols = box_dim + 1;
         const int max_postnms_nboxes = std::min(nboxes_generated, rpn_post_nms_topN_);
 
-        dev_postnms_rois_.Resize(roi_cols * num_images * max_postnms_nboxes);
-        dev_postnms_rois_probs_.Resize(num_images * max_postnms_nboxes);
+        //dev_postnms_rois_.Resize(roi_cols * num_images * max_postnms_nboxes);
+        //dev_postnms_rois_probs_.Resize(num_images * max_postnms_nboxes);
 
-        float* d_postnms_rois = dev_postnms_rois_.template mutable_data<float>();
-        float* d_postnms_rois_probs =
-                dev_postnms_rois_probs_.template mutable_data<float>();
+        float *d_postnms_rois = dev_postnms_rois_;//float
+        float *d_postnms_rois_probs = dev_postnms_rois_probs_;//float
 
-        dev_prenms_nboxes_.Resize(num_images);
-        host_prenms_nboxes_.Resize(num_images);
+        //dev_prenms_nboxes_.Resize(num_images);
+        //host_prenms_nboxes_.Resize(num_images);
 
-        int* d_prenms_nboxes = dev_prenms_nboxes_.template mutable_data<int>();
-        int* h_prenms_nboxes = host_prenms_nboxes_.template mutable_data<int>();
+        int *d_prenms_nboxes = dev_prenms_nboxes_;//int
+        int *h_prenms_nboxes = host_prenms_nboxes_;//int
 
         int nrois_in_output = 0;
         for (int image_index = 0; image_index < num_images; ++image_index) {
             // Sub matrices for current image
-            const float* d_image_boxes =
-                    &d_boxes[image_index * nboxes_generated * box_dim];
-            const float* d_image_sorted_scores = &d_sorted_scores[image_index * K * A];
-            char* d_image_boxes_keep_flags =
+            const float *d_image_boxes = &d_boxes[image_index * nboxes_generated * box_dim];
+            const float *d_image_sorted_scores = &d_sorted_scores[image_index * K * A];
+            char *d_image_boxes_keep_flags =
                     &d_boxes_keep_flags[image_index * nboxes_generated];
 
-            float* d_image_postnms_rois = &d_postnms_rois[roi_cols * nrois_in_output];
-            float* d_image_postnms_rois_probs = &d_postnms_rois_probs[nrois_in_output];
+            float *d_image_postnms_rois = &d_postnms_rois[roi_cols * nrois_in_output];
+            float *d_image_postnms_rois_probs = &d_postnms_rois_probs[nrois_in_output];
 
             // Moving valid boxes (ie the ones with d_boxes_keep_flags[ibox] == true)
             // to the output tensors
@@ -785,9 +784,9 @@ namespace nvinfer1{
             cub::DeviceSelect::Flagged(
                     d_cub_select_temp_storage,
                     cub_select_temp_storage_bytes,
-                    reinterpret_cast<const float4*>(d_image_boxes),
+                    reinterpret_cast<const float4 *>(d_image_boxes),
                     d_image_boxes_keep_flags,
-                    reinterpret_cast<float4*>(d_image_prenms_boxes),
+                    reinterpret_cast<float4 *>(d_image_prenms_boxes),
                     d_prenms_nboxes,
                     nboxes_generated,
                     stream);
@@ -800,23 +799,22 @@ namespace nvinfer1{
                     d_prenms_nboxes,
                     nboxes_generated,
                     stream);
-
-            host_prenms_nboxes_.CopyFrom(dev_prenms_nboxes_);
+            //////////////////////////// TODO
+            //host_prenms_nboxes_.CopyFrom(dev_prenms_nboxes_);
 
             // We know prenms_boxes <= topN_prenms, because nboxes_generated <=
             // topN_prenms. Calling NMS on the generated boxes
             const int prenms_nboxes = *h_prenms_nboxes;
             int nkeep;
-            utils::nms_gpu( d_image_prenms_boxes,
-                            prenms_nboxes,
-                            rpn_nms_thresh_,
-                            d_image_boxes_keep_list,
-                            &nkeep,
-                            dev_nms_mask_,
-                            host_nms_mask_,
-                            &context_,
-                            box_dim);
-            }
+            utils::nms_gpu(d_image_prenms_boxes,
+                           prenms_nboxes,
+                           rpn_nms_thresh_,
+                           d_image_boxes_keep_list,
+                           &nkeep,
+                           dev_nms_mask_,
+                           host_nms_mask_,
+                    //&context_, TODO
+                           box_dim);
             // All operations done after previous sort were keeping the relative order
             // of the elements the elements are still sorted keep topN <=> truncate the
             // array
@@ -824,28 +822,25 @@ namespace nvinfer1{
 
             // Moving the out boxes to the output tensors,
             // adding the image_index dimension on the fly
-            WriteUprightBoxesOutput<<<
-            CAFFE_GET_BLOCKS(postnms_nboxes),
-                    CAFFE_CUDA_NUM_THREADS,
-                    0,
-                    stream>>>(
-                            reinterpret_cast<const float4*>(d_image_prenms_boxes),
-                                    d_image_prenms_scores,
-                                    d_image_boxes_keep_list,
-                                    postnms_nboxes,
-                                    image_index,
-                                    d_image_postnms_rois,
-                                    d_image_postnms_rois_probs);
+            WriteUprightBoxesOutput << < CAFFE_GET_BLOCKS(postnms_nboxes), CAFFE_CUDA_NUM_THREADS,
+                    0, stream >> > (
+                    reinterpret_cast<const float4 *>(d_image_prenms_boxes),
+                            d_image_prenms_scores,
+                            d_image_boxes_keep_list,
+                            postnms_nboxes,
+                            image_index,
+                            d_image_postnms_rois,
+                            d_image_postnms_rois_probs);
 
 
             nrois_in_output += postnms_nboxes;
-        
 
+        }
         // Using a buffer because we cannot call ShrinkTo
-        out_rois->Resize(nrois_in_output, roi_cols);
-        out_rois_probs->Resize(nrois_in_output);
-        float* d_out_rois = out_rois->template mutable_data<float>();
-        float* d_out_rois_probs = out_rois_probs->template mutable_data<float>();
+        //out_rois->Resize(      nrois_in_output, roi_cols);
+        //out_rois_probs->Resize(nrois_in_output);
+        Dtype* d_out_rois = out_rois;//->template mutable_data<float>();
+        Dtype* d_out_rois_probs = out_rois_probs;//->template mutable_data<float>();
 
         CUDA_CHECK(cudaMemcpyAsync( d_out_rois,
                                     d_postnms_rois,

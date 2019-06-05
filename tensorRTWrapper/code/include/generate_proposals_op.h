@@ -8,8 +8,6 @@
 
 C10_DECLARE_CAFFE2_OPERATOR(GenerateProposals);
 
-namespace caffe2 {
-
 namespace utils {
 
 // A sub tensor view
@@ -169,7 +167,4 @@ class GenerateProposalsOp final : public Operator<Context> {
   Tensor dev_postnms_rois_{Context::GetDeviceType()};
   Tensor dev_postnms_rois_probs_{Context::GetDeviceType()};
 };
-
-} // namespace caffe2
-
 #endif // CAFFE2_OPERATORS_GENERATE_PROPOSALS_OP_H_

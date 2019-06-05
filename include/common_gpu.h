@@ -13,6 +13,11 @@
 
 // CUDA: various checks for different function calls.
 
+const int pooled_width=14;
+const int pooled_height=14;
+const float spatial_scale[4]={0.25f, 0.125f, 0.0625f, 0.03125f}; // ==1/4, 1/8, 1/16, 1/32
+
+
 #define CUDA_1D_KERNEL_LOOP(i, n)                                 \
   for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); \
        i += blockDim.x * gridDim.x)
@@ -28,8 +33,21 @@
     cudaError_t error = condition;                            \
     CHECK(error == cudaSuccess) << cudaGetErrorString(error); \
 }
+
+#define CHECK(condition)                                 \
+{                                                             \
+    cudaError_t error = condition;                            \
+    CHECK(error == cudaSuccess) << cudaGetErrorString(error); \
+}
 // 1D grid
 const int CAFFE_CUDA_NUM_THREADS = 128;
+
+#define CUDA_NUM_THREADS 512
+// CUDA: number of blocks for threads.
+inline int GET_BLOCKS_COUNT_IN_GRID(const int N) {
+    return (N + CUDA_NUM_THREADS - 1) / CUDA_NUM_THREADS;
+}
+
 // 2D grid
 const int CAFFE_CUDA_NUM_THREADS_2D_DIMX = 16;
 const int CAFFE_CUDA_NUM_THREADS_2D_DIMY = 16;
