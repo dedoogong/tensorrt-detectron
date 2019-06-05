@@ -16,7 +16,7 @@
 const int pooled_width=14;
 const int pooled_height=14;
 const float spatial_scale[4]={0.25f, 0.125f, 0.0625f, 0.03125f}; // ==1/4, 1/8, 1/16, 1/32
-
+const int rois_count=1000;
 
 #define CUDA_1D_KERNEL_LOOP(i, n)                                 \
   for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); \
