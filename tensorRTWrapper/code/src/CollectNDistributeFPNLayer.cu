@@ -267,7 +267,7 @@ namespace nvinfer1 {
 		  bottom: "anchor2"
 		  top: "rpn_rois_fpn2"
 		  top: "rpn_roi_probs_fpn2
-		*/
+		
 		vector<int> top_shape_rois;
 		vector<int> top_shape_roi_fpn_2;
 		vector<int> top_shape_roi_fpn_3;
@@ -299,11 +299,12 @@ namespace nvinfer1 {
 		top[3]->Reshape(top_shape_roi_fpn_4);//(num_roi_4, x1, y1, x2, y2) RPN proposals for ROI level 4, "
 		top[4]->Reshape(top_shape_roi_fpn_5);//(num_roi_5, x1, y1, x2, y2) RPN proposals for ROI level 5, "
 		top[5]->Reshape(top_shape_roi_index);//(num_roi_2+num_roi_3+num_roi_4+num_roi_5) Permutation on the concatenation of all
+		*/
 		mScoreC = inputs[0].d[0];
 		mScoreH = inputs[0].d[1];
 		mScoreW = inputs[0].d[2];
 
-		return index == 0 ? DimsCHW(300, 5) : DimsCHW(300, 1);
+		return index == 0 ? DimsCHW(1000, 4) : DimsCHW(inputs[1].d[0], 4) : DimsCHW(1000, 4) : DimsCHW(300, 1);
 	}
 
 
