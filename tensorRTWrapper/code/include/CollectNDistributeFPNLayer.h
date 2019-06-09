@@ -36,7 +36,15 @@ namespace nvinfer1
         explicit CollectNDistributeFPNLayerPlugin(const int cudaThread = 512);
         CollectNDistributeFPNLayerPlugin(const void* data, size_t length);
 
-        ~CollectNDistributeFPNLayerPlugin();
+		~CollectNDistributeFPNLayerPlugin() {
+		
+			if (mInputBuffer)
+				CUDA_CHECK(cudaFreeHost(mInputBuffer));
+
+			if (mOutputBuffer)
+				CUDA_CHECK(cudaFreeHost(mOutputBuffer));
+		
+		};
 
         int getNbOutputs() const override
         {
@@ -62,17 +70,35 @@ namespace nvinfer1
         virtual size_t getSerializationSize() override;
 
         virtual void serialize(void* buffer) override;
-
-        void forwardGpu(const float *const * inputs,float * output, cudaStream_t stream);
-
-        void forwardCpu(const float *const * inputs,float * output, cudaStream_t stream);
+		template <typename Dtype>
+		void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
 
     private:
-        int mClassCount;
-        int mKernelCount;
-        std::vector<CollectNDistributeFPN::CollectNDistributeFPNKernel> mCollectNDistributeFPNKernel;
-        int mThreadCount;
 
+		DataType mDataType{ DataType::kFLOAT };
+
+		int roiCountPerFPN_ = 250;
+		int rpn_min_level_ = 2;
+		int rpn_max_level_ = 6;
+
+		int rpn_post_nms_topN_ = 1000;
+
+		int roi_min_level_ = 2;
+		int roi_max_level_ = 5;
+
+		int roi_canonical_level_ = 4
+		int	roi_canonical_scale_ = 224;
+
+		int m_rpn_rois_fpnH[5];
+		int m_rpn_rois_fpnW[5];
+
+		int m_rpn_rois_probs_fpn_H[5];
+		int m_rpn_rois_probs_fpn_W[5];
+
+		int m_inputTotalCount = 0;
+		int m_ouputTotalCount = 0;
+		int m_proposal_num;
+		DataType mDataType{DataType::kFLOAT};
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};

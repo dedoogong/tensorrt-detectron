@@ -349,7 +349,7 @@ int RoIAlignLayerPlugin::enqueue(int batchSize,
 	assert(batchSize == 1);
 	switch (mDataType)
 	{
-	    //bottom: "fpn_resXf_sum"  <- Featuremap from Conv
+	    //  bottom: "fpn_resXf_sum"  <- Featuremap from Conv
         //  bottom: "rois_fpnX"    <- RoIs
 
 	case DataType::kFLOAT:

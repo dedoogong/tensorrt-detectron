@@ -72,7 +72,6 @@ namespace nvinfer1
             CUDA_CHECK(cudaHostAlloc(&mInputBuffer,
                                      totalCount * sizeof(float),
                                      cudaHostAllocDefault));
-
             totalCount = 0;//detection count
             for(const auto& yolo : mYoloKernel)
                 totalCount += yolo.width*yolo.height * CHECK_COUNT;
@@ -81,8 +80,7 @@ namespace nvinfer1
                                      totalCount * sizeof(Detection),
                                      cudaHostAllocDefault));
             return 0;
-    }
-    
+    }    
     Dims YoloLayerPlugin::getOutputDimensions(int index,
                                               const Dims* inputs, int nbInputDims)
     {
@@ -95,19 +93,14 @@ namespace nvinfer1
 
         return Dims3(totalCount + 1, 1, 1);
     }
-
     void YoloLayerPlugin::forwardCpu(const float*const * inputs, float* outputs,
-                                     cudaStream_t stream)
-    {
+                                     cudaStream_t stream) {
             auto Logist = [=](float data){
-                return 1./(1. + exp(-data));
-            };
-
+                return 1./(1. + exp(-data));};
             CUDA_CHECK(cudaStreamSynchronize(stream));
             int i = 0;
             float* inputData = (float *)mInputBuffer; 
-            for(const auto& yolo : mYoloKernel)
-            {
+            for(const auto& yolo : mYoloKernel){
                 int size = (LOCATIONS + 1 + mClassCount)*
                             yolo.width*yolo.height * CHECK_COUNT;
                 CUDA_CHECK(cudaMemcpyAsync(inputData,
