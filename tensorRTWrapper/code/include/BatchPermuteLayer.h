@@ -73,6 +73,8 @@ namespace nvinfer1
         std::vector<BatchPermute::BatchPermuteKernel> mBatchPermuteKernel;
         int mThreadCount;
 
+		int m_inputTotalCount = 0;
+		int m_ouputTotalCount = 0;
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};
