@@ -1,9 +1,7 @@
 //#include "CollectNDistributeFpnConfigs.h"
-#include "CollectNDistributeFpnLayer.h"
+#include "CollectNDistributeFPNLayer.h"
 #include <cub/cub/cub.cuh>
-#include "generate_proposals_op_util_nms_gpu.h"
 #include "common_gpu.h"
-#include "Utils.h" 
 #include <algorithm>
 #include <cfloat>
 #include <vector>
@@ -13,7 +11,6 @@ using std::max;
 using std::min;
 using std::floor;
 using std::ceil;
-using namespace CollectNDistributeFpn;
 
 namespace utils {
 
@@ -133,12 +130,13 @@ namespace utils {
 //CUDA_2D_KERNEL_LOOP(box_idx, KA, img_idx, num_images) {
 
 namespace nvinfer1 {
+
 	CollectNDistributeFpnLayerPlugin::CollectNDistributeFpnLayerPlugin(const int cudaThread /*= 512*/) :
 		mThreadCount(cudaThread) {
-		/*mClassCount = CLASS_NUM;
-		mCollectNDistributeFpnKernel.clear();
-		mCollectNDistributeFpnKernel.push_back(yolo1);
-		mKernelCount = mCollectNDistributeFpnKernel.size();*/
+		mClassCount = CLASS_NUM;
+        /*mCollectNDistributeFpnKernel.clear();
+        mCollectNDistributeFpnKernel.push_back(yolo1);
+        mKernelCount = mCollectNDistributeFpnKernel.size();*/
 	}
 	CollectNDistributeFpnLayerPlugin::~CollectNDistributeFpnLayerPlugin() {
 		if (mInputBuffer)
@@ -148,17 +146,17 @@ namespace nvinfer1 {
 	}
 	// create the plugin at runtime from a byte stream
 	CollectNDistributeFpnLayerPlugin::CollectNDistributeFpnLayerPlugin(const void* data, size_t length) {
-		/*
+
 		using namespace Tn;
 		const char* d = reinterpret_cast<const char*>(data), * a = d;
 		read(d, mThreadCount);
-		mCollectNDistributeFpnKernel.resize(mKernelCount);
-		auto kernelSize = mKernelCount*sizeof(CollectNDistributeFpnKernel);
-		memcpy(mCollectNDistributeFpnKernel.data(),d,kernelSize);
-		d += kernelSize;
+        /*mCollectNDistributeFpnKernel.resize(mKernelCount);
+        auto kernelSize = mKernelCount*sizeof(CollectNDistributeFpnKernel);
+        memcpy(mCollectNDistributeFpnKernel.data(),d,kernelSize);
+        d += kernelSize;
 
-		assert(d == a + length);
-		*/
+        assert(d == a + length);
+        */
 	}
 
 	void CollectNDistributeFpnLayerPlugin::serialize(void* buffer)
@@ -166,9 +164,9 @@ namespace nvinfer1 {
 		using namespace Tn;
 		char* d = static_cast<char*>(buffer), * a = d;
 		write(d, mThreadCount);
-		//auto kernelSize = mKernelCount*sizeof(CollectNDistributeFpnKernel);
-		//memcpy(d,mCollectNDistributeFpnKernel.data(),kernelSize);
-		//d += kernelSize; 
+		auto kernelSize = mKernelCount*sizeof(CollectNDistributeFpnKernel);
+		memcpy(d,mCollectNDistributeFpnKernel.data(),kernelSize);
+		d += kernelSize;
 		assert(d == a + getSerializationSize());
 	}
 

@@ -13,20 +13,6 @@
 #include "Utils.h"
 #include <iostream>
 
-namespace BoxTransform
-{
-    struct BoxTransformKernel;
-
-    static constexpr int LOCATIONS = 4;
-    struct Detection{
-        //x y w h
-        float bbox[LOCATIONS];
-        //float objectness;
-        int classId;
-        float prob;
-    };
-}
-
 
 namespace nvinfer1
 {
@@ -49,30 +35,39 @@ namespace nvinfer1
             return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
         }
 
-        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
+        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs,
+                                 DataType type, PluginFormat format, int maxBatchSize) override {};
 
+        template <typename Dtype>
         int initialize() override;
 
         virtual void terminate() override {};
 
         virtual size_t getWorkspaceSize(int maxBatchSize) const override { return 0;}
 
-        virtual int enqueue(int batchSize, const void*const * inputs, void** outputs, void* workspace, cudaStream_t stream) override;
+        virtual int enqueue(int batchSize,   const void*const * inputs, void** outputs,
+                            void* workspace, cudaStream_t stream) override;
 
         virtual size_t getSerializationSize() override;
 
         virtual void serialize(void* buffer) override;
 
-        void forwardGpu(const float *const * inputs,float * output, cudaStream_t stream);
-
-        void forwardCpu(const float *const * inputs,float * output, cudaStream_t stream);
+        template <typename Dtype>
+        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
 
     private:
-        int mClassCount;
-        int mKernelCount;
-        std::vector<BoxTransform::BoxTransformKernel> mBoxTransformKernel;
         int mThreadCount;
 
+        DataType mDataType{ DataType::kFLOAT };
+        float weights_1_= 10.0;
+        float weights_2_= 10.0;
+        float weights_3_= 5.0;
+        float weights_4_= 5.0;
+        int correct_transform_coords_= 1;
+        int apply_scale_= 0;
+
+        int m_inputTotalCount = 0;
+        int m_ouputTotalCount = 0;
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};

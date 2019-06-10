@@ -48,24 +48,13 @@ namespace Tn
                 return strcmp(layerName,"yolo-det") == 0;
             }
 			*/
-			inline bool isGenerateProposal1(const char* layerName) {
-				return strcmp(layerName, "rpn_roi_probs_fpn2") == 0;
-			}
+			inline bool isGenerateProposal(const char* layerName) {
+			    if ((strcmp(layerName, "rpn_roi_probs_fpn2") == 0)||(strcmp(layerName, "rpn_roi_probs_fpn3") == 0)||
+                (strcmp(layerName, "rpn_roi_probs_fpn4") == 0)||
+                (strcmp(layerName, "rpn_roi_probs_fpn5") == 0)||
+                (strcmp(layerName, "rpn_roi_probs_fpn6") == 0)){return true;}
+                else{return false;}
 
-			inline bool isGenerateProposal2(const char* layerName) {
-				return strcmp(layerName, "rpn_roi_probs_fpn3") == 0;
-			}
-
-			inline bool isGenerateProposal3(const char* layerName) {
-				return strcmp(layerName, "rpn_roi_probs_fpn4") == 0;
-			}
-
-			inline bool isGenerateProposal4(const char* layerName) {
-				return strcmp(layerName, "rpn_roi_probs_fpn5") == 0;
-			}
-
-			inline bool isGenerateProposal5(const char* layerName) {
-				return strcmp(layerName, "rpn_roi_probs_fpn6") == 0;
 			}
 			/*
 					spatial_scale: 1/4 1/8 1/16 1/32 1/64
@@ -79,18 +68,12 @@ namespace Tn
 			}
 			
             //roi_feat_fpn2 ps roi align??
-            inline bool isRoIAlign1(const char* layerName){
-				return strcmp(layerName, "roi_feat_fpn2") == 0;                
+            inline bool isRoIAlign(const char* layerName){
+                if ((strcmp(layerName, "roi_feat_fpn2") == 0)||(strcmp(layerName, "roi_feat_fpn3") == 0)||
+                    (strcmp(layerName, "roi_feat_fpn4") == 0)||(strcmp(layerName, "roi_feat_fpn5") == 0)){return true;}
+                else{return false;}
+
             }
-			inline bool isRoIAlign2(const char* layerName) {
-				return strcmp(layerName, "roi_feat_fpn3") == 0;
-			}
-			inline bool isRoIAlign3(const char* layerName) {
-				return strcmp(layerName, "roi_feat_fpn4") == 0;
-			}
-			inline bool isRoIAlign4(const char* layerName) {
-				return strcmp(layerName, "roi_feat_fpn5") == 0;
-			}
 			/*  sampling_ratio: 2
 					pooled_w: 7
 					pooled_h: 7
@@ -120,59 +103,22 @@ namespace Tn
                     mPluginUpsample.emplace_back(std::unique_ptr<UpsampleLayerPlugin>(new UpsampleLayerPlugin(UPSAMPLE_SCALE,CUDA_THREAD_NUM)));
                     return mPluginUpsample.back().get();
                 }  */
-                if (isGenerateProposal1(layerName)){ 
+                if (isGenerateProposal(layerName)){
                     assert(nbWeights == 0 && weights == nullptr);
-                    mPluginGenerateProposal1.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))  );
-                    return mPluginGenerateProposal1.back().get();
+                    mPluginGenerateProposal.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))  );
+                    return mPluginGenerateProposal.back().get();
                 }
-				else if (isGenerateProposal2(layerName)) { 
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginGenerateProposal2.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginGenerateProposal2.back().get();
-				}
-				else if (isGenerateProposal3(layerName)) { 
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginGenerateProposal3.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginGenerateProposal3.back().get();
-				}
-				else if (isGenerateProposal4(layerName)) { 
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginGenerateProposal4.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginGenerateProposal4.back().get();
-				}
-				else if (isGenerateProposal5(layerName)) { 
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginGenerateProposal5.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginGenerateProposal5.back().get();
-				}
-
-                else if (isRoIAlign1(layerName)){ 
+                else if (isRoIAlign(layerName)){
                     assert(nbWeights == 0 && weights == nullptr);
-                    mPluginRoIAlign1.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))  ));
-                    return mPluginRoIAlign1.back().get();
+                    mPluginRoIAlign.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))  ));
+                    return mPluginRoIAlign.back().get();
                 }
-				else if (isRoIAlign2(layerName)) {
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginRoIAlign2.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginRoIAlign2.back().get();
-				}
-				else if (isRoIAlign3(layerName)) {
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginRoIAlign3.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginRoIAlign3.back().get();
-				}
-				else if (isRoIAlign4(layerName)) {
-					assert(nbWeights == 0 && weights == nullptr);
-					mPluginRoIAlign4.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))));
-					return mPluginRoIAlign4.back().get();
-				}
-
                 else if (isBatchPermute(layerName)){
                     assert(nbWeights == 0 && weights == nullptr && mPluginBatchPermute .get() ==  nullptr);
-                    mPluginBatchPermute .reset(new BatchPermuteLayerPlugin(CUDA_THREAD_NUM));
+                    mPluginBatchPermute.reset(new BatchPermuteLayerPlugin(CUDA_THREAD_NUM));
                     return mPluginBatchPermute .get();
                 }
-                else if (isCollectNDistributeFPN(layerName)){
+                else if (isCollectAndDistributeFpnRpnProposals(layerName)){
                     assert(nbWeights == 0 && weights == nullptr && mPluginCollectNDistributeFPN.get() ==  nullptr);
                     mPluginCollectNDistributeFPN.reset(new CollectNDistributeFPNLayerPlugin(CUDA_THREAD_NUM));
                     return mPluginCollectNDistributeFPN.get();
@@ -206,58 +152,37 @@ namespace Tn
                 assert(mPluginYolo.get() ==  nullptr);
                 mPluginYolo.reset(new YoloLayerPlugin(serialData, serialLength));
                 return mPluginYolo.get();}*/
-            if (isGenerateProposal1(layerName)){ 
+
+            if (isGenerateProposal(layerName)){
                 assert(nbWeights == 0 && weights == nullptr);
-                mPluginGenerateProposal1.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))  );
-                return mPluginGenerateProposal1.back().get();}
-			else if (isGenerateProposal2(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginGenerateProposal2.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM)));
-				return mPluginGenerateProposal2.back().get();}
-			else if (isGenerateProposal3(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginGenerateProposal3.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM)));
-				return mPluginGenerateProposal3.back().get();}
-			else if (isGenerateProposal4(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginGenerateProposal4.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM)));
-				return mPluginGenerateProposal4.back().get();}
-			else if (isGenerateProposal5(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginGenerateProposal5.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM)));
-				return mPluginGenerateProposal5.back().get();}
-            else if (isRoIAlign1(layerName)){ 
+                mPluginGenerateProposal.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))  );
+                return mPluginGenerateProposal.back().get();}
+
+            else if (isRoIAlign(layerName)){
                 assert(nbWeights == 0 && weights == nullptr);
-                mPluginRoIAlign1.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))  ));
-                return mPluginRoIAlign1.back().get();}
-			else if (isRoIAlign2(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginRoIAlign2.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))));
-				return mPluginRoIAlign2.back().get();}
-			else if (isRoIAlign3(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginRoIAlign3.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))));
-				return mPluginRoIAlign3.back().get();}
-			else if (isRoIAlign4(layerName)) {
-				assert(nbWeights == 0 && weights == nullptr);
-				mPluginRoIAlign4.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))));
-				return mPluginRoIAlign4.back().get();}
+                mPluginRoIAlign.emplace_back(std::unique_ptr<RoIAlignLayerPlugin>(new RoIAlignLayerPlugin(CUDA_THREAD_NUM))  ));
+                return mPluginRoIAlign.back().get();}
+
             else if (isBatchPermute(layerName)){
                 assert(nbWeights == 0 && weights == nullptr && mPluginBatchPermute .get() ==  nullptr);
-                mPluginBatchPermute .reset(new BatchPermuteLayerPlugin(CUDA_THREAD_NUM));
+                mPluginBatchPermute.reset(new BatchPermuteLayerPlugin(CUDA_THREAD_NUM));
                 return mPluginBatchPermute .get();}
-            else if (isCollectNDistributeFPN(layerName)){
+
+            else if (isCollectAndDistributeFpnRpnProposals(layerName)){
                 assert(nbWeights == 0 && weights == nullptr && mPluginCollectNDistributeFPN.get() ==  nullptr);
                 mPluginCollectNDistributeFPN.reset(new CollectNDistributeFPNLayerPlugin(CUDA_THREAD_NUM));
                 return mPluginCollectNDistributeFPN.get();}
+
             else if (isBoxTransform(layerName)){
                 assert(nbWeights == 0 && weights == nullptr && mPluginBoxTransform.get() ==  nullptr);
                 mPluginBoxTransform.reset(new BoxTransformLayerPlugin(CUDA_THREAD_NUM));
                 return mPluginBoxTransform.get();}
+
             else if (isBoxNMS(layerName)){
                 assert(nbWeights == 0 && weights == nullptr && mPluginBoxWithNMSLimit.get() ==  nullptr);
                 mPluginBoxWithNMSLimit.reset(new BoxWithNMSLimitLayerPlugin(CUDA_THREAD_NUM));
                 return mPluginBoxWithNMSLimit.get();}
+
             else{assert(0); return nullptr;}
         }
 
@@ -265,38 +190,15 @@ namespace Tn
 
         bool isPluginExt(const char* name) override{
             //std::cout << "check plugin " << name  << isYolo(name)<< std::endl;
-            return isGenerateProposal1(name) || 
-				isGenerateProposal2(name) || 
-				isGenerateProposal3(name) || 
-				isGenerateProposal4(name) || 
-				isGenerateProposal5(name) || 
-				isRoIAlign1(name) || 
-				isRoIAlign2(name) || 
-				isRoIAlign3(name) || 
-				isRoIAlign4(name) || 
-				isBatchPermute(name) || isCollectNDistributeFPN(name) || isBoxTransform(name) || isBoxNMS(name);}
+            return isGenerateProposal(name) || isRoIAlign(name) || isBatchPermute(name) || isCollectNDistributeFPN(name) || isBoxTransform(name) || isBoxNMS(name);}
 
         // The application has to destroy the plugin when it knows it's safe to do so.
         void destroyPlugin(){
-            for (auto& item : mPluginGenerateProposal1)
+            for (auto& item : mPluginGenerateProposal)
                 item.reset();
-			for (auto& item : mPluginGenerateProposal2)
-				item.reset();
-			for (auto& item : mPluginGenerateProposal3)
-				item.reset();
-			for (auto& item : mPluginGenerateProposal4)
-				item.reset();
-			for (auto& item : mPluginGenerateProposal5)
-				item.reset();
 
-            for (auto& item : mPluginRoIAlign1)
+            for (auto& item : mPluginRoIAlign)
                 item.reset();
-			for (auto& item : mPluginRoIAlign2)
-				item.reset();
-			for (auto& item : mPluginRoIAlign3)
-				item.reset();
-			for (auto& item : mPluginRoIAlign4)
-				item.reset();
 			
             mPluginCollectNDistributeFPN.reset();
 
@@ -307,16 +209,8 @@ namespace Tn
 			//mPluginYolo.reset();
         }
         void (*nvPluginDeleter)(INvPlugin*){[](INvPlugin* ptr) { if(ptr) ptr->destroy(); }};        
-        std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal1{};
-		std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal2{};
-		std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal3{};
-		std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal4{};
-		std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal5{};
-        std::vector<std::unique_ptr<RoIAlignLayerPlugin>>         mPluginRoIAlign1{};
-		std::vector<std::unique_ptr<RoIAlignLayerPlugin>>         mPluginRoIAlign2{};
-		std::vector<std::unique_ptr<RoIAlignLayerPlugin>>         mPluginRoIAlign3{};
-		std::vector<std::unique_ptr<RoIAlignLayerPlugin>>         mPluginRoIAlign4{};
-
+        std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal{};
+        std::vector<std::unique_ptr<RoIAlignLayerPlugin>>         mPluginRoIAlign{};
 		std::unique_ptr<CollectNDistributeFPNLayerPlugin> mPluginCollectNDistributeFPN{ nullptr };
 
         std::unique_ptr<BatchPermuteLayerPlugin>          mPluginBatchPermute {nullptr};

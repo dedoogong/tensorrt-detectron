@@ -13,20 +13,6 @@
 #include "Utils.h"
 #include <iostream>
 
-namespace CollectNDistributeFPN
-{
-    struct CollectNDistributeFPNKernel;
-
-    static constexpr int LOCATIONS = 4;
-    struct Detection{
-        //x y w h
-        float bbox[LOCATIONS];
-        //float objectness;
-        int classId;
-        float prob;
-    };
-}
-
 
 namespace nvinfer1
 {
@@ -34,6 +20,7 @@ namespace nvinfer1
     {
     public:
         explicit CollectNDistributeFPNLayerPlugin(const int cudaThread = 512);
+
         CollectNDistributeFPNLayerPlugin(const void* data, size_t length);
 
 		~CollectNDistributeFPNLayerPlugin() {
@@ -46,9 +33,8 @@ namespace nvinfer1
 		
 		};
 
-        int getNbOutputs() const override
-        {
-            return 1;
+        int getNbOutputs() const override {
+            return 6;
         }
 
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
@@ -57,7 +43,8 @@ namespace nvinfer1
             return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
         }
 
-        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
+        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims,
+                                 int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
 
         int initialize() override;
 
@@ -65,11 +52,13 @@ namespace nvinfer1
 
         virtual size_t getWorkspaceSize(int maxBatchSize) const override { return 0;}
 
-        virtual int enqueue(int batchSize, const void*const * inputs, void** outputs, void* workspace, cudaStream_t stream) override;
+        virtual int enqueue(int batchSize, const void*const * inputs, void** outputs,
+                            void* workspace, cudaStream_t stream) override;
 
         virtual size_t getSerializationSize() override;
 
         virtual void serialize(void* buffer) override;
+
 		template <typename Dtype>
 		void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
 
@@ -98,7 +87,7 @@ namespace nvinfer1
 		int m_inputTotalCount = 0;
 		int m_ouputTotalCount = 0;
 		int m_proposal_num;
-		DataType mDataType{DataType::kFLOAT};
+
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};

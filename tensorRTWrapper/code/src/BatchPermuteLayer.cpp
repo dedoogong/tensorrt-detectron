@@ -1,11 +1,12 @@
 //#include "BatchPermutationConfigs.h"
-#include "BatchPermutationLayer.h"
+#include "BatchPermuteLayer.h"
 #include <cub/cub/cub.cuh> 
 #include "common_gpu.h"
 #include "Utils.h"
 #include <algorithm>
 #include <cfloat>
-#include <vector> 
+#include <vector>
+
 using std::max;
 using std::min;
 using std::floor;
@@ -130,8 +131,7 @@ namespace nvinfer1{
 			std::memcpy(dst + i * C * H * W, src + idx * C * H * W, sizeof(float) * C * H * W);
 		}  
         
-		CUDA_CHECK(cudaMemcpyAsync(roi_feat, dst, m_ouputTotalCount * sizeof(float),
-				cudaMemcpyDeviceToHost, stream));
+		CUDA_CHECK(cudaMemcpyAsync(roi_feat, dst, m_ouputTotalCount * sizeof(float), cudaMemcpyDeviceToHost, stream));
 
     }
 

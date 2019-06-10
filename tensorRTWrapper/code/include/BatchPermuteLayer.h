@@ -63,15 +63,15 @@ namespace nvinfer1
 
         virtual void serialize(void* buffer) override;
 
-        void forwardGpu(const float *const * inputs,float * output, cudaStream_t stream);
-
-        void forwardCpu(const float *const * inputs,float * output, cudaStream_t stream);
+        template <typename Dtype>
+        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
 
     private:
         int mClassCount;
         int mKernelCount;
-        std::vector<BatchPermute::BatchPermuteKernel> mBatchPermuteKernel;
         int mThreadCount;
+
+        DataType mDataType{ DataType::kFLOAT };
 
 		int m_inputTotalCount = 0;
 		int m_ouputTotalCount = 0;

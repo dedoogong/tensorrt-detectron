@@ -59,7 +59,7 @@ namespace nvinfer1
         virtual void serialize(void* buffer) override;
 
         template <typename Dtype>
-        void forwardGpu(const Dtype* input,Dtype * outputint ,int N,int C,int H ,int W);
+        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
 
     private:
         nvinfer1::Dims mCHW;
@@ -68,7 +68,15 @@ namespace nvinfer1
         int mOutputWidth;
         int mOutputHeight;
         int mThreadCount;
-        
+
+        int mInputDimC;
+        int mInputDimH;
+        int mInputDimW;
+
+        float mScaleH;
+        float mScaleW;
+        int m_inputTotalCount = 0;
+        int m_ouputTotalCount = 0;
         void* mInputBuffer  {nullptr}; 
         void* mOutputBuffer {nullptr}; 
     };

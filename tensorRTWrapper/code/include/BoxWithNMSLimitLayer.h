@@ -13,19 +13,6 @@
 #include "Utils.h"
 #include <iostream>
 
-namespace BoxWithNMSLimitLayer
-{
-    struct BoxWithNMSLimitLayerKernel;
-
-    static constexpr int LOCATIONS = 4;
-    struct Detection{
-        //x y w h
-        float bbox[LOCATIONS];
-        //float objectness;
-        int classId;
-        float prob;
-    };
-}
 
 
 namespace nvinfer1
@@ -40,7 +27,7 @@ namespace nvinfer1
 
         int getNbOutputs() const override
         {
-            return 1;
+            return 3;
         }
 
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
@@ -63,16 +50,32 @@ namespace nvinfer1
 
         virtual void serialize(void* buffer) override;
 
-        void forwardGpu(const float *const * inputs,float * output, cudaStream_t stream);
-
-        void forwardCpu(const float *const * inputs,float * output, cudaStream_t stream);
+        template <typename Dtype>
+        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
 
     private:
-        int mClassCount;
-        int mKernelCount;
-        std::vector<BoxWithNMSLimitLayer::BoxWithNMSLimitLayerKernel> mBoxWithNMSLimitLayerKernel;
         int mThreadCount;
 
+        int mClsProbH;
+        int mClsProbW;
+
+        int mPredBoxH;
+        int mPredBoxW;
+
+        DataType mDataType{ DataType::kFLOAT };
+        float score_thresh_=0.5f;
+        float nms_thresh_= 0.5f;
+        int detections_per_im_= 100;
+        int soft_nms_enabled_= 1;
+        int soft_nms_method_= 1;//#"linear"
+        float soft_nms_sigma_= 0.5f;
+        float soft_nms_min_score_thresh_= 0.1f;
+        bool rotated_=false;
+
+        int m_inputTotalCount = 0;
+        int m_ouputTotalCount = 0;
+
+        int m_nms_max_count=300;
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};
