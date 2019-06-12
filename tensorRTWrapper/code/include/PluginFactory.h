@@ -6,14 +6,22 @@
 #include <regex>
 #include "UpsampleLayer.h"
 #include "YoloLayer.h"
-#include "GenerateProposalLayer.h"
-#include "RoIAlign.h"
+
+
 #include "BatchPermuteLayer.h"
 #include "BoxTransformLayer.h"
 #include "CollectNDistributeFPNLayer.h"
 #include "BoxWithNMSLimitLayer.h"
+
+//#define CUSTOM
+#ifdef CUSTOM
+#include "GenerateProposalLayer.h"
+#include "RoIAlign.h"
+
+#endif
 #include "NvInferPlugin.h"
 #include "NvCaffeParser.h"
+
 namespace Tn
 {
     static constexpr int CUDA_THREAD_NUM = 512;
@@ -23,7 +31,7 @@ namespace Tn
     using nvinfer1::plugin::createPReLUPlugin;
     //using nvinfer1::UpsampleLayerPlugin;
     //using nvinfer1::YoloLayerPlugin;
-
+#ifdef CUSTOM
     // Added by SH Lee
     using nvinfer1::GenerateProposalLayerPlugin;
     using nvinfer1::BatchPermuteLayerPlugin;
@@ -31,7 +39,7 @@ namespace Tn
     using nvinfer1::BoxTransformLayerPlugin;
     using nvinfer1::BoxWithNMSLimitLayerPlugin;
     using nvinfer1::RoIAlignLayerPlugin;
-
+#endif
     class PluginFactory : public nvinfer1::IPluginFactory, public nvcaffeparser1::IPluginFactoryExt
     {
         public:
@@ -48,6 +56,7 @@ namespace Tn
                 return strcmp(layerName,"yolo-det") == 0;
             }
 			*/
+#ifdef CUSTOM
 			inline bool isGenerateProposal(const char* layerName) {
 			    if ((strcmp(layerName, "rpn_roi_probs_fpn2") == 0)||(strcmp(layerName, "rpn_roi_probs_fpn3") == 0)||
                 (strcmp(layerName, "rpn_roi_probs_fpn4") == 0)||
@@ -90,6 +99,8 @@ namespace Tn
             inline bool isBoxNMS(const char* layerName){
                 return strcmp(layerName,"class_nms") == 0;
             }
+
+#endif
             virtual nvinfer1::IPlugin* createPlugin(const char* layerName, const nvinfer1::Weights* weights, int nbWeights) override{
                 assert(isPlugin(layerName));
 
@@ -103,6 +114,7 @@ namespace Tn
                     mPluginUpsample.emplace_back(std::unique_ptr<UpsampleLayerPlugin>(new UpsampleLayerPlugin(UPSAMPLE_SCALE,CUDA_THREAD_NUM)));
                     return mPluginUpsample.back().get();
                 }  */
+#ifdef CUSTOM
                 if (isGenerateProposal(layerName)){
                     assert(nbWeights == 0 && weights == nullptr);
                     mPluginGenerateProposal.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))  );
@@ -133,10 +145,14 @@ namespace Tn
                     mPluginBoxWithNMSLimit.reset(new BoxWithNMSLimitLayerPlugin(CUDA_THREAD_NUM));
                     return mPluginBoxWithNMSLimit.get();
                 }
+
                 else{
                     assert(0);
                     return nullptr;
                 }
+#else
+                assert(0); return nullptr;
+#endif
             }
 
         nvinfer1::IPlugin* createPlugin(const char* layerName, const void* serialData, size_t serialLength) override{
@@ -152,7 +168,7 @@ namespace Tn
                 assert(mPluginYolo.get() ==  nullptr);
                 mPluginYolo.reset(new YoloLayerPlugin(serialData, serialLength));
                 return mPluginYolo.get();}*/
-
+#ifdef CUSTOM
             if (isGenerateProposal(layerName)){
                 assert(nbWeights == 0 && weights == nullptr);
                 mPluginGenerateProposal.emplace_back(std::unique_ptr<GenerateProposalLayerPlugin>(new GenerateProposalLayerPlugin(CUDA_THREAD_NUM))  );
@@ -184,31 +200,41 @@ namespace Tn
                 return mPluginBoxWithNMSLimit.get();}
 
             else{assert(0); return nullptr;}
+#else
+            assert(0); return nullptr;
+#endif
+
         }
 
         bool isPlugin(const char* name) override{ return isPluginExt(name);}
 
         bool isPluginExt(const char* name) override{
             //std::cout << "check plugin " << name  << isYolo(name)<< std::endl;
+#ifdef CUSTOM
             return isGenerateProposal(name) || isRoIAlign(name) || isBatchPermute(name) || isCollectNDistributeFPN(name) || isBoxTransform(name) || isBoxNMS(name);}
-
+#else
+            return false;}
+#endif
         // The application has to destroy the plugin when it knows it's safe to do so.
         void destroyPlugin(){
+#ifdef CUSTOM
             for (auto& item : mPluginGenerateProposal)
                 item.reset();
 
             for (auto& item : mPluginRoIAlign)
                 item.reset();
-			
+
             mPluginCollectNDistributeFPN.reset();
 
 			mPluginBatchPermute.reset();
 
             mPluginBoxTransform.reset();
             mPluginBoxWithNMSLimit.reset();
+#endif
 			//mPluginYolo.reset();
         }
-        void (*nvPluginDeleter)(INvPlugin*){[](INvPlugin* ptr) { if(ptr) ptr->destroy(); }};        
+        void (*nvPluginDeleter)(INvPlugin*){[](INvPlugin* ptr) { if(ptr) ptr->destroy(); }};
+#ifdef CUSTOM
         std::vector<std::unique_ptr<GenerateProposalLayerPlugin>> mPluginGenerateProposal{};
         std::vector<std::unique_ptr<RoIAlignLayerPlugin>>         mPluginRoIAlign{};
 		std::unique_ptr<CollectNDistributeFPNLayerPlugin> mPluginCollectNDistributeFPN{ nullptr };
@@ -217,8 +243,8 @@ namespace Tn
         
         std::unique_ptr<BoxTransformLayerPlugin>          mPluginBoxTransform {nullptr};
         std::unique_ptr<BoxWithNMSLimitLayerPlugin>       mPluginBoxWithNMSLimit {nullptr};
-
-		//std::vector<std::unique_ptr<INvPlugin,void (*)(INvPlugin*)>> mPluginLeakyRelu{};
+#endif
+        //std::vector<std::unique_ptr<INvPlugin,void (*)(INvPlugin*)>> mPluginLeakyRelu{};
 		//std::vector<std::unique_ptr<UpsampleLayerPlugin>>         mPluginUpsample{};
 		//std::unique_ptr<YoloLayerPlugin>                  mPluginYolo {nullptr};
 

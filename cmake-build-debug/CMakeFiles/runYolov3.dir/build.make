@@ -70,22 +70,9 @@ CMakeFiles/runYolov3.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/runYolov3.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lee/tensorrt-detectron/main.cpp -o CMakeFiles/runYolov3.dir/main.cpp.s
 
-CMakeFiles/runYolov3.dir/eval.cpp.o: CMakeFiles/runYolov3.dir/flags.make
-CMakeFiles/runYolov3.dir/eval.cpp.o: ../eval.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/runYolov3.dir/eval.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/runYolov3.dir/eval.cpp.o -c /home/lee/tensorrt-detectron/eval.cpp
-
-CMakeFiles/runYolov3.dir/eval.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/runYolov3.dir/eval.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lee/tensorrt-detectron/eval.cpp > CMakeFiles/runYolov3.dir/eval.cpp.i
-
-CMakeFiles/runYolov3.dir/eval.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/runYolov3.dir/eval.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lee/tensorrt-detectron/eval.cpp -o CMakeFiles/runYolov3.dir/eval.cpp.s
-
 CMakeFiles/runYolov3.dir/dataReader.cpp.o: CMakeFiles/runYolov3.dir/flags.make
 CMakeFiles/runYolov3.dir/dataReader.cpp.o: ../dataReader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/runYolov3.dir/dataReader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/runYolov3.dir/dataReader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/runYolov3.dir/dataReader.cpp.o -c /home/lee/tensorrt-detectron/dataReader.cpp
 
 CMakeFiles/runYolov3.dir/dataReader.cpp.i: cmake_force
@@ -99,14 +86,81 @@ CMakeFiles/runYolov3.dir/dataReader.cpp.s: cmake_force
 # Object files for target runYolov3
 runYolov3_OBJECTS = \
 "CMakeFiles/runYolov3.dir/main.cpp.o" \
-"CMakeFiles/runYolov3.dir/eval.cpp.o" \
+"CMakeFiles/runYolov3.dir/dataReader.cpp.o"
+
+# External object files for target runYolov3
+runYolov3_EXTERNAL_OBJECTS =
+
+CMakeFiles/runYolov3.dir/cmake_device_link.o: CMakeFiles/runYolov3.dir/main.cpp.o
+CMakeFiles/runYolov3.dir/cmake_device_link.o: CMakeFiles/runYolov3.dir/dataReader.cpp.o
+CMakeFiles/runYolov3.dir/cmake_device_link.o: CMakeFiles/runYolov3.dir/build.make
+CMakeFiles/runYolov3.dir/cmake_device_link.o: tensorRTWrapper/code/libTrtNet.a
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_shape.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_superres.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_face.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_reg.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_text.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/local/cuda-10.0/lib64/libcudart_static.a
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/librt.so
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libnvinfer.so
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libnvinfer_plugin.so
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libnvparsers.so
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/local/lib/libglog.a
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libgflags.so.2.2.1
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_video.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0
+CMakeFiles/runYolov3.dir/cmake_device_link.o: CMakeFiles/runYolov3.dir/dlink.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CUDA device code CMakeFiles/runYolov3.dir/cmake_device_link.o"
+	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/runYolov3.dir/dlink.txt --verbose=$(VERBOSE)
+
+# Rule to build all files generated by this target.
+CMakeFiles/runYolov3.dir/build: CMakeFiles/runYolov3.dir/cmake_device_link.o
+
+.PHONY : CMakeFiles/runYolov3.dir/build
+
+# Object files for target runYolov3
+runYolov3_OBJECTS = \
+"CMakeFiles/runYolov3.dir/main.cpp.o" \
 "CMakeFiles/runYolov3.dir/dataReader.cpp.o"
 
 # External object files for target runYolov3
 runYolov3_EXTERNAL_OBJECTS =
 
 runYolov3: CMakeFiles/runYolov3.dir/main.cpp.o
-runYolov3: CMakeFiles/runYolov3.dir/eval.cpp.o
 runYolov3: CMakeFiles/runYolov3.dir/dataReader.cpp.o
 runYolov3: CMakeFiles/runYolov3.dir/build.make
 runYolov3: tensorRTWrapper/code/libTrtNet.a
@@ -141,6 +195,8 @@ runYolov3: /usr/lib/x86_64-linux-gnu/librt.so
 runYolov3: /usr/lib/x86_64-linux-gnu/libnvinfer.so
 runYolov3: /usr/lib/x86_64-linux-gnu/libnvinfer_plugin.so
 runYolov3: /usr/lib/x86_64-linux-gnu/libnvparsers.so
+runYolov3: /usr/local/lib/libglog.a
+runYolov3: /usr/lib/x86_64-linux-gnu/libgflags.so.2.2.1
 runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_video.so.3.2.0
 runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.3.2.0
 runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.3.2.0
@@ -156,6 +212,7 @@ runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.3.2.0
 runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2.0
 runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.3.2.0
 runYolov3: /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0
+runYolov3: CMakeFiles/runYolov3.dir/cmake_device_link.o
 runYolov3: CMakeFiles/runYolov3.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lee/tensorrt-detectron/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable runYolov3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/runYolov3.dir/link.txt --verbose=$(VERBOSE)

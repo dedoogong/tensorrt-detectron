@@ -3,21 +3,25 @@
 #ifndef COLLECTANDDISTRIBUTEFPNLAYER_H
 #define COLLECTANDDISTRIBUTEFPNLAYER_H
 
-
 #include <assert.h>
 #include <cmath>
 #include <string.h>
 #include <cudnn.h>
 #include <cublas_v2.h>
 #include "NvInfer.h"
-#include "Utils.h"
 #include <iostream>
+#include <algorithm>
+#include <cfloat>
+#include <vector>
+#include <stdio.h>
+#include "../../../include/common_gpu.h"
+#include "../../../include/caffe2/utils/eigen_utils.h"
+#include <numeric>
 
 
-namespace nvinfer1
-{
-    class CollectNDistributeFPNLayerPlugin: public IPluginExt
-    {
+namespace nvinfer1{
+
+    class CollectNDistributeFPNLayerPlugin: public IPluginExt{
     public:
         explicit CollectNDistributeFPNLayerPlugin(const int cudaThread = 512);
 
@@ -40,11 +44,14 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override {
-            return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
+            (type == DataType::kFLOAT || type == DataType::kHALF ||
+             type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
-        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims,
-                                 int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
+        void configureWithFormat(const Dims* inputDims, int nbInputs,
+                                 const Dims* outputDims, int nbOutputs,
+                                 DataType type,
+                                 PluginFormat format, int maxBatchSize) override;
 
         int initialize() override;
 
@@ -64,7 +71,7 @@ namespace nvinfer1
 
     private:
 
-		DataType mDataType{ DataType::kFLOAT };
+        DataType mDataType{ DataType::kFLOAT };
 
 		int roiCountPerFPN_ = 250;
 		int rpn_min_level_ = 2;
@@ -75,7 +82,7 @@ namespace nvinfer1
 		int roi_min_level_ = 2;
 		int roi_max_level_ = 5;
 
-		int roi_canonical_level_ = 4
+		int roi_canonical_level_ = 4;
 		int	roi_canonical_scale_ = 224;
 
 		int m_rpn_rois_fpnH[5];
@@ -86,7 +93,7 @@ namespace nvinfer1
 
 		int m_inputTotalCount = 0;
 		int m_ouputTotalCount = 0;
-		int m_proposal_num;
+		int m_proposal_num=0;
 
         //cpu
         void* mInputBuffer  {nullptr};

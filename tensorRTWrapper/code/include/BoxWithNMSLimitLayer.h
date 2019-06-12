@@ -33,10 +33,14 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override {
-            return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
+            (type == DataType::kFLOAT || type == DataType::kHALF ||
+             type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
-        void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
+        void configureWithFormat(const Dims* inputDims, int nbInputs,
+                                 const Dims* outputDims, int nbOutputs,
+                                 DataType type,
+                                 PluginFormat format, int maxBatchSize) override;
 
         int initialize() override;
 
@@ -51,8 +55,14 @@ namespace nvinfer1
         virtual void serialize(void* buffer) override;
 
         template <typename Dtype>
-        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
-
+        void forwardCpu(//const float *const * inputs,
+                //     float * output,
+                const Dtype * tscores,//cls_prob, 1000, 2
+                const Dtype * tboxes,// pred_bbox,1000, 8 <- from bbox_transform layer
+                Dtype* score_nms,// 300,1
+                Dtype* bbox_nms,//  300,5
+                Dtype* class_nms,// 300,1
+                cudaStream_t stream);
     private:
         int mThreadCount;
 

@@ -5,7 +5,7 @@
 		<Option title="trtNet"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\usr\;CMake Files\..\..\..\usr\share\;CMake Files\..\..\..\usr\share\OpenCV\;CMake Files\tensorRTWrapper\;CMake Files\tensorRTWrapper\code\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\usr\;CMake Files\..\..\..\usr\share\;CMake Files\..\..\..\usr\share\OpenCV\;CMake Files\..\..\..\usr\local\;CMake Files\..\..\..\usr\local\lib\;CMake Files\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\usr\local\lib\cmake\glog\;CMake Files\..\..\..\usr\lib\;CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\;CMake Files\tensorRTWrapper\;CMake Files\tensorRTWrapper\code\;CMake Files\cmake\;CMake Files\cmake\Modules\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code"/>
@@ -24,16 +24,22 @@
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add option="-DGFLAGS_DLL_DECLARE_FLAG="/>
+					<Add option="-DGFLAGS_DLL_DEFINE_FLAG="/>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL="/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
 					<Add directory="/home/lee/tensorrt-detectron/tensorRTWrapper/code/include"/>
+					<Add directory="/home/lee/tensorrt-detectron/include/cub"/>
+					<Add directory="/home/lee/tensorrt-detectron/include/cub/cub"/>
 					<Add directory="/usr/local/cuda-10.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
 					<Add directory="/usr/include/c++/7/backward"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 TrtNet"/>
@@ -49,16 +55,22 @@
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add option="-DGFLAGS_DLL_DECLARE_FLAG="/>
+					<Add option="-DGFLAGS_DLL_DEFINE_FLAG="/>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL="/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
 					<Add directory="/home/lee/tensorrt-detectron/tensorRTWrapper/code/include"/>
+					<Add directory="/home/lee/tensorrt-detectron/include/cub"/>
+					<Add directory="/home/lee/tensorrt-detectron/include/cub/cub"/>
 					<Add directory="/usr/local/cuda-10.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
 					<Add directory="/usr/include/c++/7/backward"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/Makefile&quot;  VERBOSE=1 TrtNet/fast"/>
@@ -68,19 +80,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o">
-			<Option target="TrtNet"/>
-		</Unit>
 		<Unit filename="/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o">
 			<Option target="TrtNet"/>
 		</Unit>
 		<Unit filename="/home/lee/tensorrt-detectron/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o">
 			<Option target="TrtNet"/>
 		</Unit>
-		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/EntroyCalibrator.cpp">
+		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/BatchPermuteLayer.cpp">
 			<Option target="TrtNet"/>
 		</Unit>
-		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/GenerateProposalLayer.cu">
+		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/BoxTransformLayer.cpp">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/BoxWithNMSLimitLayer.cpp">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/CollectNDistributeFPNLayer.cpp">
+			<Option target="TrtNet"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/EntroyCalibrator.cpp">
 			<Option target="TrtNet"/>
 		</Unit>
 		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/TrtNet.cpp">
@@ -110,8 +128,35 @@
 		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/share/OpenCV/OpenCVModules.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\usr\share\OpenCV\"/>
 		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/local/lib/cmake/glog/glog-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/local/lib/cmake/glog/glog-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/local/lib/cmake/glog/glog-targets-noconfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/local/lib/cmake/glog/glog-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
 		<Unit filename="/home/lee/tensorrt-detectron/tensorRTWrapper/code/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tensorRTWrapper\code\"/>
+		</Unit>
+		<Unit filename="/home/lee/tensorrt-detectron/cmake/Modules/FindCUB.cmake">
+			<Option virtualFolder="CMake Files\cmake\Modules\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

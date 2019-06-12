@@ -13,21 +13,6 @@
 #include "Utils.h"
 #include <iostream>
 
-namespace BatchPermute
-{
-    struct BatchPermuteKernel;
-
-    static constexpr int LOCATIONS = 4;
-    struct Detection{
-        //x y w h
-        float bbox[LOCATIONS];
-        //float objectness;
-        int classId;
-        float prob;
-    };
-}
-
-
 namespace nvinfer1
 {
     class BatchPermuteLayerPlugin: public IPluginExt
@@ -46,7 +31,8 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override {
-            return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
+            (type == DataType::kFLOAT || type == DataType::kHALF ||
+             type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
         void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
@@ -64,17 +50,23 @@ namespace nvinfer1
         virtual void serialize(void* buffer) override;
 
         template <typename Dtype>
-        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
+        void forwardCpu(const Dtype * roi_feat_shuffled,     // 1000, 256, 7, 7
+                        const int   * rois_idx_restore_int32,// 1000, 1
+                              Dtype * roi_feat,              // 1000, 256, 7, 7
+                        cudaStream_t  stream);
 
     private:
-        int mClassCount;
-        int mKernelCount;
         int mThreadCount;
 
         DataType mDataType{ DataType::kFLOAT };
 
 		int m_inputTotalCount = 0;
 		int m_ouputTotalCount = 0;
+
+        int mRoIFeatureShuffledN;
+        int mRoIFeatureShuffledC;
+        int mRoIFeatureShuffledH;
+        int mRoIFeatureShuffledW;
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};

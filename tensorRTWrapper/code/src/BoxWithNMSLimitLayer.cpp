@@ -1,15 +1,21 @@
-#include <cub/cub/cub.cuh>
 #include "generate_proposals_op_util_nms_gpu.h"
-#include "common_gpu.h"
-#include "Utils.h"
-
+#include "../../../include/common_gpu.h"
+#include <algorithm>
+#include <cfloat>
+#include <vector>
+#include <stdio.h>
 #include "BoxWithNMSLimitLayer.h"
-#include "bbox_with_nms_limit_layer.hpp"
-
+#include "cuda_runtime.h"
+//#include "bbox_with_nms_limit_layer.hpp"
+#include "../../../include/caffe2/utils/eigen_utils.h"
+#include "generate_proposals_op_util_boxes.hpp"
+#include "../../../include/caffe2/utils/generate_proposals_op_util_nms.h"
+#include <fp16.h>
 using std::max;
 using std::min;
 using std::floor;
 using std::ceil;
+using namespace std;
 
 template <class Derived, class Func>
 vector<int> filter_with_indices(
@@ -26,42 +32,72 @@ vector<int> filter_with_indices(
 }
   
 namespace nvinfer1 {
-	BoxNMSLayerPlugin::BoxNMSLayerPlugin(const int cudaThread /*= 512*/) :
+	BoxWithNMSLimitLayerPlugin::BoxWithNMSLimitLayerPlugin(const int cudaThread /*= 512*/) :
 		mThreadCount(cudaThread) {
 	}
-	BoxNMSLayerPlugin::~BoxNMSLayerPlugin() {
+	BoxWithNMSLimitLayerPlugin::~BoxWithNMSLimitLayerPlugin() {
 		if (mInputBuffer)
 			CUDA_CHECK(cudaFreeHost(mInputBuffer));
 		if (mOutputBuffer)
 			CUDA_CHECK(cudaFreeHost(mOutputBuffer));
 	}
 	// create the plugin at runtime from a byte stream
-	BoxNMSLayerPlugin::BoxNMSLayerPlugin(const void* data, size_t length) {
-		using namespace Tn;
-		const char* d = reinterpret_cast<const char*>(data), * a = d;
-		read(d, mThreadCount);
+	BoxWithNMSLimitLayerPlugin::BoxWithNMSLimitLayerPlugin(const void* data, size_t length) {
+        using namespace Tn;
+        const char *d = reinterpret_cast<const char *>(data), *a = d; 
+        read(d, mDataType);
+        read(d, mThreadCount);
 
-		assert(d == a + length);
+        read(d, mClsProbH);
+        read(d, mClsProbW);
+        read(d, mPredBoxH);
+        read(d, mPredBoxW);
+
+        read(d, m_inputTotalCount);
+        read(d, m_ouputTotalCount);
+
+        //std::cout << "read:" << a << " " << mOutputWidth<< " " <<mOutputHeight<<std::endl;
+        assert(d == a + length);
 	}
 
-	void BoxNMSLayerPlugin::serialize(void* buffer)
+   
+	void BoxWithNMSLimitLayerPlugin::serialize(void* buffer)
+	{ 
+        using namespace Tn;
+        char* d = static_cast<char*>(buffer), *a = d;
+        write(d, mDataType);
+        write(d, mThreadCount);
+
+        write(d, mClsProbH);
+        write(d, mClsProbW);
+        write(d, mPredBoxH);
+        write(d, mPredBoxW);
+
+        write(d, m_inputTotalCount);
+        write(d, m_ouputTotalCount);
+
+        //std::cout << "write:" << a << " " << mOutputHeight<< " " <<mOutputWidth<<std::endl;
+        assert(d == a + getSerializationSize());
+	}
+
+    void BoxWithNMSLimitLayerPlugin::configureWithFormat( const Dims* inputDims, int nbInputs,
+                                                          const Dims* outputDims, int nbOutputs,
+                                                          DataType type,
+                                                          PluginFormat format, int maxBatchSize){
+        //std::cout << "type " << int(type) << "format " << (int)format <<std::endl;
+        assert((type == DataType::kFLOAT || type == DataType::kHALF ||
+                type == DataType::kINT8) && format == PluginFormat::kNCHW);
+        mDataType = type;
+        //std::cout << "configureWithFormat:" <<inputDims[0].d[0]<< " "
+        //<<inputDims[0].d[1] << " "<<inputDims[0].d[2] <<std::endl;
+    }
+
+	size_t BoxWithNMSLimitLayerPlugin::getSerializationSize()
 	{
-		using namespace Tn;
-		char* d = static_cast<char*>(buffer), * a = d;
-		write(d, mThreadCount);
-		//auto kernelSize = mKernelCount*sizeof(BoxNMSKernel);
-		//memcpy(d,mBoxNMSKernel.data(),kernelSize);
-		//d += kernelSize; 
-		assert(d == a + getSerializationSize());
+        return 0;
 	}
 
-	size_t BoxNMSLayerPlugin::getSerializationSize()
-	{
-		return sizeof(mThreadCount) + sizeof(BoxNMS::BoxNMSKernel) *
-			mBoxNMSKernel.size();
-	}
-
-	int BoxNMSLayerPlugin::initialize(){
+	int BoxWithNMSLimitLayerPlugin::initialize(){
 		int totalCount = 0;
 
 		totalCount += mClsProbH*mClsProbW; // bottom: "cls_prob", "pred_bbox"
@@ -74,7 +110,7 @@ namespace nvinfer1 {
 		return 0;
 	}
 
-	Dims BoxNMSLayerPlugin::getOutputDimensions(int index, const Dims * inputs, int nbInputDims)
+	Dims BoxWithNMSLimitLayerPlugin::getOutputDimensions(int index, const Dims * inputs, int nbInputDims)
 	{
 		assert(nbInputDims == 2);// bottom: "cls_prob", "pred_bbox"
 
@@ -87,15 +123,15 @@ namespace nvinfer1 {
         mPredBoxW = inputs[1].d[1];//8
 
         if (index == 0){
-		    return DimsCHW(m_nms_max_count, 1);}//score_nms shape
+		    return DimsHW(m_nms_max_count, 1);}//score_nms shape
         else if (index == 1){
-            return DimsCHW(m_nms_max_count, 5);}//bbox_nms shape
+            return DimsHW(m_nms_max_count, 5);}//bbox_nms shape
         else if (index == 2){
-            return DimsCHW(m_nms_max_count, 1);}//class_nms shape
+            return DimsHW(m_nms_max_count, 1);}//class_nms shape
 	}
 
 	template <typename Dtype>
-	void BoxNMSLayerPlugin::forwardCpu(//const float *const * inputs,
+	void BoxWithNMSLimitLayerPlugin::forwardCpu(//const float *const * inputs,
                                        //     float * output,
                                        const Dtype * tscores,//cls_prob, 1000, 2
                                        const Dtype * tboxes,// pred_bbox,1000, 8 <- from bbox_transform layer
@@ -106,14 +142,17 @@ namespace nvinfer1 {
 
         CUDA_CHECK(cudaStreamSynchronize(stream));
         int size = 0;
-        const float* inputData = mInputBuffer;
-        float * out_boxes = mOutputBuffer;
+        Dtype* inputData = (Dtype*)mInputBuffer;
         size=mClsProbH*mClsProbW;//1000*2
-        CUDA_CHECK(cudaMemcpyAsync(inputData, tscores, size * sizeof(float), cudaMemcpyDeviceToHost, stream));
+        CUDA_CHECK(cudaMemcpyAsync(inputData, (const void*)tscores, size * sizeof(float), cudaMemcpyDeviceToHost, stream));
         inputData += size;
 
         size=mPredBoxH*mPredBoxW;//1000*8
-        CUDA_CHECK(cudaMemcpyAsync(inputData, tboxes, size * sizeof(float), cudaMemcpyDeviceToHost, stream));
+        CUDA_CHECK(cudaMemcpyAsync(inputData, (const void*)tboxes, size * sizeof(float), cudaMemcpyDeviceToHost, stream));
+
+        Dtype* out_scores  = (Dtype*)mOutputBuffer;          //(top[0]->mutable_cpu_data()); //score_nms blob
+        Dtype* out_boxes   = out_scores +   m_nms_max_count; //(top[1]->mutable_cpu_data()); //bbox_nms  blob
+        Dtype* out_classes = out_boxes  + 5*m_nms_max_count; //(top[2]->mutable_cpu_data()); //class_nms blob
 
         printf("==============================================BoxWithNMSLimitLayer start====================================\n");
         /*
@@ -145,11 +184,11 @@ namespace nvinfer1 {
         for (int b = 0; b < batch_splits.size(); ++b) {// size == 1
             int num_boxes = batch_splits(b);// == 1000
 
-            Eigen::Map<const caffe2::ERArrXXf> scores(tscores + offset * mClsProbW ,//tscores.dim(1),
+            Eigen::Map<const caffe2::ERArrXXf> scores((float*)tscores + offset * mClsProbW ,//tscores.dim(1),
                                                       num_boxes,
                                                       mClsProbW);//tscores.dim(1));
 
-            Eigen::Map<const caffe2::ERArrXXf> boxes( tboxes + offset * mPredBoxW,// tboxes.dim(1),
+            Eigen::Map<const caffe2::ERArrXXf> boxes( (float*)tboxes + offset * mPredBoxW,// tboxes.dim(1),
                                                       num_boxes,
                                                       mPredBoxW);//tboxes.dim(1));
 
@@ -221,7 +260,7 @@ namespace nvinfer1 {
                 };
                 // Compute image thres based on all classes
                 auto all_scores_sorted = get_all_scores_sorted();
-                //CHECK_GT(all_scores_sorted.size(), detections_per_im_);
+                CHECK_GT(all_scores_sorted.size(), detections_per_im_);
                 auto image_thresh = all_scores_sorted[all_scores_sorted.size() - detections_per_im_];
 
                 total_keep_count = 0;
@@ -250,9 +289,9 @@ namespace nvinfer1 {
                 auto  cur_boxes = boxes.block(0, j * box_dim, boxes.rows(), box_dim);
                 auto& cur_keep = keeps[j]; // vector<vector<int>> keeps(num_classes);
 
-                Eigen::Map<caffe2::EArrXf>  cur_out_scores(out_scores + cur_start_idx + cur_out_idx, cur_keep.size());
-                Eigen::Map<caffe2::ERArrXXf> cur_out_boxes(out_boxes + (cur_start_idx + cur_out_idx) * box_dim, cur_keep.size(), box_dim);
-                Eigen::Map<caffe2::EArrXf> cur_out_classes(out_classes + cur_start_idx + cur_out_idx, cur_keep.size());
+                Eigen::Map<caffe2::EArrXf>  cur_out_scores((float*)out_scores + cur_start_idx + cur_out_idx, cur_keep.size());
+                Eigen::Map<caffe2::ERArrXXf> cur_out_boxes((float*)out_boxes + (cur_start_idx + cur_out_idx) * box_dim, cur_keep.size(), box_dim);
+                Eigen::Map<caffe2::EArrXf> cur_out_classes((float*)out_classes + cur_start_idx + cur_out_idx, cur_keep.size());
 
                 caffe2::utils::GetSubArray(cur_scores, caffe2::utils::AsEArrXt(cur_keep), &cur_out_scores);
                 caffe2::utils::GetSubArrayRows(cur_boxes, caffe2::utils::AsEArrXt(cur_keep), &cur_out_boxes);
@@ -281,15 +320,24 @@ namespace nvinfer1 {
                     printf("max box : [%.2f %.2f %.2f %.2f] \n", out_boxes[4 * max_idx], out_boxes[4 * max_idx + 1], out_boxes[4 * max_idx + 2], out_boxes[4 * max_idx + 3]);
                 }
 
+                float onef{1.0f}, zerof{0.0f};
+                __half oneh = fp16::__float2half(1.0f),
+                       zeroh = fp16::__float2half(0.0f);
 
                 for (int i = 0; i < cur_keep.size(); i++) {
                     printf("cur_keep[%d]: %d\n", i, cur_keep[i]);
                     printf("cur_scores[%d]: %.2f\n", i, cur_scores[cur_keep[i]]);
-                    out_boxes[5 * i] = b;
-                    out_boxes[5 * i + 1] = cur_boxes.col(0)[cur_keep[i]];
-                    out_boxes[5 * i + 2] = cur_boxes.col(1)[cur_keep[i]];
-                    out_boxes[5 * i + 3] = cur_boxes.col(2)[cur_keep[i]];
-                    out_boxes[5 * i + 4] = cur_boxes.col(3)[cur_keep[i]];
+                    if(mDataType==DataType::kFLOAT)
+                        out_boxes[5 * i] = 0.0f;//batch index 'b'==0
+                    else if(mDataType==DataType::kHALF)
+                        out_boxes[5 * i] = __float2half(0);//batch index 'b'==0
+                    else if(mDataType==DataType::kINT8)
+                        out_boxes[5 * i] = __half2float(zeroh);//batch index 'b'==0 //TODO
+                    out_boxes[5 * i + 1] = (Dtype)cur_boxes.col(0)[cur_keep[i]];
+                    out_boxes[5 * i + 2] = (Dtype)cur_boxes.col(1)[cur_keep[i]];
+                    out_boxes[5 * i + 3] = (Dtype)cur_boxes.col(2)[cur_keep[i]];
+                    out_boxes[5 * i + 4] = (Dtype)cur_boxes.col(3)[cur_keep[i]];
+
                 }
                 max_score = 0.0f;
                 max_idx = 0;
@@ -301,47 +349,50 @@ namespace nvinfer1 {
         }// end for (int b = 0; b < batch_splits.size(); ++b)
         printf("\n==============================================BoxWithNMSLimitLayer Done=====================================\n");
 
-        CUDA_CHECK(cudaMemcpyAsync(bbox_nms, mOutputBuffer+m_nms_max_count, sizeof(Dtype)* m_nms_max_count * 5, cudaMemcpyHostToDevice, stream));
+        //CUDA_CHECK(cudaMemcpyAsync(bbox_nms, mOutputBuffer+m_nms_max_count, sizeof(Dtype)* m_nms_max_count * 5, cudaMemcpyHostToDevice, stream));
     }
+
+
+    int BoxWithNMSLimitLayerPlugin::enqueue(int batchSize,
+                                   const void* const* inputs,
+                                   void** outputs,
+                                   void* workspace,
+                                   cudaStream_t stream) {
+
+        assert(batchSize == 1);
+
+        switch (mDataType)
+        {
+        case DataType::kFLOAT:
+            forwardCpu<float>((const float*)inputs[0],
+                (const float*)inputs[1],
+                (float*)outputs[0],
+                (float*)outputs[1],
+                (float*)outputs[2],
+                stream);
+            //forwardCpu((const float *const *)inputs,(float *)outputs[0],stream);
+            break;
+        case DataType::kHALF:
+            forwardCpu<__half>((const __half*)inputs[0],
+                (const __half*)inputs[1],
+                (__half*)outputs[0],
+                (__half*)outputs[1],
+                (__half*)outputs[2],
+                stream);
+            break;
+        case DataType::kINT8:
+            forwardCpu<u_int8_t>((const u_int8_t*)inputs[0],
+                (const u_int8_t*)inputs[1],
+                (u_int8_t*)outputs[0],
+                (u_int8_t*)outputs[1],
+                (u_int8_t*)outputs[2],
+                stream);
+            break;
+        default:
+            std::cerr << "error data type" << std::endl;
+        }
+
+        return 0;
+    };
+
 }
-
-
-int BoxNMSLayerPlugin::enqueue(int batchSize,
-	 
-	assert(batchSize == 1);
-
-	switch (mDataType)
-	{
-	case DataType::kFLOAT:
-		forwardCpu<float>((const float*)inputs[0],
-			(const float*)inputs[1],
-			(float*)outputs[0],
-			(float*)outputs[1],
-            (float*)outputs[2],
-			stream);
-		//forwardCpu((const float *const *)inputs,(float *)outputs[0],stream);
-		break;
-	case DataType::kHALF:
-		forwardCpu<__half>((const __half*)inputs[0],
-			(const __half*)inputs[1],
-			(__half*)outputs[0],
-			(__half*)outputs[1],
-			(__half*)outputs[2],
-			stream);
-		break;
-	case DataType::kINT8:
-		forwardCpu<u_int8_t>((const u_int8_t*)inputs[0],
-			(const u_int8_t*)inputs[1],
-			(u_int8_t*)outputs[0],
-			(u_int8_t*)outputs[1],
-			(u_int8_t*)outputs[2],
-			stream);
-		break;
-	default:
-		std::cerr << "error data type" << std::endl;
-	}
-
-	return 0;
-};
-
-	}

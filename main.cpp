@@ -268,6 +268,11 @@ int main( int argc, char* argv[] ){
     int classNum = parser::getIntValue("class");
 
     // host memory for outputs
+
+    int N=1;
+    int nmsMaxOut=300;
+    static const int OUTPUT_CLS_SIZE = 5+1;
+    const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
     float* rois = new float[N * nmsMaxOut * 4];
     float* bboxPreds = new float[N * nmsMaxOut * OUTPUT_BBOX_SIZE];
     float* clsProbs = new float[N * nmsMaxOut * OUTPUT_CLS_SIZE];

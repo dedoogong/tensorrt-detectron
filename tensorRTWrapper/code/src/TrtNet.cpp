@@ -13,9 +13,7 @@
 using namespace nvinfer1;
 using namespace nvcaffeparser1;
 using namespace plugin;
-
 static Tn::Logger gLogger;
-
 #define CHECK(status)                             \
     do                                            \
     {                                             \
@@ -26,8 +24,6 @@ static Tn::Logger gLogger;
             abort();                              \
         }                                         \
     } while (0)
-
-
 #define RETURN_AND_LOG(ret, severity, message)                                 \
     do                                                                         \
     {                                                                          \
@@ -35,7 +31,6 @@ static Tn::Logger gLogger;
         gLogger.log(ILogger::Severity::k##severity, error_message.c_str());    \
         return (ret);                                                          \
     } while (0)
-
 inline void* safeCudaMalloc(size_t memSize)
 {
     void* deviceMem;
@@ -234,6 +229,35 @@ namespace Tn
         return engine;
     }
 
+
+    void trtNet::doInference(const void* inputData, void* outputData)
+    {
+        static const int batchSize = 1;
+        assert(mTrtInputCount == 1);
+
+        // DMA the input to the GPU, execute the batch asynchronously, and DMA it back:
+        int inputIndex = 0;
+        CUDA_CHECK(cudaMemcpyAsync(mTrtCudaBuffer[inputIndex], inputData, mTrtBindBufferSize[inputIndex],
+                                   cudaMemcpyHostToDevice, mTrtCudaStream));
+        //auto t_start = std::chrono::high_resolution_clock::now();
+        mTrtContext->execute(batchSize, &mTrtCudaBuffer[inputIndex]);
+        //auto t_end = std::chrono::high_resolution_clock::now();
+        //float total = std::chrono::duration<float, std::milli>(t_end - t_start).count();
+
+        //std::cout << "Time taken for inference is " << total << " ms." << std::endl;
+
+        for (size_t bindingIdx = mTrtInputCount; bindingIdx < mTrtBindBufferSize.size(); ++bindingIdx)
+        {
+            auto size = mTrtBindBufferSize[bindingIdx];
+            CUDA_CHECK(cudaMemcpyAsync(outputData, mTrtCudaBuffer[bindingIdx], size,
+                                       cudaMemcpyDeviceToHost, mTrtCudaStream));
+            outputData = (char *)outputData + size;
+        }
+
+        mTrtIterationTime ++ ;
+    }
+
+
     const char* INPUT_BLOB_NAME0 = "data";
     const char* INPUT_BLOB_NAME1 = "im_info";
     const char* OUTPUT_BLOB_NAME0 = "bbox_pred";
@@ -254,7 +278,7 @@ namespace Tn
     post_nms_topn: 1000
     correct_transform_coords: 1
     */
-
+/*
     void trtNet::doInference(IExecutionContext& context, const void* inputData, void* outputData)
     {
 
@@ -321,5 +345,5 @@ namespace Tn
         cudaStreamSynchronize(stream);
 
         mTrtIterationTime ++ ;
-    }
+    }*/
 }

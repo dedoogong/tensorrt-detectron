@@ -29,7 +29,9 @@
 
 /**
  * \file
- * cub::DeviceSegmentedRadixSort provides device-wide, parallel operations for computing a batched radix sort across multiple, non-overlapping sequences of data items residing within device-accessible memory.
+ * cub::DeviceSegmentedRadixSort provides device-wide, parallel operations
+ * for computing a batched radix sort across multiple, non-overlapping sequences of data items
+ * residing within device-accessible memory.
  */
 
 #pragma once
@@ -49,7 +51,9 @@ namespace cub {
 
 
 /**
- * \brief DeviceSegmentedRadixSort provides device-wide, parallel operations for computing a batched radix sort across multiple, non-overlapping sequences of data items residing within device-accessible memory. ![](segmented_sorting_logo.png)
+ * \brief DeviceSegmentedRadixSort provides device-wide,
+ * parallel operations for computing a batched radix sort across multiple,
+ * non-overlapping sequences of data items residing within device-accessible memory. ![](segmented_sorting_logo.png)
  * \ingroup SegmentedModule
  *
  * \par Overview
@@ -89,12 +93,15 @@ struct DeviceSegmentedRadixSort
      *   \p segment_offsets (of length <tt>num_segments+1</tt>) can be aliased
      *   for both the \p d_begin_offsets and \p d_end_offsets parameters (where
      *   the latter is specified as <tt>segment_offsets+1</tt>).
-     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.  This can reduce overall sorting overhead and yield a corresponding performance improvement.
-     * - \devicestorageNP  For sorting using only <em>O</em>(<tt>P</tt>) temporary storage, see the sorting interface using DoubleBuffer wrappers below.
+     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.
+     * This can reduce overall sorting overhead and yield a corresponding performance improvement.
+     * - \devicestorageNP  For sorting using only <em>O</em>(<tt>P</tt>) temporary storage,
+     * see the sorting interface using DoubleBuffer wrappers below.
      * - \devicestorage
      *
      * \par Snippet
-     * The code snippet below illustrates the batched sorting of three segments (with one zero-length segment) of \p int keys
+     * The code snippet below illustrates the batched sorting of three segments (with one zero-length segment)
+     * of \p int keys
      * with associated vector of \p int values.
      * \par
      * \code
@@ -196,7 +203,8 @@ struct DeviceSegmentedRadixSort
      *   \p segment_offsets (of length <tt>num_segments+1</tt>) can be aliased
      *   for both the \p d_begin_offsets and \p d_end_offsets parameters (where
      *   the latter is specified as <tt>segment_offsets+1</tt>).
-     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.  This can reduce overall sorting overhead and yield a corresponding performance improvement.
+     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.
+     *   This can reduce overall sorting overhead and yield a corresponding performance improvement.
      * - \devicestorageP
      * - \devicestorage
      *
@@ -291,13 +299,15 @@ struct DeviceSegmentedRadixSort
      *   \p segment_offsets (of length <tt>num_segments+1</tt>) can be aliased
      *   for both the \p d_begin_offsets and \p d_end_offsets parameters (where
      *   the latter is specified as <tt>segment_offsets+1</tt>).
-     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.  This can reduce overall sorting overhead and yield a corresponding performance improvement.
-     * - \devicestorageNP  For sorting using only <em>O</em>(<tt>P</tt>) temporary storage, see the sorting interface using DoubleBuffer wrappers below.
+     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.
+     *   This can reduce overall sorting overhead and yield a corresponding performance improvement.
+     * - \devicestorageNP  For sorting using only <em>O</em>(<tt>P</tt>) temporary storage,
+     * see the sorting interface using DoubleBuffer wrappers below.
      * - \devicestorage
      *
      * \par Snippet
-     * The code snippet below illustrates the batched sorting of three segments (with one zero-length segment) of \p int keys
-     * with associated vector of \p int values.
+     * The code snippet below illustrates the batched sorting of three segments (with one zero-length segment) of
+     * \p int keys with associated vector of \p int values.
      * \par
      * \code
      * #include <cub/cub.cuh>   // or equivalently <cub/device/device_segmentd_radix_sort.cuh>
@@ -398,7 +408,8 @@ struct DeviceSegmentedRadixSort
      *   \p segment_offsets (of length <tt>num_segments+1</tt>) can be aliased
      *   for both the \p d_begin_offsets and \p d_end_offsets parameters (where
      *   the latter is specified as <tt>segment_offsets+1</tt>).
-     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.  This can reduce overall sorting overhead and yield a corresponding performance improvement.
+     * - An optional bit subrange <tt>[begin_bit, end_bit)</tt> of differentiating key bits can be specified.
+     * This can reduce overall sorting overhead and yield a corresponding performance improvement.
      * - \devicestorageP
      * - \devicestorage
      *

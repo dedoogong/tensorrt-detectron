@@ -11,23 +11,8 @@
 #include "NvInfer.h"
 #include "Utils.h"
 #include <iostream>
-#include "caffe2/utils/eigen_utils.h"
-#include "cub/cub/cub.cuh"
-
-namespace GenerateProposal
-{
-    struct GenerateProposalKernel;
-
-    static constexpr int LOCATIONS = 4;
-    struct Detection{
-        //x y w h
-        float bbox[LOCATIONS];
-        //float objectness;
-        int classId;
-        float prob;
-    };
-}
-
+#include "../../../include/caffe2/utils/eigen_utils.h"
+#include "../../../include/cub/cub/cub.cuh"
 
 namespace nvinfer1
 {
@@ -43,7 +28,8 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override {
-            return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
+            (type == DataType::kFLOAT || type == DataType::kHALF ||
+             type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
         void configureWithFormat(const Dims* inputDims, int nbInputs,
@@ -79,7 +65,6 @@ namespace nvinfer1
                        //float * output, cudaStream_t stream);
 
     private:
-        std::vector<GenerateProposal::GenerateProposalKernel> mGenerateProposalKernel;
         int mThreadCount;
 
         int mScoreC{0};
@@ -100,13 +85,13 @@ namespace nvinfer1
         float feat_stride_{1.0};
 
         // RPN_PRE_NMS_TOP_N
-        int rpn_pre_nms_topN_{6000};
+        const int rpn_pre_nms_topN_{6000};
         // RPN_POST_NMS_TOP_N
-        int rpn_post_nms_topN_{300};
+        const int rpn_post_nms_topN_{300};
         // RPN_NMS_THRESH
-        float rpn_nms_thresh_{0.7};
+        const float rpn_nms_thresh_{0.7};
         // RPN_MIN_SIZE
-        float rpn_min_size_{16};
+        const int rpn_min_size_{16};
         // If set, for rotated boxes in RRPN, output angles are normalized to be
         // within [angle_bound_lo, angle_bound_hi].
         bool angle_bound_on_{true};
@@ -124,8 +109,6 @@ namespace nvinfer1
         float* dev_image_offset_{0};
         float* dev_conv_layer_indexes_{0};
         int* dev_sorted_conv_layer_indexes_{0};
-        float * dev_sorted_scores_{0};
-        float* dev_boxes_{0};
         char* dev_boxes_keep_flags_{0};
 
         // prenms proposals (raw proposals minus empty boxes)
@@ -137,12 +120,12 @@ namespace nvinfer1
         float* dev_image_boxes_keep_list_{0};
 
         // Tensors used by NMS
-        int* dev_nms_mask_{0};
-        int* host_nms_mask_{0};
+        float* dev_nms_mask_{0};
+        float* host_nms_mask_{0};
 
         // Buffer for output
-        float* dev_postnms_rois_{0};
-        float* dev_postnms_rois_probs_{0};
+        float* d_postnms_rois{0};
+        float* d_postnms_rois_probs{0};
 
 
     };

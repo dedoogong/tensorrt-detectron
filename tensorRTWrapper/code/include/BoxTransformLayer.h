@@ -32,13 +32,14 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override {
-            return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
+            (type == DataType::kFLOAT || type == DataType::kHALF ||
+             type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
         void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs,
                                  DataType type, PluginFormat format, int maxBatchSize) override {};
 
-        template <typename Dtype>
+        //template <typename Dtype>
         int initialize() override;
 
         virtual void terminate() override {};
@@ -53,7 +54,13 @@ namespace nvinfer1
         virtual void serialize(void* buffer) override;
 
         template <typename Dtype>
-        void forwardCpu(const Dtype *inputs, Dtype* outputs, cudaStream_t stream);
+        void forwardCpu( //const float *const * inputs,
+                //      float * output,
+                const Dtype * roi_in,//rpn_rois:    (1000,4)
+                const Dtype * delta_in,//bbox_pred: (1000,8) bg x1 y1 x2 y2, human x1 y1 x2 y2
+                const Dtype * iminfo_in,//batch_size(1),3
+                Dtype* box_out_,// pred_bbox: (1000, 8)
+                cudaStream_t stream);
 
     private:
         int mThreadCount;
@@ -65,6 +72,18 @@ namespace nvinfer1
         float weights_4_= 5.0;
         int correct_transform_coords_= 1;
         int apply_scale_= 0;
+
+        int mRpnRoisH=0;
+        int mRpnRoisW=0;
+        int mBoxPredH=0;
+        int mBoxPredW=0;
+        int mIminfoH=0;
+        int mIminfoW=0;
+
+        bool angle_bound_on_=true;
+        int angle_bound_lo_=-90;
+        int angle_bound_hi_=90;
+        float clip_angle_thresh_=1.0;
 
         int m_inputTotalCount = 0;
         int m_ouputTotalCount = 0;

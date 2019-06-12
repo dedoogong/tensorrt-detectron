@@ -37,7 +37,7 @@ COMMA = ,
 ifdef sm
 	SM_ARCH = $(subst $(COMMA),-,$(sm))
 else 
-    SM_ARCH = 200
+    SM_ARCH = 610
 endif
 
 ifeq (700, $(findstring 700, $(SM_ARCH)))
@@ -81,14 +81,14 @@ ifeq (300, $(findstring 300, $(SM_ARCH)))
     TEST_ARCH 	= 300
 endif
 ifeq (210, $(findstring 210, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_20,code=\"sm_21,compute_20\"
-    SM_DEF 		+= -DSM210
-    TEST_ARCH 	= 210
+    SM_TARGETS 	+= -gencode=arch=compute_61,code=\"sm_61,compute_61\"
+    SM_DEF 		+= -DSM610
+    TEST_ARCH 	= 610
 endif
 ifeq (200, $(findstring 200, $(SM_ARCH)))
-    SM_TARGETS 	+= -gencode=arch=compute_20,code=\"sm_20,compute_20\"
-    SM_DEF 		+= -DSM200
-    TEST_ARCH 	= 200
+    SM_TARGETS 	+= -gencode=arch=compute_61,code=\"sm_61,compute_61\"
+    SM_DEF 		+= -DSM610
+    TEST_ARCH 	= 610
 endif
 ifeq (130, $(findstring 130, $(SM_ARCH)))
     SM_TARGETS 	+= -gencode=arch=compute_13,code=\"sm_13,compute_13\" 

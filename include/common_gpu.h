@@ -10,13 +10,61 @@
 #include <curand.h>
 #include <driver_types.h>
 #include <algorithm>
-
+#include <iostream>
+#include <sstream>
+#include <string.h>
+#include <glog/logging.h>
 // CUDA: various checks for different function calls.
+
+using std::fstream;
+using std::ios;
+using std::isnan;
+using std::isinf;
+using std::iterator;
+using std::make_pair;
+//using std::map;
+using std::ostringstream;
+using std::pair;
+//using std::set;
+using std::string;
+using std::stringstream;
+using std::vector;
 
 const int pooled_width=14;
 const int pooled_height=14;
 const float spatial_scale[4]={0.25f, 0.125f, 0.0625f, 0.03125f}; // ==1/4, 1/8, 1/16, 1/32
 const int rois_count=1000;
+
+#define CUDA_CHECK(condition) \
+  /* Code block avoids redefinition of cudaError_t error */ \
+  do { \
+    cudaError_t error = condition; \
+    CHECK_EQ(error, cudaSuccess) << " " << cudaGetErrorString(error); \
+  } while (0)
+
+#define CUBLAS_CHECK(condition) \
+  do { \
+    cublasStatus_t status = condition; \
+    CHECK_EQ(status, CUBLAS_STATUS_SUCCESS) << " " \
+      << caffe::cublasGetErrorString(status); \
+  } while (0)
+
+#define CURAND_CHECK(condition) \
+  do { \
+    curandStatus_t status = condition; \
+    CHECK_EQ(status, CURAND_STATUS_SUCCESS) << " " \
+      << caffe::curandGetErrorString(status); \
+  } while (0)
+
+// CUDA: grid stride looping
+#define CUDA_KERNEL_LOOP(i, n) \
+  for (int i = blockIdx.x * blockDim.x + threadIdx.x; \
+       i < (n); \
+       i += blockDim.x * gridDim.x)
+
+// CUDA: check for error after kernel execution and exit loudly if there is one.
+#define CUDA_POST_KERNEL_CHECK CUDA_CHECK(cudaPeekAtLastError())
+
 
 #define CUDA_1D_KERNEL_LOOP(i, n)                                 \
   for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); \
@@ -28,17 +76,7 @@ const int rois_count=1000;
     for (size_t j = blockIdx.y * blockDim.y + threadIdx.y; j < (m); \
          j += blockDim.y * gridDim.y)
 
-#define CUDA_CHECK(condition)                                 \
-{                                                             \
-    cudaError_t error = condition;                            \
-    CHECK(error == cudaSuccess) << cudaGetErrorString(error); \
-}
 
-#define CHECK(condition)                                 \
-{                                                             \
-    cudaError_t error = condition;                            \
-    CHECK(error == cudaSuccess) << cudaGetErrorString(error); \
-}
 // 1D grid
 const int CAFFE_CUDA_NUM_THREADS = 128;
 

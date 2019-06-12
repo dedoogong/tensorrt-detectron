@@ -171,6 +171,114 @@ TrtNet/fast:
 	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build
 .PHONY : TrtNet/fast
 
+src/BatchPermuteLayer.o: src/BatchPermuteLayer.cpp.o
+
+.PHONY : src/BatchPermuteLayer.o
+
+# target to build an object file
+src/BatchPermuteLayer.cpp.o:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BatchPermuteLayer.cpp.o
+.PHONY : src/BatchPermuteLayer.cpp.o
+
+src/BatchPermuteLayer.i: src/BatchPermuteLayer.cpp.i
+
+.PHONY : src/BatchPermuteLayer.i
+
+# target to preprocess a source file
+src/BatchPermuteLayer.cpp.i:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BatchPermuteLayer.cpp.i
+.PHONY : src/BatchPermuteLayer.cpp.i
+
+src/BatchPermuteLayer.s: src/BatchPermuteLayer.cpp.s
+
+.PHONY : src/BatchPermuteLayer.s
+
+# target to generate assembly for a file
+src/BatchPermuteLayer.cpp.s:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BatchPermuteLayer.cpp.s
+.PHONY : src/BatchPermuteLayer.cpp.s
+
+src/BoxTransformLayer.o: src/BoxTransformLayer.cpp.o
+
+.PHONY : src/BoxTransformLayer.o
+
+# target to build an object file
+src/BoxTransformLayer.cpp.o:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BoxTransformLayer.cpp.o
+.PHONY : src/BoxTransformLayer.cpp.o
+
+src/BoxTransformLayer.i: src/BoxTransformLayer.cpp.i
+
+.PHONY : src/BoxTransformLayer.i
+
+# target to preprocess a source file
+src/BoxTransformLayer.cpp.i:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BoxTransformLayer.cpp.i
+.PHONY : src/BoxTransformLayer.cpp.i
+
+src/BoxTransformLayer.s: src/BoxTransformLayer.cpp.s
+
+.PHONY : src/BoxTransformLayer.s
+
+# target to generate assembly for a file
+src/BoxTransformLayer.cpp.s:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BoxTransformLayer.cpp.s
+.PHONY : src/BoxTransformLayer.cpp.s
+
+src/BoxWithNMSLimitLayer.o: src/BoxWithNMSLimitLayer.cpp.o
+
+.PHONY : src/BoxWithNMSLimitLayer.o
+
+# target to build an object file
+src/BoxWithNMSLimitLayer.cpp.o:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BoxWithNMSLimitLayer.cpp.o
+.PHONY : src/BoxWithNMSLimitLayer.cpp.o
+
+src/BoxWithNMSLimitLayer.i: src/BoxWithNMSLimitLayer.cpp.i
+
+.PHONY : src/BoxWithNMSLimitLayer.i
+
+# target to preprocess a source file
+src/BoxWithNMSLimitLayer.cpp.i:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BoxWithNMSLimitLayer.cpp.i
+.PHONY : src/BoxWithNMSLimitLayer.cpp.i
+
+src/BoxWithNMSLimitLayer.s: src/BoxWithNMSLimitLayer.cpp.s
+
+.PHONY : src/BoxWithNMSLimitLayer.s
+
+# target to generate assembly for a file
+src/BoxWithNMSLimitLayer.cpp.s:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/BoxWithNMSLimitLayer.cpp.s
+.PHONY : src/BoxWithNMSLimitLayer.cpp.s
+
+src/CollectNDistributeFPNLayer.o: src/CollectNDistributeFPNLayer.cpp.o
+
+.PHONY : src/CollectNDistributeFPNLayer.o
+
+# target to build an object file
+src/CollectNDistributeFPNLayer.cpp.o:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/CollectNDistributeFPNLayer.cpp.o
+.PHONY : src/CollectNDistributeFPNLayer.cpp.o
+
+src/CollectNDistributeFPNLayer.i: src/CollectNDistributeFPNLayer.cpp.i
+
+.PHONY : src/CollectNDistributeFPNLayer.i
+
+# target to preprocess a source file
+src/CollectNDistributeFPNLayer.cpp.i:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/CollectNDistributeFPNLayer.cpp.i
+.PHONY : src/CollectNDistributeFPNLayer.cpp.i
+
+src/CollectNDistributeFPNLayer.s: src/CollectNDistributeFPNLayer.cpp.s
+
+.PHONY : src/CollectNDistributeFPNLayer.s
+
+# target to generate assembly for a file
+src/CollectNDistributeFPNLayer.cpp.s:
+	cd /home/lee/tensorrt-detectron/cmake-build-debug && $(MAKE) -f tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/CollectNDistributeFPNLayer.cpp.s
+.PHONY : src/CollectNDistributeFPNLayer.cpp.s
+
 src/EntroyCalibrator.o: src/EntroyCalibrator.cpp.o
 
 .PHONY : src/EntroyCalibrator.o
@@ -265,6 +373,18 @@ help:
 	@echo "... list_install_components"
 	@echo "... install/local"
 	@echo "... install"
+	@echo "... src/BatchPermuteLayer.o"
+	@echo "... src/BatchPermuteLayer.i"
+	@echo "... src/BatchPermuteLayer.s"
+	@echo "... src/BoxTransformLayer.o"
+	@echo "... src/BoxTransformLayer.i"
+	@echo "... src/BoxTransformLayer.s"
+	@echo "... src/BoxWithNMSLimitLayer.o"
+	@echo "... src/BoxWithNMSLimitLayer.i"
+	@echo "... src/BoxWithNMSLimitLayer.s"
+	@echo "... src/CollectNDistributeFPNLayer.o"
+	@echo "... src/CollectNDistributeFPNLayer.i"
+	@echo "... src/CollectNDistributeFPNLayer.s"
 	@echo "... src/EntroyCalibrator.o"
 	@echo "... src/EntroyCalibrator.i"
 	@echo "... src/EntroyCalibrator.s"

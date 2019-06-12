@@ -80,8 +80,8 @@ namespace Tn
                     file.close();
                 }
             };
-
-            void doInference(IExecutionContext& context, const void* inputData, float* inputImInfo, float* outputBboxPred, float* outputClsProb, float* outputRois, int batchSize);
+            void doInference(const void* inputData, void* outputData);
+            //void doInference(IExecutionContext& context, const void* inputData, float* inputImInfo, float* outputBboxPred, float* outputClsProb, float* outputRois, int batchSize);
 
             inline size_t getInputSize() {
                 return std::accumulate(mTrtBindBufferSize.begin(), mTrtBindBufferSize.begin() + mTrtInputCount,0);
@@ -128,13 +128,13 @@ namespace Tn
                 std::vector<int64_t> mTrtBindBufferSize;
                 int mTrtInputCount;
                 int mTrtIterationTime;
-                static const int INPUT_C = 3;
-                static const int INPUT_H = 1080;//?? 1080
-                static const int INPUT_W = 1920;// 1920??
-                static const int IM_INFO_SIZE = 3;
-                static const int OUTPUT_CLS_SIZE = 5;
-                static const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
-                const std::string CLASSES[OUTPUT_CLS_SIZE]{"background", "person", "catcher", "pitcher", "simpan", "hitter" };
+                const int INPUT_C = 3;
+                const int INPUT_H = 1080;//?? 1080
+                const int INPUT_W = 1920;// 1920??
+                const int IM_INFO_SIZE = 3;
+                static const int OUTPUT_CLS_SIZE = 5+1;
+                const int OUTPUT_BBOX_SIZE = OUTPUT_CLS_SIZE * 4;
+                const std::string CLASSES[OUTPUT_CLS_SIZE]={"background", "person", "catcher", "pitcher", "simpan", "hitter" };
 
 
     };

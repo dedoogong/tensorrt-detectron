@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/runYolov3.dir/main.cpp.o"
-  "CMakeFiles/runYolov3.dir/eval.cpp.o"
   "CMakeFiles/runYolov3.dir/dataReader.cpp.o"
+  "CMakeFiles/runYolov3.dir/cmake_device_link.o"
   "runYolov3.pdb"
   "runYolov3"
 )

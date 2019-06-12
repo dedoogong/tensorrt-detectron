@@ -1,4 +1,4 @@
-# Install script for directory: /home/ktai01/tensorrt-detectron
+# Install script for directory: /home/lee/tensorrt-detectron
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,32 +38,56 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/ktai01/tensorrt-detectron/install/runYolov3" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/ktai01/tensorrt-detectron/install/runYolov3")
+  if(EXISTS "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runYolov3" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runYolov3")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/ktai01/tensorrt-detectron/install/runYolov3"
+         FILE "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runYolov3"
          RPATH "")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ktai01/tensorrt-detectron/install/runYolov3")
+   "/home/lee/tensorrt-detectron/install/runYolov3")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ktai01/tensorrt-detectron/install" TYPE EXECUTABLE FILES "/home/ktai01/tensorrt-detectron/build/runYolov3")
-  if(EXISTS "$ENV{DESTDIR}/home/ktai01/tensorrt-detectron/install/runYolov3" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/ktai01/tensorrt-detectron/install/runYolov3")
+file(INSTALL DESTINATION "/home/lee/tensorrt-detectron/install" TYPE EXECUTABLE FILES "/home/lee/tensorrt-detectron/build/runYolov3")
+  if(EXISTS "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runYolov3" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runYolov3")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/ktai01/tensorrt-detectron/install/runYolov3")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runYolov3")
+    endif()
+  endif()
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  if(EXISTS "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runMRCNN" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runMRCNN")
+    file(RPATH_CHECK
+         FILE "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runMRCNN"
+         RPATH "")
+  endif()
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/home/lee/tensorrt-detectron/install/runMRCNN")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+file(INSTALL DESTINATION "/home/lee/tensorrt-detectron/install" TYPE EXECUTABLE FILES "/home/lee/tensorrt-detectron/build/runMRCNN")
+  if(EXISTS "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runMRCNN" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runMRCNN")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/lee/tensorrt-detectron/install/runMRCNN")
     endif()
   endif()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/ktai01/tensorrt-detectron/build/tensorRTWrapper/code/cmake_install.cmake")
+  include("/home/lee/tensorrt-detectron/build/tensorRTWrapper/code/cmake_install.cmake")
 
 endif()
 
@@ -75,5 +99,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ktai01/tensorrt-detectron/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/lee/tensorrt-detectron/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

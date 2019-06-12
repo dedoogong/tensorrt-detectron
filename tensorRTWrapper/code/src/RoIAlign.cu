@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "RoIAlign.h"
-#include "common_gpu.h"
+#include "../../../include/common_gpu.h"
 
 using std::max;
 using std::min;
@@ -11,11 +11,6 @@ using std::min;
 //CUDA_1D_KERNEL_LOOP(i, nboxes) {  
 //CUDA_2D_KERNEL_LOOP(ibox, nboxes_to_generate, image_index, num_images) {
 //CUDA_2D_KERNEL_LOOP(box_idx, KA, img_idx, num_images) {
-
-// TODO make it in a common file
-#define CUDA_1D_KERNEL_LOOP(i, n)                            \
-  for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < n; \
-       i += blockDim.x * gridDim.x)
 
 namespace nvinfer1 {
 	RoIAlignLayerPlugin::RoIAlignLayerPlugin(const int cudaThread /*= 512*/) :
@@ -36,49 +31,19 @@ namespace nvinfer1 {
 	}
 	// create the plugin at runtime from a byte stream
 	RoIAlignLayerPlugin::RoIAlignLayerPlugin(const void* data, size_t length) {
-		using namespace Tn;
-		const char* d = reinterpret_cast<const char*>(data), * a = d;
-		read(d, mThreadCount);
-		//mRoIAlignKernel.resize(mKernelCount);
-		//auto kernelSize = mKernelCount*sizeof(RoIAlignKernel);
-		//memcpy(mRoIAlignKernel.data(),d,kernelSize);
-		//d += kernelSize;
-
-		assert(d == a + length);
 	}
 
 	void RoIAlignLayerPlugin::serialize(void* buffer)
 	{
-		using namespace Tn;
-		char* d = static_cast<char*>(buffer), * a = d;
-		write(d, mThreadCount);
-		//auto kernelSize = mKernelCount*sizeof(RoIAlignKernel);
-		//memcpy(d,mRoIAlignKernel.data(),kernelSize);
-		//d += kernelSize; 
-		assert(d == a + getSerializationSize());
 	}
 
 	size_t RoIAlignLayerPlugin::getSerializationSize()
 	{
-		return sizeof(mThreadCount) + sizeof(RoIAlign::RoIAlignKernel) *
-			mRoIAlignKernel.size();
+        return 0;
 	}
 
 	int RoIAlignLayerPlugin::initialize()
 	{
-		/*
-		int totalCount = 0;
-		for(const auto& yolo : mRoIAlignKernel)
-			totalCount += (LOCATIONS + 1 + mClassCount) * yolo.width*yolo.height * CHECK_COUNT;
-		CUDA_CHECK(cudaHostAlloc(&mInputBuffer, totalCount * sizeof(float), cudaHostAllocDefault));
-
-		totalCount = 0;//detection count
-		for(const auto& yolo : mRoIAlignKernel)
-			totalCount += yolo.width*yolo.height * CHECK_COUNT;
-		CUDA_CHECK(cudaHostAlloc(&mOutputBuffer, sizeof(float) + totalCount * sizeof(Detection),
-																			  cudaHostAllocDefault));
-		*/
-
 		return 0;
 	}
 
@@ -86,10 +51,13 @@ namespace nvinfer1 {
 	{
 		assert(nbInputDims == 4);
 
-        num_rois = inputs[0].d[0];
-        channels = inputs[1].d[0];
-        height   = inputs[1].d[1];
-        width    = inputs[1].d[2];
+        mFeatureMap_C = inputs[0].d[0];
+        mFeatureMap_H = inputs[0].d[1];
+        mFeatureMap_W = inputs[0].d[2];
+
+        mRois_H = inputs[0].d[0];
+        mRois_W = inputs[0].d[1];
+
 
         //X shape : 1, 256, 56, 56 R shape : 841, 5
         //X shape : 1, 256, 56, 56 R shape : 131, 5
@@ -101,7 +69,7 @@ namespace nvinfer1 {
         // 27, 256, 7,7
         // 1, 256, 7,7
         // Concat -> 1000, 256, 7,7?
-		return DimsCHW(num_rois, channels, pooled_height, pooled_width);
+		return DimsCHW(mRois_H, pooled_height, pooled_width);
 	}
     /*
 	template <typename Dtype>
@@ -281,18 +249,19 @@ namespace nvinfer1 {
                                     }
                                 }
 
-	vector<float> RoIAlignLayerPlugin::forwardGpu(  const float & features,
-                                                    const float & rois, // at::Tensor  to float
-                                                    const float spatial_scale,
-                                                    const int pooled_height,
-                                                    const int pooled_width,
-                                                    const int sampling_ratio,
-                                                    cudaStream_t stream,
-                                                    const int num_rois,
-                                                    const int channels,
-                                                    const int height,
-                                                    const int width
-                                                    float* output) {
+    template <typename DType>
+	void RoIAlignLayerPlugin::forwardGpu(   const DType* features,
+                                            const DType* rois,
+                                            const float spatial_scale,
+                                            const int pooled_height,
+                                            const int pooled_width,
+                                            const int sampling_ratio,
+                                            cudaStream_t stream,
+                                            const int num_rois,
+                                            const int channels,
+                                            const int height,
+                                            const int width,
+                                            DType* output) {
 
 		auto output_size = num_rois * pooled_height * pooled_width * channels;
         // 841, 256, 7,7
@@ -306,113 +275,95 @@ namespace nvinfer1 {
 		dim3 grid(GET_BLOCKS_COUNT_IN_GRID(output_size));//std::min(THCCeilDiv((long)output_size, 512L), 4096L));
 		dim3 block(CUDA_NUM_THREADS);
 
-		if (output.numel() == 0) {
-		    cudaGetLastError();
-			return output;
-		}
+		//if (output.numel() == 0) {
+		//    cudaGetLastError();
+		//	return output;
+		//}
 
-        RoIAlignForward<float> << <grid, block, 0, stream >> > (
-            output_size,
-            features,
-            spatial_scale, channels,
-            height, width,
-            pooled_height, pooled_width,
-            sampling_ratio,
-            rois,
-            output);//     .data<scalar_t>());
-        });
+        RoIAlignForward<DType> << <grid, block, 0, stream >> > (output_size,
+                                                                features,
+                                                                spatial_scale, channels,
+                                                                height, width,
+                                                                pooled_height, pooled_width,
+                                                                sampling_ratio,
+                                                                rois,
+                                                                output);//     .data<scalar_t>());
+
+
+
 		cudaGetLastError();
 		return output;
 	}
-    /*
-    // original roi pooling
-	template <typename Dtype>
-	void RoIAlignLayerPlugin::forwardGpuv1(const vector<Dtype>& bottom,
-		const vector<Dtype>& top) {
-		const Dtype* bottom_data = bottom[0]->gpu_data();
-		const Dtype* bottom_rois = bottom[1]->gpu_data();
-		Dtype* top_data = top[0]->mutable_gpu_data();
-		int* argmax_data = max_idx_.mutable_gpu_data();
-		int count = top[0]->count();
-		// NOLINT_NEXT_LINE(whitespace/operators)
-		ROIPoolForward<Dtype> << <GET_BLOCKS_COUNT_IN_GRID(count), CAFFE_CUDA_NUM_THREADS >> > (
-			count, bottom_data, spatial_scale_, channels_, height_, width_,
-			pooled_height_, pooled_width_, bottom_rois, top_data, argmax_data);
-		CUDA_POST_KERNEL_CHECK;
-	}*/
-//==============================================================================================
 
-int RoIAlignLayerPlugin::enqueue(int batchSize,
-                                 const void*const * inputs,
-                                 void** outputs,
-                                 void* workspace, cudaStream_t stream){
-	assert(batchSize == 1);
-	switch (mDataType)
-	{
-	    //  bottom: "fpn_resXf_sum"  <- Featuremap from Conv
-        //  bottom: "rois_fpnX"    <- RoIs
+    int RoIAlignLayerPlugin::enqueue(int batchSize,
+                                     const void*const * inputs,
+                                     void** outputs,
+                                     void* workspace, cudaStream_t stream){
+            assert(batchSize == 1);
+            switch (mDataType){
+                //  bottom: "fpn_resXf_sum"  <- Featuremap from Conv
+                //  bottom: "rois_fpnX"    <- RoIs
+                case DataType::kFLOAT:
+                    forwardGpu<float>((const float*)inputs[0],
+                                      (const float*)inputs[1],
+                                        spatial_scale,
+                                        pooled_height,
+                                        pooled_width,
+                                        sampling_ratio,
+                                        stream,
+                                        mRois_H,
+                                        mFeatureMap_C,
+                                        mFeatureMap_H,
+                                        mFeatureMap_W,
+                                        (float*)outputs[0]);
+                    break;
+                case DataType::kHALF:
+                    forwardGpu<__half>((const __half*)inputs[0],
+                                       (const __half*)inputs[1],
+                                       spatial_scale,
+                                       pooled_height,
+                                       pooled_width,
+                                       sampling_ratio,
+                                       stream,
+                                       mRois_H,
+                                       mFeatureMap_C,
+                                       mFeatureMap_H,
+                                       mFeatureMap_W,
+                                       (__half*)outputs[0]);
+                    break;
+                case DataType::kINT8:
+                    forwardGpu<u_int8_t>((const u_int8_t*)inputs[0],
+                                         (const u_int8_t*)inputs[1],
+                                         spatial_scale,
+                                         pooled_height,
+                                         pooled_width,
+                                         sampling_ratio,
+                                         stream,
+                                         mRois_H,
+                                         mFeatureMap_C,
+                                         mFeatureMap_H,
+                                         mFeatureMap_W,
+                                         (u_int8_t*)outputs[0]);
+                    /*
+                    const DType * features,
+                    const DType * rois,
+                    const float spatial_scale,
+                    const int pooled_height,
+                    const int pooled_width,
+                    const int sampling_ratio,
+                    cudaStream_t stream,
+                    const int num_rois,
+                    const int channels,
+                    const int height,
+                    const int width,
+                    DType* output */
+                    break;
+                default:
+                    std::cerr << "error data type" << std::endl;
+            }
 
-	case DataType::kFLOAT:
-		forwardGpu<float>((const float*)inputs[0],
-                          (const float*)inputs[1],
-                            spatial_scale,
-                            pooled_height,
-                            pooled_width,
-                            sampling_ratio,
-                            stream,
-                            num_rois,
-                            channels,
-                            height,
-                            width,
-                            (float*)outputs[0]);
-		break;
-	case DataType::kHALF:
-		forwardGpu<__half>((const __half*)inputs[0],
-                           (const __half*)inputs[1],
-                           spatial_scale,
-                           pooled_height,
-                           pooled_width,
-                           sampling_ratio,
-                           stream,
-                           num_rois,
-                           channels,
-                           height,
-                           width,
-                           (__half*)outputs[0]);
-		break;
-	case DataType::kINT8:
-		forwardGpu<u_int8_t>((const u_int8_t*)inputs[0],
-                             (const u_int8_t*)inputs[1],
-                             spatial_scale,
-                             pooled_height,
-                             pooled_width,
-                             sampling_ratio,
-                             stream,
-                             num_rois,
-                             channels,
-                             height,
-                             width,
-                             (u_int8_t*)outputs[0]);
-
-            const float & input,
-            const float & rois, // at::Tensor  to float
-            const float spatial_scale,
-            const int pooled_height,
-            const int pooled_width,
-            const int sampling_ratio,
-            cudaStream_t stream,
-            const int num_rois,
-            const int channels,
-            const int height,
-            const int width
-            float* output) {
-		break;
-	default:
-		std::cerr << "error data type" << std::endl;
-	}
-
-	return 0;
-	};
+            return 0;
+        };
 
 }  
 

@@ -13,21 +13,6 @@
 #include "Utils.h"
 #include <iostream>
 
-namespace RoIAlign
-{
-    struct RoIAlignKernel;
-
-    static constexpr int LOCATIONS = 4;
-    struct Detection{
-        //x y w h
-        float bbox[LOCATIONS];
-        //float objectness;
-        int classId;
-        float prob;
-    };
-}
-
-
 namespace nvinfer1
 {
     class RoIAlignLayerPlugin: public IPluginExt
@@ -35,7 +20,7 @@ namespace nvinfer1
     public:
         explicit RoIAlignLayerPlugin(const int cudaThread = 512);
         RoIAlignLayerPlugin(const void* data, size_t length);
-
+        DataType mDataType{DataType::kFLOAT};
         ~RoIAlignLayerPlugin();
 
         int getNbOutputs() const override
@@ -46,7 +31,8 @@ namespace nvinfer1
         Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
         bool supportsFormat(DataType type, PluginFormat format) const override {
-            return type == DataType::kFLOAT && format == PluginFormat::kNCHW;
+            (type == DataType::kFLOAT || type == DataType::kHALF ||
+             type == DataType::kINT8 ) && format == PluginFormat::kNCHW;
         }
 
         void configureWithFormat(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs, DataType type, PluginFormat format, int maxBatchSize) override {};
@@ -63,16 +49,34 @@ namespace nvinfer1
 
         virtual void serialize(void* buffer) override;
 
-        void forwardGpu(const float *const * inputs,float * output, cudaStream_t stream);
-
-        void forwardCpu(const float *const * inputs,float * output, cudaStream_t stream);
-
+        template <typename DType>
+        void forwardGpu(const DType* features,
+                        const DType* rois,
+                        const float spatial_scale,
+                        const int pooled_height,
+                        const int pooled_width,
+                        const int sampling_ratio,
+                        cudaStream_t stream,
+                        const int num_rois,
+                        const int channels,
+                        const int height,
+                        const int width,
+                        DType* output);
     private:
-        int mClassCount;
-        int mKernelCount;
-        std::vector<RoIAlign::RoIAlignKernel> mRoIAlignKernel;
         int mThreadCount;
 
+        int mFeatureMap_C;
+        int mFeatureMap_H;
+        int mFeatureMap_W;
+
+        int mRois_H;
+        int mRois_W;
+
+        int pooled_height=14;
+        int pooled_width=14;
+        int sampling_ratio=2;
+
+        const float spatial_scale=0.25f;
         //cpu
         void* mInputBuffer  {nullptr};
         void* mOutputBuffer {nullptr};

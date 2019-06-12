@@ -3,12 +3,12 @@
 
 #include <vector>
 
-#include "caffe2/core/context_gpu.h"
+//#include "../../../include/caffe2/core/context_gpu.h"
 #include <math.h>
-
+#include <cuda_runtime.h>
 namespace utils {
 
-    BBOX_XFORM_CLIP_DEFAULT= log(1000.0 / 16.0);
+    const float BBOX_XFORM_CLIP_DEFAULT= log(1000.0 / 16.0);
 
 // Computes Non-Maximum Suppression on the GPU
 // Reject a bounding box if its region has an intersection-overunion (IoU)
@@ -25,15 +25,16 @@ namespace utils {
 // by NMS
 //    Those tensors will be resized to the necessary size
 // context : current CUDA context
-void nms_gpu_upright(
-    const float* d_desc_sorted_boxes,
-    const int N,
-    const float thresh,
-    int* d_keep_sorted_list,
-    int* h_nkeep,
-    TensorCUDA& dev_delete_mask,
-    TensorCPU& host_delete_mask,
-    CUDAContext* context);
+void  nms_gpu_upright(
+            const float* d_desc_sorted_boxes_float_ptr,
+            const int N,
+            const float thresh,
+            const bool legacy_plus_one,
+            int* d_keep_sorted_list,
+            int* h_nkeep,
+            float* dev_delete_mask,
+            float* host_delete_mask,
+            cudaStream_t stream);
 
 struct RotatedBox {
   float x_ctr, y_ctr, w, h, a;
@@ -54,15 +55,16 @@ struct RotatedBox {
     CUDAContext* context);
 */
 void nms_gpu(
-    const float* d_desc_sorted_boxes,
-    const int N,
-    const float thresh,
-    int* d_keep_sorted_list,
-    int* h_nkeep,
-    const float* dev_delete_mask,
-    const float& host_delete_mask,
-    CUDAContext* context,
-    const int box_dim);
+            const float* d_desc_sorted_boxes,
+            const int N,
+            const float thresh,
+            const bool legacy_plus_one,
+            int* d_keep_sorted_list,
+            int* h_nkeep,
+            float*  dev_delete_mask,
+            float* host_delete_mask,
+            cudaStream_t stream,
+            const int box_dim);
 
 } // namespace utils
 

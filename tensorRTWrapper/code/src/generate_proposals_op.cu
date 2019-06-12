@@ -1,6 +1,6 @@
 //#include <cub/cub.cuh>
-#include "common_gpu.h"
-#include "cub/cub/cub.cuh"
+#include "../../../include/common_gpu.h"
+#include "../../../include/cub/cub/cub.cuh"
 
 /*
 #include "caffe2/core/context.h"

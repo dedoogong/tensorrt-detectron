@@ -1,7 +1,5 @@
-
-#include <cub/cub/cub.cuh>
 #include "generate_proposals_op_util_nms_gpu.h"
-#include "common_gpu.h"
+#include "../../../include/common_gpu.h"
 #include "Utils.h"
 
 #include <algorithm>
@@ -32,25 +30,16 @@ namespace nvinfer1 {
 	}
 	// create the plugin at runtime from a byte stream
 	ResizeNearestLayerPlugin::ResizeNearestLayerPlugin(const void* data, size_t length) {
-		using namespace Tn;
-		const char* d = reinterpret_cast<const char*>(data), * a = d;
-		read(d, mThreadCount);
 
-		assert(d == a + length);
 	}
 
 	void ResizeNearestLayerPlugin::serialize(void* buffer)
 	{
-		using namespace Tn;
-		char* d = static_cast<char*>(buffer), * a = d;
-		write(d, mThreadCount);
-		assert(d == a + getSerializationSize());
 	}
 
 	size_t ResizeNearestLayerPlugin::getSerializationSize()
 	{
-		return sizeof(mThreadCount) + sizeof(ResizeNearest::ResizeNearestKernel) *
-			mResizeNearestKernel.size();
+        return 0;
 	}
 
 	int ResizeNearestLayerPlugin::initialize()

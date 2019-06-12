@@ -1,0 +1,1 @@
+/usr/local/cuda-10.0/bin/nvcc  -O3 -DNDEBUG -Xcompiler=-fPIC -Wno-deprecated-gpu-targets -shared -dlink CMakeFiles/run_cub_sort.dir/examples/device/example_device_radix_sort.cu.o -o CMakeFiles/run_cub_sort.dir/cmake_device_link.o 

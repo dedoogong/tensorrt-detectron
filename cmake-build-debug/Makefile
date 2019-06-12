@@ -68,27 +68,6 @@ install/strip/fast: preinstall/fast
 	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -100,6 +79,27 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/home/lee/home3/Documents/clion-2019.1.3/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -157,6 +157,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named runMRCNN
+
+# Build rule for target.
+runMRCNN: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 runMRCNN
+.PHONY : runMRCNN
+
+# fast build rule for target.
+runMRCNN/fast:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/build
+.PHONY : runMRCNN/fast
+
+#=============================================================================
 # Target rules for targets named runYolov3
 
 # Build rule for target.
@@ -188,6 +201,7 @@ dataReader.o: dataReader.cpp.o
 
 # target to build an object file
 dataReader.cpp.o:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/dataReader.cpp.o
 	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/dataReader.cpp.o
 .PHONY : dataReader.cpp.o
 
@@ -197,6 +211,7 @@ dataReader.i: dataReader.cpp.i
 
 # target to preprocess a source file
 dataReader.cpp.i:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/dataReader.cpp.i
 	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/dataReader.cpp.i
 .PHONY : dataReader.cpp.i
 
@@ -206,35 +221,9 @@ dataReader.s: dataReader.cpp.s
 
 # target to generate assembly for a file
 dataReader.cpp.s:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/dataReader.cpp.s
 	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/dataReader.cpp.s
 .PHONY : dataReader.cpp.s
-
-eval.o: eval.cpp.o
-
-.PHONY : eval.o
-
-# target to build an object file
-eval.cpp.o:
-	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/eval.cpp.o
-.PHONY : eval.cpp.o
-
-eval.i: eval.cpp.i
-
-.PHONY : eval.i
-
-# target to preprocess a source file
-eval.cpp.i:
-	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/eval.cpp.i
-.PHONY : eval.cpp.i
-
-eval.s: eval.cpp.s
-
-.PHONY : eval.s
-
-# target to generate assembly for a file
-eval.cpp.s:
-	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/eval.cpp.s
-.PHONY : eval.cpp.s
 
 main.o: main.cpp.o
 
@@ -242,6 +231,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/main.cpp.o
 	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/main.cpp.o
 .PHONY : main.cpp.o
 
@@ -251,6 +241,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/main.cpp.i
 	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/main.cpp.i
 .PHONY : main.cpp.i
 
@@ -260,6 +251,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
+	$(MAKE) -f CMakeFiles/runMRCNN.dir/build.make CMakeFiles/runMRCNN.dir/main.cpp.s
 	$(MAKE) -f CMakeFiles/runYolov3.dir/build.make CMakeFiles/runYolov3.dir/main.cpp.s
 .PHONY : main.cpp.s
 
@@ -270,19 +262,17 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... edit_cache"
+	@echo "... install/local"
+	@echo "... runMRCNN"
 	@echo "... runYolov3"
 	@echo "... list_install_components"
-	@echo "... install/local"
+	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... install"
 	@echo "... TrtNet"
 	@echo "... dataReader.o"
 	@echo "... dataReader.i"
 	@echo "... dataReader.s"
-	@echo "... eval.o"
-	@echo "... eval.i"
-	@echo "... eval.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

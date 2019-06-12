@@ -3,8 +3,8 @@
 #ifndef CAFFE2_OPERATORS_UTILS_EIGEN_H_
 #define CAFFE2_OPERATORS_UTILS_EIGEN_H_
 
-#include "Eigen/Core"
-#include "Eigen/Dense"
+#include "../../Eigen/Core"
+#include "../../Eigen/Dense"
 //#include "caffe2/core/logging.h"
 
 namespace caffe2 {
@@ -115,7 +115,7 @@ void GetSubArray(
 
   out_array->derived().resize(indices.size());
   for (int i = 0; i < indices.size(); i++) {
-    //DCHECK_LT(indices[i], array.size());
+    ////DCHECK_LT(indices[i], array.size());
     (*out_array)[i] = array[indices[i]];
   }
 }
@@ -148,7 +148,7 @@ void GetSubArrayRows(
   out_array->derived().resize(row_indices.size(), array2d.cols());
 
   for (int i = 0; i < row_indices.size(); i++) {
-    DCHECK_LT(row_indices[i], array2d.size());
+    //DCHECK_LT(row_indices[i], array2d.size());
     out_array->row(i) =
         array2d.row(row_indices[i]).template cast<typename Derived2::Scalar>();
   }
