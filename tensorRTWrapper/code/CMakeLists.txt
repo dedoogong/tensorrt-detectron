@@ -33,8 +33,9 @@ set(PLUGIN_SOURCES
   src/CollectNDistributeFPNLayer.cpp
   src/BoxWithNMSLimitLayer.cpp
   src/RoIAlign.cu
+  src/GenerateProposalLayer.cu
 )
-# src/GenerateProposalLayer.cu
+#
 
 # CUDA Configuration
 find_package(CUDA REQUIRED)

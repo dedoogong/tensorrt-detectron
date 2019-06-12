@@ -79,8 +79,8 @@ set(CUDA_NVCC_FLAGS_DEBUG  ; )
 set(CUDA_NVCC_FLAGS_MINSIZEREL  ; )
 set(CUDA_NVCC_FLAGS_RELWITHDEBINFO  ; )
 set(nvcc_flags -m64;--std;c++11) # list
-set(CUDA_NVCC_INCLUDE_DIRS "/usr/include/x86_64-linux-gnu;/usr/local/cuda-10.0/include;/home/lee/tensorrt-detectron/tensorRTWrapper/code/include;/usr/local/cuda-10.0/include;/usr/local/cuda-10.0/include;/usr/include/x86_64-linux-gnu") # list (needs to be in quotes to handle spaces properly).
-set(CUDA_NVCC_COMPILE_DEFINITIONS [==[]==]) # list (needs to be in lua quotes see #16510 ).
+set(CUDA_NVCC_INCLUDE_DIRS "/usr/include/x86_64-linux-gnu;/usr/local/cuda-10.0/include;/home/lee/tensorrt-detectron/tensorRTWrapper/code/include;/home/lee/tensorrt-detectron/include/cub;/home/lee/tensorrt-detectron/include/cub/cub;/usr/local/cuda-10.0/include;/usr/local/cuda-10.0/include;/usr/include/x86_64-linux-gnu;/usr/local/include;/usr/include") # list (needs to be in quotes to handle spaces properly).
+set(CUDA_NVCC_COMPILE_DEFINITIONS [==[GFLAGS_DLL_DECLARE_FLAG=;GFLAGS_DLL_DEFINE_FLAG=;GOOGLE_GLOG_DLL_DECL=;GFLAGS_IS_A_DLL=0]==]) # list (needs to be in lua quotes see #16510 ).
 set(format_flag "-c") # string
 set(cuda_language_flag ) # list
 

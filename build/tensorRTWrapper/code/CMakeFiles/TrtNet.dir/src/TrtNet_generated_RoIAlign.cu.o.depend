@@ -3,6 +3,7 @@ SET(CUDA_NVCC_DEPEND
   "/home/lee/tensorrt-detectron/include/common_gpu.h"
  "/home/lee/tensorrt-detectron/tensorRTWrapper/code/include/RoIAlign.h"
  "/home/lee/tensorrt-detectron/tensorRTWrapper/code/include/Utils.h"
+ "/home/lee/tensorrt-detectron/tensorRTWrapper/code/include/fp16.h"
  "/home/lee/tensorrt-detectron/tensorRTWrapper/code/src/RoIAlign.cu"
  "/usr/include/alloca.h"
  "/usr/include/asm-generic/errno-base.h"

@@ -4,6 +4,7 @@
 
 #include "RoIAlign.h"
 #include "../../../include/common_gpu.h"
+#include "fp16.h"
 
 using std::max;
 using std::min;
@@ -204,13 +205,13 @@ namespace nvinfer1 {
                                         int n = index / pooled_width / pooled_height / channels;
 
                                         const T * offset_bottom_rois = bottom_rois + n * 5;
-                                        int roi_batch_ind = offset_bottom_rois[0];
+                                        int roi_batch_ind = (int)offset_bottom_rois[0];
 
                                         // Do not using rounding; this implementation detail is critical
                                         T roi_start_w = offset_bottom_rois[1] * spatial_scale;
                                         T roi_start_h = offset_bottom_rois[2] * spatial_scale;
-                                        T roi_end_w = offset_bottom_rois[3] * spatial_scale;
-                                        T roi_end_h = offset_bottom_rois[4] * spatial_scale;
+                                        T roi_end_w   = offset_bottom_rois[3] * spatial_scale;
+                                        T roi_end_h   = offset_bottom_rois[4] * spatial_scale;
                                         // T roi_start_w = round(offset_bottom_rois[1] * spatial_scale);
                                         // T roi_start_h = round(offset_bottom_rois[2] * spatial_scale);
                                         // T roi_end_w = round(offset_bottom_rois[3] * spatial_scale);
@@ -225,8 +226,8 @@ namespace nvinfer1 {
                                         const T * offset_bottom_data = bottom_data + (roi_batch_ind * channels + c) * height * width;
 
                                         // We use roi_bin_grid to sample the grid and mimic integral
-                                        int roi_bin_grid_h = (sampling_ratio > 0) ? sampling_ratio : ceil(roi_height / pooled_height); // e.g., = 2
-                                        int roi_bin_grid_w = (sampling_ratio > 0) ? sampling_ratio : ceil(roi_width / pooled_width);
+                                        int roi_bin_grid_h = (sampling_ratio > 0) ? sampling_ratio : ceilf(roi_height / pooled_height); // e.g., = 2
+                                        int roi_bin_grid_w = (sampling_ratio > 0) ? sampling_ratio : ceilf(roi_width / pooled_width);
 
                                         // We do average (integral) pooling inside a bin
                                         const T count = roi_bin_grid_h * roi_bin_grid_w; // e.g. = 4
@@ -292,7 +293,7 @@ namespace nvinfer1 {
 
 
 		cudaGetLastError();
-		return output;
+		return;
 	}
 
     int RoIAlignLayerPlugin::enqueue(int batchSize,
@@ -317,6 +318,7 @@ namespace nvinfer1 {
                                         mFeatureMap_W,
                                         (float*)outputs[0]);
                     break;
+                    /*
                 case DataType::kHALF:
                     forwardGpu<__half>((const __half*)inputs[0],
                                        (const __half*)inputs[1],
@@ -330,7 +332,7 @@ namespace nvinfer1 {
                                        mFeatureMap_H,
                                        mFeatureMap_W,
                                        (__half*)outputs[0]);
-                    break;
+                    break;*/
                 case DataType::kINT8:
                     forwardGpu<u_int8_t>((const u_int8_t*)inputs[0],
                                          (const u_int8_t*)inputs[1],

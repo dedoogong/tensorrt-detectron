@@ -4,7 +4,6 @@
 #include "../../../include/cub/cub/device/dispatch/dispatch_radix_sort.cuh"
 #include "../../../include/cub/cub/util_arch.cuh"
 #include "../../../include/cub/cub/util_namespace.cuh"
-#include ""
 //#include "generate_proposals_op_util_nms_gpu.h"
 #include "../../../include/common_gpu.h"
 #include "Utils.h"
@@ -798,6 +797,7 @@ namespace nvinfer1{
                                   stream);
                 //forwardGpu((const float *const *)inputs,(float *)outputs[0],stream);
                 break;
+                /*
             case DataType::kHALF:
                 forwardGpu<__half>((const __half *)inputs[0],
                                    (const __half *)inputs[1],
@@ -807,6 +807,7 @@ namespace nvinfer1{
                                    (__half *)outputs[1],
                                    stream);
                 break;
+                 */
             case DataType::kINT8:
                 forwardGpu<u_int8_t>((const u_int8_t *)inputs[0],
                                      (const u_int8_t *)inputs[1],

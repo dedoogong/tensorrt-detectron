@@ -14,111 +14,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39dfcd9b-d933-4cdb-b260-30599dbb87c6" name="Default Changelist" comment="4th">
-      <change afterPath="$PROJECT_DIR$/tensorRTWrapper/code/cmake/Modules/FindCUB.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/box_transform.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/fp16.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeError.log" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeError.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeRuleHashes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeRuleHashes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/Progress/3" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/Progress/3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/Progress/count.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/Progress/count.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/runYolov3.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o.Release.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o.Release.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o.cmake.pre-gen" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o.cmake.pre-gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o.depend" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_GenerateProposalLayer.cu.o.depend" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.Release.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.Release.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.cmake.pre-gen" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.cmake.pre-gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.depend" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.depend" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.Release.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.Release.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.cmake.pre-gen" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.cmake.pre-gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.depend" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.depend" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeRuleHashes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeRuleHashes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/runYolov3.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/demo.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/demo.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.Release.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.Release.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.cmake.pre-gen" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_UpsampleLayer.cu.o.cmake.pre-gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.Release.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.Release.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.cmake.pre-gen" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_YoloLayer.cu.o.cmake.pre-gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/trtNet.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tensorRTWrapper/code/trtNet.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/caffe2/utils/eigen_utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/caffe2/utils/eigen_utils.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/caffe2/utils/generate_proposals_op_util_nms.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/caffe2/utils/generate_proposals_op_util_nms.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/common_gpu.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/common_gpu.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cub/common.mk" beforeDir="false" afterPath="$PROJECT_DIR$/include/cub/common.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cub/cub/device/device_segmented_radix_sort.cuh" beforeDir="false" afterPath="$PROJECT_DIR$/include/cub/cub/device/device_segmented_radix_sort.cuh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cub/examples/block/example_block_radix_sort.cu" beforeDir="false" afterPath="$PROJECT_DIR$/include/cub/examples/block/example_block_radix_sort.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cub/examples/device/example_device_radix_sort.cu" beforeDir="false" afterPath="$PROJECT_DIR$/include/cub/examples/device/example_device_radix_sort.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/BatchPermuteLayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/BatchPermuteLayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/BoxTransformLayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/BoxTransformLayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/BoxWithNMSLimitLayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/BoxWithNMSLimitLayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/CollectNDistributeFPNLayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/CollectNDistributeFPNLayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/GenerateProposalLayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/GenerateProposalLayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/PluginFactory.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/PluginFactory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/RoIAlign.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/RoIAlign.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/TrtNet.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/TrtNet.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/include/generate_proposals_op_util_nms_gpu.h" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/include/generate_proposals_op_util_nms_gpu.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/BatchPermuteLayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/BatchPermuteLayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/BoxTransformLayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/BoxTransformLayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/BoxWithNMSLimitLayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/BoxWithNMSLimitLayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/CollectNDistributeFPNLayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/CollectNDistributeFPNLayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/GenerateProposalLayer.cu" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/GenerateProposalLayer.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/ResizeNearest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/ResizeNearest.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_RoIAlign.cu.o.depend" beforeDir="false" afterPath="$PROJECT_DIR$/build/tensorRTWrapper/code/CMakeFiles/TrtNet.dir/src/TrtNet_generated_RoIAlign.cu.o.depend" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/TrtNet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/TrtNet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorRTWrapper/code/src/generate_proposals_op.cu" beforeDir="false" afterPath="$PROJECT_DIR$/tensorRTWrapper/code/src/generate_proposals_op.cu" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -181,8 +79,8 @@
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/CMakeLists.txt">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="510">
-                    <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+                  <state relative-caret-position="165">
+                    <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
                   </state>
                 </provider>
               </entry>
@@ -216,11 +114,11 @@
                 </provider>
               </entry>
             </file>
-            <file pinned="false" current-in-tab="false">
+            <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/UpsampleLayer.cu">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="30">
-                    <caret line="29" selection-start-line="29" selection-end-line="29" />
+                  <state relative-caret-position="345">
+                    <caret line="23" column="49" lean-forward="true" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
                     <folding>
                       <element signature="e#441#457#0" expanded="true" />
                       <element signature="e#783#799#0" expanded="true" />
@@ -229,11 +127,11 @@
                 </provider>
               </entry>
             </file>
-            <file pinned="false" current-in-tab="true">
+            <file pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/UpsampleLayer.cpp">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state>
-                    <caret column="26" selection-start-column="26" selection-end-column="26" />
+                  <state relative-caret-position="90">
+                    <caret line="6" column="2" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
                   </state>
                 </provider>
               </entry>
@@ -283,7 +181,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.42567164">
+    <splitter split-orientation="horizontal" split-proportion="0.8721663">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -295,11 +193,14 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/CollectNDistributeFPNLayer.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-891">
-                  <caret line="13" column="17" lean-forward="true" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+                <state relative-caret-position="-831">
+                  <caret line="20" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="20" />
+                  <folding>
+                    <element signature="e#122#141#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -320,10 +221,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="735">
-                  <caret line="49" column="49" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="49" />
+                <state relative-caret-position="270">
+                  <caret line="229" column="105" selection-start-line="229" selection-start-column="101" selection-end-line="229" selection-end-column="105" />
                   <folding>
                     <element signature="e#0#20#0" expanded="true" />
+                    <element signature="e#5590#5602#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -379,10 +281,10 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/RoIAlign.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
+                <state relative-caret-position="61">
                   <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
                   <folding>
                     <element signature="e#93#112#0" expanded="true" />
@@ -398,7 +300,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/generate_proposals_op_util_nms_gpu.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="451">
+                <state relative-caret-position="855">
                   <caret line="57" column="5" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
                   <folding>
                     <element signature="e#160#177#0" expanded="true" />
@@ -436,8 +338,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/CollectNDistributeFPNLayer.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="225">
-                  <caret line="36" column="17" lean-forward="true" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+                <state relative-caret-position="-1380">
+                  <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
                   <folding>
                     <element signature="e#1#48#0" expanded="true" />
                     <element signature="e#8249#8631#0" />
@@ -516,8 +418,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>//CHECK</find>
-      <find>CHECK_</find>
       <find>DCHECK_</find>
       <find>getOutputDimensions</find>
       <find>CHECK_GT</find>
@@ -542,10 +442,12 @@
       <find>caffe2::ERArrXXf BoxesArea</find>
       <find>#include &quot;box_transfrom.h</find>
       <find>MapRoIsToFpnLevels</find>
-      <find>mOutputBuffer</find>
-      <find>BoxesArea</find>
       <find>#include &quot;Coll</find>
       <find>mDataType</find>
+      <find>mOutputBuffer</find>
+      <find>BoxesArea</find>
+      <find>offset_bottom_rois</find>
+      <find>ceil</find>
     </findStrings>
     <replaceStrings>
       <replace>CollectNDistributeFPN</replace>
@@ -561,8 +463,8 @@
       <replace>//CHECK_</replace>
       <replace>//DCHECK_</replace>
       <replace>=</replace>
-      <replace>write</replace>
       <replace>CollectNDistributeFPNLayerPlugin</replace>
+      <replace>write</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -582,7 +484,6 @@
         <option value="$PROJECT_DIR$/include/cub/cub/warp/specializations/warp_scan_shfl.cuh" />
         <option value="$PROJECT_DIR$/include/cub/cub/util_ptx.cuh" />
         <option value="$PROJECT_DIR$/test.cu" />
-        <option value="$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu" />
         <option value="$PROJECT_DIR$/cmake/Modules/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/include/cub/common.mk" />
         <option value="$PROJECT_DIR$/tensorRTWrapper/code/cmake/Modules/FindCUB.cmake" />
@@ -614,6 +515,7 @@
         <option value="$PROJECT_DIR$/tensorRTWrapper/code/src/CollectNDistributeFPNLayer.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/tensorRTWrapper/code/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu" />
       </list>
     </option>
   </component>
@@ -775,7 +677,7 @@
       <workItem from="1558916751492" duration="47966000" />
       <workItem from="1559638053129" duration="13227000" />
       <workItem from="1560125505951" duration="12125000" />
-      <workItem from="1560146973727" duration="85084000" />
+      <workItem from="1560146973727" duration="87447000" />
     </task>
     <task id="LOCAL-00001" summary="4th">
       <created>1559021150051</created>
@@ -788,7 +690,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="171767000" />
+    <option name="totallyTimeSpent" value="174130000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1082" extended-state="6" />
@@ -796,7 +698,7 @@
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.15170941" />
+      <window_info content_ui="combo" id="Project" order="2" weight="0.15170941" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -807,9 +709,9 @@
       <window_info anchor="bottom" id="Tail" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info active="true" anchor="bottom" x="2326" y="64" width="1489" height="990" id="Terminal" order="10" type="FLOATING" visible="true" weight="0.6806723" />
+      <window_info active="true" anchor="bottom" x="2009" y="36" width="1796" height="960" id="Terminal" order="10" type="FLOATING" visible="true" weight="0.6806723" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="CMake" order="12" visible="true" weight="0.36869746" />
+      <window_info anchor="bottom" id="CMake" order="12" visible="true" weight="0.031512607" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1068,33 +970,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="49" column="49" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/UpsampleLayer.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="596">
           <caret line="77" selection-start-line="77" selection-end-line="77" />
           <folding>
             <element signature="e#53#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/UpsampleLayer.cu">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#441#457#0" expanded="true" />
-            <element signature="e#783#799#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1106,16 +987,6 @@
           <folding>
             <element signature="e#0#47#0" expanded="true" />
             <element signature="e#201#231#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/RoIAlign.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
-          <folding>
-            <element signature="e#93#112#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1155,16 +1026,6 @@
         <state relative-caret-position="-225" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/generate_proposals_op_util_nms_gpu.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="57" column="5" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
-          <folding>
-            <element signature="e#160#177#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/fp16.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-735">
@@ -1191,13 +1052,6 @@
             <element signature="e#268#322#0" expanded="true" />
             <element signature="e#2798#2814#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/UpsampleLayer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="26" selection-start-column="26" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -1233,16 +1087,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/TrtNet.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1262,30 +1106,92 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/generate_proposals_op_util_nms_gpu.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+        <state relative-caret-position="855">
+          <caret line="57" column="5" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
+          <folding>
+            <element signature="e#160#177#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/CollectNDistributeFPNLayer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-891">
-          <caret line="13" column="17" lean-forward="true" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        <state relative-caret-position="-831">
+          <caret line="20" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="20" />
+          <folding>
+            <element signature="e#122#141#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/CollectNDistributeFPNLayer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="36" column="17" lean-forward="true" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+        <state relative-caret-position="-1380">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="e#1#48#0" expanded="true" />
             <element signature="e#8249#8631#0" />
             <element signature="e#9459#9475#0" expanded="true" />
             <element signature="e#6211#6446#0" />
             <element signature="e#17231#17486#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/UpsampleLayer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="2" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/UpsampleLayer.cu">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="49" lean-forward="true" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+          <folding>
+            <element signature="e#441#457#0" expanded="true" />
+            <element signature="e#783#799#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/src/RoIAlign.cu">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="229" column="105" selection-start-line="229" selection-start-column="101" selection-end-line="229" selection-end-column="105" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+            <element signature="e#5590#5602#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tensorRTWrapper/code/include/RoIAlign.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+          <folding>
+            <element signature="e#93#112#0" expanded="true" />
           </folding>
         </state>
       </provider>
